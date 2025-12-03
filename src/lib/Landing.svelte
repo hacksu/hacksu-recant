@@ -160,7 +160,7 @@
 						</div>
 						<div class="flex items-center gap-2">
 							<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-							<span>700+ Members</span>
+							<span>800+ Members</span>
 						</div>
 					</div>
 				</div>
