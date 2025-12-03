@@ -19,11 +19,14 @@ services:
   app:
     build: .
     restart: always
+    env_file:
+      - .env
     ports:
       - 3000:3000
     environment:
       DATABASE_URL: postgresql://hacksu:hacksu@db:5432/hacksu
       NODE_ENV: production
+      PUBLIC_APP_URL: http://localhost:3000
     depends_on:
       db:
         condition: service_healthy

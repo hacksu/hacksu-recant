@@ -16,7 +16,9 @@
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+        "prod:build": "svelte-kit sync && bunx --bun vite build",
+        "prod:start": "bunx drizzle-kit migrate && bun ./build/index.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -46,9 +48,10 @@
 		"vite": "^7.2.2"
 	},
 	"dependencies": {
+		"@lucia-auth/adapter-drizzle": "^1.1.0",
 		"@node-rs/argon2": "^2.0.2",
-		"drizzle-kit": "^0.31.7",
 		"arctic": "^3.7.0",
+		"drizzle-kit": "^0.31.7",
 		"lucia": "^3.2.2",
 		"postgres": "^3.4.7"
 	}

@@ -1,15 +1,27 @@
-FROM oven/bun:latest AS builder
-WORKDIR /app
-COPY package.json bun.lock .
-RUN bun install
-COPY . .
-RUN bun run build
+from oven/bun:latest as builder
+workdir /app
 
-FROM oven/bun:latest
-WORKDIR /app
-COPY package.json bun.lock .
-RUN bun install --production
-COPY --from=builder /app/build ./build
-COPY . .
-EXPOSE 3000
-CMD ["bun", "run", "build/index.js"]
+# install dependencies
+copy package.json bun.lock .
+run bun install
+
+# copy source
+copy . .
+
+run bun prod:build
+
+
+from oven/bun:latest
+run apt-get update -y && apt-get install -y openssl
+workdir /app
+copy --from=builder /app/build build/
+copy --from=builder /app/node_modules node_modules/
+copy --from=builder /app/drizzle.config.ts drizzle.config.ts
+copy --from=builder /app/src/lib/server/db src/lib/server/db
+copy --from=builder /app/drizzle drizzle
+copy --from=builder /app/package.json package.json
+
+
+copy package.json .
+expose 3000
+cmd [ "bun", "prod:start" ]
