@@ -1,63 +1,83 @@
 <script lang="ts">
-
-	// No server data needed currently; access is controlled
-
-	// by the admin_session cookie on the server.
-
+	// Admin action buttons configuration
+	// Add more actions here as needed
+	const adminActions = [
+		{
+			title: 'Edit Location Information',
+			href: '/admin/location',
+			description: 'Update meeting location, time, and building details',
+			icon: '📍'
+		}
+		// Add more actions here:
+		// {
+		// 	title: 'Manage Users',
+		// 	href: '/admin/users',
+		// 	description: 'View and manage user accounts',
+		// 	icon: '👥'
+		// },
+	];
 </script>
 
-
-
-<div class="container mx-auto px-4 py-8">
-
-	<h1 class="text-3xl font-bold mb-6 flex items-center justify-between">
-
-		<span>Admin Dashboard</span>
-
-		<a
-
-			href="/auth/logout"
-
-			class="text-sm bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-
-		>
-
-			Logout
-
-		</a>
-
-	</h1>
-
-
-
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-
-		<h2 class="text-xl font-semibold mb-4">Welcome, admin!</h2>
-
-		<p class="text-gray-600 dark:text-gray-400">
-
-			You are authenticated via Discord and have the required role.
-
-		</p>
-
-	</div>
-
-
-
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-
-		<h2 class="text-xl font-semibold mb-4">Admin Actions</h2>
-
-		<div class="space-y-4">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+	<div class="container mx-auto px-4 py-8 max-w-7xl">
+		<!-- Header -->
+		<div class="mb-8 flex items-center justify-between">
+			<div>
+				<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">Admin Dashboard</h1>
+				<p class="text-gray-600 dark:text-gray-400">Manage website content and settings</p>
+			</div>
 			<a
-				href="/admin/location"
-				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+				href="/auth/logout"
+				class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-sm"
 			>
-				Edit Location Information
+				Logout
 			</a>
 		</div>
 
-	</div>
+		<!-- Admin Actions Grid -->
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+			{#each adminActions as action}
+				<a
+					href={action.href}
+					class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 p-6 border border-gray-200 dark:border-gray-700 hover:border-hacksu-green/50"
+				>
+					<div class="flex items-start gap-4">
+						<div class="text-3xl flex-shrink-0">{action.icon}</div>
+						<div class="flex-1 min-w-0">
+							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-hacksu-green transition-colors">
+								{action.title}
+							</h3>
+							<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+								{action.description}
+							</p>
+						</div>
+					</div>
+					<div class="mt-4 flex items-center text-hacksu-green text-sm font-medium">
+						<span>Go to page</span>
+						<svg
+							class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 5l7 7-7 7"
+							/>
+						</svg>
+					</div>
+				</a>
+			{/each}
+		</div>
 
+		<!-- Empty State (when no actions) -->
+		{#if adminActions.length === 0}
+			<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
+				<p class="text-gray-600 dark:text-gray-400">No admin actions configured yet.</p>
+			</div>
+		{/if}
+	</div>
 </div>
 
