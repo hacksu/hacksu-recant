@@ -12,6 +12,6 @@
 
 <Navbar />
 
-<main>
+<main class="min-h-screen">
 	{@render children()}
 </main>

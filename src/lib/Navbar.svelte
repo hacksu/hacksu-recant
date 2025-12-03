@@ -6,11 +6,11 @@
 	const isAdmin = $derived(Boolean(pageStore.data?.isAdmin));
 </script>
 
-<nav class="border-b border-gray-200 bg-hacksu-grey dark:bg-hacksu-grey backdrop-blur">
+<nav class="border-b border-gray-700/50 bg-hacksu-grey/80 backdrop-blur-sm">
 	<div class="mx-auto max-w-5xl px-4">
 		<div class="flex h-16 items-center justify-between">
 			<div class="w-32 flex justify-start">
-				<a href="/" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300">
+				<a href="/" class="text-sm font-medium text-white/80 hover:text-white transition-colors">
 					Home
 				</a>
 			</div>
@@ -23,7 +23,7 @@
 				{#if isAdmin}
 					<a
 						href="/admin"
-						class="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+						class="font-medium text-white/80 hover:text-white transition-colors"
 					>
 						Admin
 					</a>
