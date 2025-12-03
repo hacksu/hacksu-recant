@@ -1,14 +1,32 @@
 services:
   db:
-    image: postgres
+    image: postgres:18-alpine
     restart: always
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: local
+      POSTGRES_USER: hacksu_user
+      POSTGRES_PASSWORD: your_secure_password_here
+      POSTGRES_DB: hacksu
     volumes:
       - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hacksu_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: postgresql://hacksu_user:your_secure_password_here@db:5432/hacksu
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   pgdata:
