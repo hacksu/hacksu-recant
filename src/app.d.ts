@@ -3,7 +3,9 @@
 
 declare global {
 	namespace App {
-		interface Locals {}
+		interface Locals {
+			isAdmin?: boolean;
+		}
 	}
 }
 
