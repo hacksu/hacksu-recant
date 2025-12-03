@@ -6,7 +6,7 @@
 	const isAdmin = $derived(Boolean(pageStore.data?.isAdmin));
 </script>
 
-<nav class="border-b border-gray-200 bg-white/80 dark:bg-gray-900/80 backdrop-blur">
+<nav class="border-b border-gray-200 bg-hacksu-grey dark:bg-hacksu-grey backdrop-blur">
 	<div class="mx-auto max-w-5xl px-4">
 		<div class="flex h-16 items-center justify-between">
 			<div class="w-32 flex justify-start">
