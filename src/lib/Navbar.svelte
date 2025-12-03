@@ -18,24 +18,24 @@
     
     const routes: Route[] = [
         {href:'/', img:hacksuLogo, alt:"Hacksu", pos:"center"},
-        {href:'/',text:"Home",pos:"left"}
+        {href:'/',text:"Home",pos:"left"},
     ]
 
 
 </script>
 
-<nav class="border-b border-gray-700/50 bg-hacksu-grey/80 backdrop-blur-sm">
+<nav class="sticky top-0 z-50 border-b border-gray-700/50 bg-hacksu-grey/80 backdrop-blur-sm">
 	<div class="mx-auto max-w-5xl px-4">
         <div class="flex h-16 items-center justify-between">
         <!-- Left nav items -->
-        <div class="w-32 flex justify-start">
+        <div class="w-32 flex gap-4 justify-start">
             {#each routes.filter(r => r.pos === "left") as route}
             <NavLink {route} />
             {/each}
         </div>
 
         <!-- Center nav items -->
-        <div class="flex items-center justify-center">
+        <div class="flex items-center gap-4 justify-center">
             {#each routes.filter(r => r.pos === "center") as route}
             <NavLink {route} />
             {/each}
