@@ -6,6 +6,7 @@
       "dependencies": {
         "@node-rs/argon2": "^2.0.2",
         "arctic": "^3.7.0",
+        "drizzle-kit": "^0.31.7",
         "lucia": "^3.2.2",
         "postgres": "^3.4.7",
       },
@@ -21,7 +22,6 @@
         "@tailwindcss/typography": "^0.5.19",
         "@tailwindcss/vite": "^4.1.17",
         "@types/node": "^22",
-        "drizzle-kit": "^0.31.7",
         "drizzle-orm": "^0.44.7",
         "eslint": "^9.39.1",
         "eslint-config-prettier": "^10.1.8",

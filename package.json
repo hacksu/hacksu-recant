@@ -30,7 +30,6 @@
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.17",
 		"@types/node": "^22",
-		"drizzle-kit": "^0.31.7",
 		"drizzle-orm": "^0.44.7",
 		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",
@@ -48,6 +47,7 @@
 	},
 	"dependencies": {
 		"@node-rs/argon2": "^2.0.2",
+		"drizzle-kit": "^0.31.7",
 		"arctic": "^3.7.0",
 		"lucia": "^3.2.2",
 		"postgres": "^3.4.7"

@@ -5,13 +5,13 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: hacksu_user
-      POSTGRES_PASSWORD: your_secure_password_here
+      POSTGRES_USER: hacksu
+      POSTGRES_PASSWORD: hacksu
       POSTGRES_DB: hacksu
     volumes:
       - pgdata:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U hacksu_user"]
+      test: ["CMD-SHELL", "pg_isready -U hacksu"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,7 +22,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      DATABASE_URL: postgresql://hacksu_user:your_secure_password_here@db:5432/hacksu
+      DATABASE_URL: postgresql://hacksu:hacksu@db:5432/hacksu
       NODE_ENV: production
     depends_on:
       db:
