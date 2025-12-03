@@ -48,11 +48,14 @@
 
 		<h2 class="text-xl font-semibold mb-4">Admin Actions</h2>
 
-		<p class="text-gray-600 dark:text-gray-400">
-
-			This is a protected admin route. Only authenticated users with the required Discord role can access this page.
-
-		</p>
+		<div class="space-y-4">
+			<a
+				href="/admin/location"
+				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+			>
+				Edit Location Information
+			</a>
+		</div>
 
 	</div>
 

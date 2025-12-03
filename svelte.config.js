@@ -6,7 +6,12 @@ const config = {
 	// Consult https://svelte.dev/docs/kit/integrations
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
-	kit: { adapter: adapter() }
+	kit: {
+		adapter: adapter(),
+		csrf: {
+			trustedOrigins: ['https://www.hacksu.com', 'https://dev.hacksu.com', 'https://localhost:3000'],
+		}
+	}
 };
 
 export default config;

@@ -10,3 +10,15 @@ export const adminSessions = pgTable('admin_sessions', {
 	expiresAt: timestamp('expires_at', { withTimezone: true }).notNull()
 });
 
+// Location information table
+export const location = pgTable('location', {
+	id: text('id').primaryKey().default('current'),
+	time: text('time').notNull(), 
+	buildingRoom: text('building_room').notNull(),
+	buildingSelector: text('building_selector').notNull(), /
+	buildingUrl: text('building_url').notNull(),
+	body: text('body'), 
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+

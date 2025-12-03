@@ -1,0 +1,1 @@
+ALTER TABLE "meetings" RENAME COLUMN "building_image" TO "building_selector";

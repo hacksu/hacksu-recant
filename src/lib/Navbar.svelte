@@ -30,30 +30,27 @@
         <!-- Left nav items -->
         <div class="w-32 flex gap-4 justify-start">
             {#each routes.filter(r => r.pos === "left") as route}
-            <NavLink {route} />
+                <NavLink {route} />
             {/each}
         </div>
 
         <!-- Center nav items -->
         <div class="flex items-center gap-4 justify-center">
             {#each routes.filter(r => r.pos === "center") as route}
-            <NavLink {route} />
+                <NavLink {route} />
             {/each}
         </div>
 
         <!-- Right nav items + Admin -->
         <div class="w-32 flex justify-end gap-4 text-sm">
             {#each routes.filter(r => r.pos === "right") as route}
-            <NavLink {route} />
+                <NavLink {route} />
             {/each}
 
             {#if isAdmin}
-            <a
-                href="/admin"
-                class="font-medium text-white/80 hover:text-white transition-colors"
-            >
-                Admin
-            </a>
+                <a href="/admin" class="font-medium text-white/80 hover:text-white transition-colors">
+                    Admin
+                </a>
             {/if}
         </div>
         </div>
