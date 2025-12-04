@@ -58,7 +58,7 @@
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 							Updated
 						</th>
-						<th class="px-4 py-3" />
+						<th class="px-4 py-3"></th>
 					</tr>
 				</thead>
 				<tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
