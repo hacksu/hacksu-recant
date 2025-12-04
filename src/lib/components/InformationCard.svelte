@@ -91,11 +91,6 @@
 		padding: 0 24px;
 	}
 
-	.information a,
-	.information a:visited {
-		color: white;
-		text-decoration: none;
-	}
 
 	.information h2 {
 		display: inline;
@@ -138,7 +133,4 @@
 		margin-right: 10px;
 	}
 
-	strong {
-		font-weight: 600;
-	}
 </style>

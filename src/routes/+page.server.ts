@@ -1,5 +1,5 @@
-import msbImage from '$lib/assets/msb.jpg';
-import bowmanImage from '$lib/assets/bowman.jpg';
+import msbImage from '$lib/assets/images/msb.jpg';
+import bowmanImage from '$lib/assets/images/bowman.jpg';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { location as locationTable } from '$lib/server/db/schema';
