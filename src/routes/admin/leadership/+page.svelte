@@ -17,23 +17,11 @@
 		return favicon; // Fallback
 	}
 
-	function handleImageError(event: Event) {
-		const target = event.target as HTMLImageElement;
+	function handleImageError(meeting: Meeting) {
+		const target = meeting.target as HTMLImageElement;
 		target.src = favicon;
 	}
-</script>
-
-<div class="container mx-auto px-4 py-8 max-w-7xl">
-	<div class="flex items-center justify-between mb-6">
-		<h1 class="text-3xl font-bold">Leadership Management</h1>
-		<a
-			href="/admin/leadership/new"
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
-		>
-			Add New Leader
-		</a>
-	</div>
-
+</script>	
 	{#if leaders.length === 0}
 		<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
 			<p class="text-gray-600 dark:text-gray-400 mb-4">No leadership entries yet.</p>

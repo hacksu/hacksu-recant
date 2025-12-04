@@ -72,3 +72,16 @@ export const notes = pgTable('notes', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
+// General information blocks for a /helpful-info page
+export const information = pgTable('information', {
+	id: text('id').primaryKey(),
+	title: text('title').notNull(),
+	link: text('link'),
+	description: text('description').notNull(),
+	photo: text('photo'),
+	enabled: boolean('enabled').notNull().default(true),
+	sortIndex: integer('sort_index').notNull().default(0),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
