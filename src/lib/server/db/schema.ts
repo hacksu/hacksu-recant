@@ -35,3 +35,15 @@ export const leadership = pgTable('leadership', {
 	isCurrent: boolean('is_current').notNull().default(false)
 });
 
+// Events table
+export const events = pgTable('events', {
+	id: text('id').primaryKey(),
+	title: text('title').notNull(),
+	date: timestamp('date', { withTimezone: true }).notNull(),
+	presenter: text('presenter'),
+	link: text('link'),
+	descriptionMD: text('description_md'),
+	descriptionHTML: text('description_html'),
+	photo: text('photo')
+});
+
