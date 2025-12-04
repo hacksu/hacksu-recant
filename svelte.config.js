@@ -9,8 +9,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		csrf: {
-			trustedOrigins: ['https://www.hacksu.com', 'https://dev.hacksu.com', 'https://localhost:3000'],
-		}
+			trustedOrigins: ['*'] // Allow all origins - useful when running behind a proxy or in Docker (eventaually I need to make this correct with hacksu.com and dev.hacksu.com)
+		},
 	}
 };
 

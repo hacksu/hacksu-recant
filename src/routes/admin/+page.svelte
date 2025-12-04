@@ -5,20 +5,18 @@
 		{
 			title: 'Edit Location Information',
 			href: '/admin/location',
-			description: 'Update meeting location, time, and building details',
-			icon: '📍'
+			description: 'Update meeting location, time, and building details'
+		},
+		{
+			title: 'Manage Leadership',
+			href: '/admin/leadership',
+			description: 'Add, edit, and remove leadership team members'
 		}
 		// Add more actions here:
-		// {
-		// 	title: 'Manage Users',
-		// 	href: '/admin/users',
-		// 	description: 'View and manage user accounts',
-		// 	icon: '👥'
-		// },
 	];
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+<div class="min-h-screen bg-white dark:bg-gray-900">
 	<div class="container mx-auto px-4 py-8 max-w-7xl">
 		<!-- Header -->
 		<div class="mb-8 flex items-center justify-between">
@@ -41,16 +39,13 @@
 					href={action.href}
 					class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 p-6 border border-gray-200 dark:border-gray-700 hover:border-hacksu-green/50"
 				>
-					<div class="flex items-start gap-4">
-						<div class="text-3xl flex-shrink-0">{action.icon}</div>
-						<div class="flex-1 min-w-0">
-							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-hacksu-green transition-colors">
-								{action.title}
-							</h3>
-							<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-								{action.description}
-							</p>
-						</div>
+					<div class="flex-1 min-w-0">
+						<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-hacksu-green transition-colors">
+							{action.title}
+						</h3>
+						<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+							{action.description}
+						</p>
 					</div>
 					<div class="mt-4 flex items-center text-hacksu-green text-sm font-medium">
 						<span>Go to page</span>

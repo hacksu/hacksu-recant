@@ -27,9 +27,12 @@ services:
       DATABASE_URL: postgresql://hacksu:hacksu@db:5432/hacksu
       NODE_ENV: production
       PUBLIC_APP_URL: http://localhost:3000
+    volumes:
+      - uploads:/app/static/uploads
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   pgdata:
+  uploads:

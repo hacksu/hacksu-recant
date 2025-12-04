@@ -21,6 +21,8 @@ copy --from=builder /app/src/lib/server/db src/lib/server/db
 copy --from=builder /app/drizzle drizzle
 copy --from=builder /app/package.json package.json
 
+# Create static/uploads directory for file uploads
+run mkdir -p static/uploads/leadership
 
 copy package.json .
 expose 3000

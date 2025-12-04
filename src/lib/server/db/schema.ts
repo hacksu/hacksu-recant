@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean, integer } from 'drizzle-orm/pg-core';
 
 // Simple table to track admin sessions issued after Discord auth.
 // The cookie will contain the `id` value; all validation happens server-side.
@@ -20,5 +20,18 @@ export const location = pgTable('location', {
 	body: text('body'), 
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+// Leadership table
+export const leadership = pgTable('leadership', {
+	id: text('id').primaryKey(),
+	name: text('name').notNull(),
+	gradYear: integer('grad_year').notNull(),
+	gradTerm: text('grad_term').notNull(), 
+	github: text('github'), 
+	photo: text('photo'), 
+	titles: text('titles').array().notNull(),
+	link: text('link'), 
+	isCurrent: boolean('is_current').notNull().default(false)
 });
 
