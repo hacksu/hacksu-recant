@@ -1,9 +1,9 @@
 <script lang="ts">
 	import hacksuLogo from '$lib/assets/hacksu_logo.svg';
     import NavLink from "./NavLink.svelte";
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	const pageStore = $derived($page);
+	const pageStore = $derived(page);
 	const isAdmin = $derived(Boolean(pageStore.data?.isAdmin));
 
     type Route = {
