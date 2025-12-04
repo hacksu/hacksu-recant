@@ -14,10 +14,13 @@ export const GET: RequestHandler = async ({ params }) => {
 		throw error(400, 'Path is required');
 	}
 
-	// Basic security: prevent directory traversal and absolute paths
-	if (path.includes('..') || path.startsWith('/') || path.includes('\\')) {
-		throw error(400, 'Invalid path');
-	}
+    // Thanks, Noah! 
+    if (!/^[a-zA-Z0-9._\/-]+$/.test(path)) throw error(400, 'Invalid chars');
+
+    const uploadsDir = resolve(process.cwd(), 'static', 'uploads');
+    const filePath = resolve(uploadsDir, path);
+
+    if (!filePath.startsWith(uploadsDir + '/')) throw error(400, 'Escape attempt');
 
 	try {
 		// Read file from static/uploads/<path>
