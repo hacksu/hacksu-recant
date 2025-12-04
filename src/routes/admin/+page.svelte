@@ -11,6 +11,11 @@
 			title: 'Manage Leadership',
 			href: '/admin/leadership',
 			description: 'Add, edit, and remove leadership team members'
+		},
+		{
+			title: 'Manage Events',
+			href: '/admin/events',
+			description: 'Add, edit, and remove events'
 		}
 		// Add more actions here:
 	];
