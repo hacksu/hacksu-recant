@@ -22,6 +22,7 @@
         {href:'/leadership',text:"Leadership",pos:"left"},
         {href:'/meetings',text:"Meetings",pos:"left"},
         {href:'/info',text:"Resources",pos:"right"},
+        {href:'/contact',text:"Contact",pos:"right"},
     ]
 
 
