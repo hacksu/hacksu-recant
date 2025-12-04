@@ -26,6 +26,11 @@
 			title: 'Admin Notes',
 			href: '/admin/notes',
 			description: 'Internal notes for admins only'
+		},
+		{
+			title: 'Helpful Info',
+			href: '/admin/information',
+			description: 'Manage blocks shown on the /info page'
 		}
 	];
 </script>
