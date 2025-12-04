@@ -1,7 +1,7 @@
 <script lang="ts">
-	import hacksuLogo from '$lib/assets/hacksu_logo.svg';
-	import discordImage from '$lib/assets/HacKSU_Discord.png';
-    import hacksuBox from '$lib/assets/hacksu-box.png'
+	import hacksuLogo from '$lib/assets/images/hacksu_logo.svg';
+	import discordImage from '$lib/assets/images/HacKSU_Discord.png';
+    import hacksuBox from '$lib/assets/images/hacksu-box.png'
 
 	const title = 'Interested in Coding?';
 	const body = 'HacKSU teaches anyone, regardless of skill level or major, how to code!';

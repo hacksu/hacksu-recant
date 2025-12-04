@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/images/favicon.svg';
 
 	let { data }: { data: PageData } = $props();
 

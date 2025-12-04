@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/images/favicon.svg';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 

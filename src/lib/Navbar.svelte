@@ -1,5 +1,5 @@
 <script lang="ts">
-	import hacksuLogo from '$lib/assets/hacksu_logo.svg';
+	import hacksuLogo from '$lib/assets/images/hacksu_logo.svg';
     import NavLink from "./NavLink.svelte";
 	import { page } from '$app/state';
 

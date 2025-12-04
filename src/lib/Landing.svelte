@@ -1,5 +1,5 @@
 <script lang="ts">
-	import hacksuLogo from '$lib/assets/hacksu_logo.svg';
+	import hacksuLogo from '$lib/assets/images/hacksu_logo.svg';
 	import { onMount, onDestroy } from 'svelte';
 
 	// Social media links - you can add more here
