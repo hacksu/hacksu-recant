@@ -13,7 +13,7 @@
 	];
 
 	const title = 'Learn. Grow. Create.';
-	const body = 'HackSU teaches anyone, regardless of skill level or major, how to code.';
+	const body = 'HacKSU teaches anyone, regardless of skill level or major, how to code.';
 
 	// Particle network visualization
 	let canvas: HTMLCanvasElement;
@@ -138,7 +138,7 @@
 	<div
 		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white pt-[10vh] flex flex-col h-screen justify-center items-center z-10"
 	>
-		<img class="w-[40vw] max-w-[400px] md:w-[75vw]" src={hacksuLogo} alt="HackSU" />
+		<img class="w-[40vw] max-w-[400px] md:w-[75vw]" src={hacksuLogo} alt="HacKSU" />
 		<h1 class="text-[4vh] my-[15px] text-center"><strong>{title}</strong></h1>
 		<p class="text-center text-[3vh] w-[90vw] my-2.5">{body}</p>
 		<p class="opacity-80 text-center text-[3vh] w-[90vw] my-2.5">Join our Discord for updates:</p>
@@ -149,10 +149,10 @@
 				class="bg-gray-800 rounded-lg p-4 flex items-center gap-4 border border-gray-700 max-w-md hover:border-hacksu-green/50 transition-colors"
 			>
 				<div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
-					<img src={hacksuLogo} alt="HackSU" class="w-12 h-12" />
+					<img src={hacksuLogo} alt="HacKSU" class="w-12 h-12" />
 				</div>
 				<div class="flex-1 min-w-0">
-					<h3 class="text-white font-semibold text-lg mb-1">HackSU</h3>
+					<h3 class="text-white font-semibold text-lg mb-1">HacKSU</h3>
 					<div class="flex items-center gap-4 text-sm text-gray-400">
 						<div class="flex items-center gap-2">
 							<div class="w-2 h-2 bg-hacksu-green rounded-full"></div>
