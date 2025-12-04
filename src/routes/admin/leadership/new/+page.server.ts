@@ -1,13 +1,13 @@
 import { db } from '$lib/server/db';
 import { leadership } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions, RequestEvent } from '@sveltejs/kit';
 import { requireAdmin } from '$lib/server/admin';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
 
-export const load: PageServerLoad = async (event) => {
+export const load = async (event: RequestEvent) => {
 	await requireAdmin(event);
 	return {};
 };

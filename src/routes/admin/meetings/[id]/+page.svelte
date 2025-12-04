@@ -3,14 +3,25 @@
 	import { enhance } from '$app/forms';
 	import favicon from '$lib/assets/favicon.svg';
 
-	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
+let { data, form }: { data: PageData; form?: { error?: string } } = $props();
+
+const meeting = $derived(data.event);
 
 	let photoPreview: string | null = null;
 	let photoFile: File | null = null;
+	let descriptionMD = $state('');
+	
+// Initialize descriptionMD from meeting data
+	$effect(() => {
+	descriptionMD = data.event.descriptionMD || '';
+	});
 
 	function getPhotoUrl(): string {
 		if (photoPreview) {
 			return photoPreview;
+		}
+		if (data.event.photo) {
+			return data.event.photo;
 		}
 		return favicon;
 	}
@@ -33,21 +44,20 @@
 		target.src = favicon;
 	}
 
-	// Get current date/time in local timezone for datetime-local input
-	function getCurrentDateTimeLocal(): string {
-		const now = new Date();
-		// Convert to local timezone and format for datetime-local input
-		const year = now.getFullYear();
-		const month = String(now.getMonth() + 1).padStart(2, '0');
-		const day = String(now.getDate()).padStart(2, '0');
-		const hours = String(now.getHours()).padStart(2, '0');
-		const minutes = String(now.getMinutes()).padStart(2, '0');
+	// Format date for datetime-local input
+	function formatDateForInput(date: Date): string {
+		const d = new Date(date);
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+		const hours = String(d.getHours()).padStart(2, '0');
+		const minutes = String(d.getMinutes()).padStart(2, '0');
 		return `${year}-${month}-${day}T${hours}:${minutes}`;
 	}
 </script>
 
 <div class="container mx-auto px-4 py-8 max-w-2xl">
-	<h1 class="text-3xl font-bold mb-6">Add New Event</h1>
+	<h1 class="text-3xl font-bold mb-6">Edit Event</h1>
 
 	{#if form?.error}
 		<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -62,7 +72,7 @@
 			<div class="flex items-center gap-4 mb-2">
 				<img
 					src={getPhotoUrl()}
-					alt="Preview"
+					alt={data.event.title}
 					class="w-24 h-24 rounded-lg object-cover"
 					onerror={handleImageError}
 				/>
@@ -86,6 +96,7 @@
 				type="text"
 				id="title"
 				name="title"
+				value={data.event.title}
 				required
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>
@@ -99,7 +110,7 @@
 				id="date"
 				name="date"
 				required
-				value={getCurrentDateTimeLocal()}
+				value={formatDateForInput(data.event.date)}
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>
 		</div>
@@ -111,6 +122,7 @@
 				type="text"
 				id="presenter"
 				name="presenter"
+				value={meeting.presenter || ''}
 				placeholder="Presenter name"
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>
@@ -123,6 +135,7 @@
 				type="url"
 				id="link"
 				name="link"
+				value={data.event.link || ''}
 				placeholder="https://example.com"
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>
@@ -135,6 +148,7 @@
 				id="descriptionMD"
 				name="descriptionMD"
 				rows="6"
+				bind:value={descriptionMD}
 				placeholder="Enter description in Markdown format..."
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			></textarea>
@@ -149,10 +163,10 @@
 				type="submit"
 				class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
 			>
-				Create Event
+				Save Changes
 			</button>
 			<a
-				href="/admin/events"
+				href="/admin/meetings"
 				class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors inline-block"
 			>
 				Cancel

@@ -16,8 +16,8 @@ export const GET: RequestHandler = async ({ params }) => {
 			throw error(400, 'Invalid filename');
 		}
 
-		// Read file from static/uploads/events directory
-		const filePath = join(process.cwd(), 'static', 'uploads', 'events', filename);
+		// Read file from static/uploads/meetings directory
+		const filePath = join(process.cwd(), 'static', 'uploads', 'meetings', filename);
 
 		const fileBuffer = await readFile(filePath);
 

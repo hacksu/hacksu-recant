@@ -5,7 +5,7 @@
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
-	const leader = data.leader;
+	const leader = $derived(data.leader);
 
 	let photoPreview: string | null = null;
 	let photoFile: File | null = null;

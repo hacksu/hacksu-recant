@@ -23,7 +23,7 @@ copy --from=builder /app/package.json package.json
 
 # Create static/uploads directory for file uploads
 run mkdir -p static/uploads/leadership
-run mkdir -p static/uploads/events
+run mkdir -p static/uploads/meetings
 
 copy package.json .
 expose 3000

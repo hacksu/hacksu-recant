@@ -35,8 +35,8 @@ export const leadership = pgTable('leadership', {
 	isCurrent: boolean('is_current').notNull().default(false)
 });
 
-// Events table
-export const events = pgTable('events', {
+// Meetings table
+export const meetings = pgTable('meetings', {
 	id: text('id').primaryKey(),
 	title: text('title').notNull(),
 	date: timestamp('date', { withTimezone: true }).notNull(),

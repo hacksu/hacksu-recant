@@ -4,9 +4,11 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const { currentLeaders, leadersByTerm, sortedTerms } = data;
+	const currentLeaders = $derived(data.currentLeaders);
+	const leadersByTerm = $derived(data.leadersByTerm);
+	const sortedTerms = $derived(data.sortedTerms);
 
-	function getPhotoUrl(leader: typeof currentLeaders[0]): string {
+	function getPhotoUrl(leader: typeof data.currentLeaders[0]): string {
 		if (leader.photo) {
 			return leader.photo;
 		}

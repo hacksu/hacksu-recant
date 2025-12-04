@@ -4,7 +4,7 @@
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
-	const location = data.location;
+	const location = $derived(data.location);
 </script>
 
 <div class="container mx-auto px-4 py-8 max-w-2xl">

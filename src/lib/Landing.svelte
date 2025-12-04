@@ -20,7 +20,7 @@
 	let ctx: CanvasRenderingContext2D | null = null;
 	let animationFrame: number;
 	let particles: Array<{ x: number; y: number; vx: number; vy: number }> = [];
-	const particleCount = 30;
+	const particleCount = 90;
 	const connectionDistance = 150;
 
 	function initParticles() {
@@ -115,7 +115,7 @@
 
 	<canvas
 		bind:this={canvas}
-		class="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none"
+		class="absolute -z-10 top-0 left-0 w-full h-full pointer-meetings-none"
 	></canvas>
 
 	<!-- Social buttons -->

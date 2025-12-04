@@ -13,9 +13,9 @@
 			description: 'Add, edit, and remove leadership team members'
 		},
 		{
-			title: 'Manage Events',
-			href: '/admin/events',
-			description: 'Add, edit, and remove events'
+			title: 'Manage Meetings',
+			href: '/admin/meetings',
+			description: 'Add, edit, and remove meetings'
 		}
 		// Add more actions here:
 	];

@@ -5,9 +5,9 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const leaders = data.leaders;
+	const leaders = $derived(data.leaders);
 
-	function getPhotoUrl(leader: typeof leaders[0]): string {
+	function getPhotoUrl(leader: typeof data.leaders[0]): string {
 		if (leader.photo) {
 			return leader.photo;
 		}

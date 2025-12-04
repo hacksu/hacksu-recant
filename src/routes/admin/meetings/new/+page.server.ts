@@ -1,6 +1,5 @@
 import { db } from '$lib/server/db';
-import { events } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { meetings } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { requireAdmin } from '$lib/server/admin';
@@ -39,26 +38,13 @@ function markdownToHtml(markdown: string): string {
 
 export const load: PageServerLoad = async (event) => {
 	await requireAdmin(event);
-
-	const id = event.params.id;
-	const eventItem = await db.query.events.findFirst({
-		where: eq(events.id, id)
-	});
-
-	if (!eventItem) {
-		throw redirect(303, '/admin/events');
-	}
-
-	return {
-		event: eventItem
-	};
+	return {};
 };
 
 export const actions: Actions = {
 	default: async (event) => {
 		await requireAdmin(event);
 
-		const id = event.params.id;
 		const formData = await event.request.formData();
 
 		const title = formData.get('title')?.toString();
@@ -87,7 +73,7 @@ export const actions: Actions = {
 		if (photoFile && photoFile.size > 0) {
 			try {
 				// Create uploads directory if it doesn't exist
-				const uploadsDir = join(process.cwd(), 'static', 'uploads', 'events');
+				const uploadsDir = join(process.cwd(), 'static', 'uploads', 'meetings');
 				await mkdir(uploadsDir, { recursive: true });
 
 				// Generate unique filename
@@ -101,7 +87,7 @@ export const actions: Actions = {
 				await writeFile(filePath, buffer);
 
 				// Store relative path for serving
-				photoPath = `/uploads/events/${fileName}`;
+				photoPath = `/uploads/meetings/${fileName}`;
 			} catch (error) {
 				console.error('Error uploading photo:', error);
 				return fail(500, { error: 'Failed to upload photo' });
@@ -109,46 +95,27 @@ export const actions: Actions = {
 		}
 
 		try {
-			const existing = await db.query.events.findFirst({
-				where: eq(events.id, id)
-			});
+			const id = randomUUID();
 
-			if (!existing) {
-				return fail(404, { error: 'Event not found' });
-			}
-
-			// Update record - only update photo if a new one was uploaded
-			const updateData: {
-				title: string;
-				date: Date;
-				presenter: string | null;
-				link: string | null;
-				descriptionMD: string | null;
-				descriptionHTML: string | null;
-				photo?: string | null;
-			} = {
+			await db.insert(meetings).values({
+				id,
 				title,
 				date,
 				presenter,
 				link,
 				descriptionMD,
-				descriptionHTML
-			};
+				descriptionHTML,
+				photo: photoPath
+			});
 
-			if (photoPath !== null) {
-				updateData.photo = photoPath;
-			}
-
-			await db.update(events).set(updateData).where(eq(events.id, id));
-
-			throw redirect(303, '/admin/events');
+			throw redirect(303, '/admin/meetings');
 		} catch (error) {
 			if (error && typeof error === 'object' && 'status' in error && typeof error.status === 'number') {
 				throw error;
 			}
-			console.error('Database error updating event:', error);
+			console.error('Database error creating event:', error);
 			return fail(500, {
-				error: 'Failed to update event',
+				error: 'Failed to create event',
 				details: error instanceof Error ? error.message : String(error)
 			});
 		}
