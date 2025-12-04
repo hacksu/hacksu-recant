@@ -6,7 +6,6 @@
 		presenter: string | null;
 		link: string | null;
 		descriptionMD: string | null;
-		descriptionHTML: string | null;
 		photo: string | null;
 	};
 
@@ -102,9 +101,7 @@
 			</span>
 		{/if}
 
-		{#if meeting.descriptionHTML}
-			<div class="meeting-text" style={solo ? 'overflow-y: scroll;' : ''}>{@html meeting.descriptionHTML}</div>
-		{:else if meeting.descriptionMD}
+		{#if meeting.descriptionMD}
 			<div class="meeting-text" style={solo ? 'overflow-y: scroll;' : ''}>{meeting.descriptionMD}</div>
 		{/if}
 

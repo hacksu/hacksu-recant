@@ -43,7 +43,6 @@ export const meetings = pgTable('meetings', {
 	presenter: text('presenter'),
 	link: text('link'),
 	descriptionMD: text('description_md'),
-	descriptionHTML: text('description_html'),
 	photo: text('photo')
 });
 

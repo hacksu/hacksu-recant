@@ -8,35 +8,6 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
 
-// Simple markdown to HTML converter
-function markdownToHtml(markdown: string): string {
-	if (!markdown) return '';
-	
-	return markdown
-		// Headers
-		.replace(/^### (.*$)/gim, '<h3>$1</h3>')
-		.replace(/^## (.*$)/gim, '<h2>$1</h2>')
-		.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-		// Bold
-		.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-		.replace(/__(.*?)__/gim, '<strong>$1</strong>')
-		// Italic
-		.replace(/\*(.*?)\*/gim, '<em>$1</em>')
-		.replace(/_(.*?)_/gim, '<em>$1</em>')
-		// Links
-		.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
-		// Line breaks
-		.replace(/\n\n/gim, '</p><p>')
-		.replace(/\n/gim, '<br>')
-		// Wrap in paragraph if not already wrapped
-		.replace(/^(?!<[h|p|a|s|e|u|o|d])/gim, '<p>')
-		.replace(/(?<!>)$/gim, '</p>')
-		// Clean up empty paragraphs
-		.replace(/<p><\/p>/gim, '')
-		.replace(/<p>(<[h|a|s|e|u|o|d])/gim, '$1')
-		.replace(/(<\/[h|a|s|e|u|o|d]>)<\/p>/gim, '$1');
-}
-
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.id;
 	await requireAdmin(event);
@@ -78,8 +49,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'Invalid date' });
 		}
 
-		// Convert markdown to HTML
-		const descriptionHTML = descriptionMD ? markdownToHtml(descriptionMD) : null;
 
 		let photoPath: string | null = null;
 
@@ -124,7 +93,6 @@ export const actions: Actions = {
 				presenter: string | null;
 				link: string | null;
 				descriptionMD: string | null;
-				descriptionHTML: string | null;
 				photo?: string | null;
 			} = {
 				title,
@@ -132,7 +100,6 @@ export const actions: Actions = {
 				presenter,
 				link,
 				descriptionMD,
-				descriptionHTML
 			};
 
 			if (photoPath !== null) {
