@@ -59,3 +59,16 @@ export const redirects = pgTable('redirects', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
+// Admin notes table
+export const notes = pgTable('notes', {
+	id: text('id').primaryKey(),
+	title: text('title').notNull(),
+	date: timestamp('date', { withTimezone: true }).notNull(),
+	// Main note body (markdown or plain text)
+	notes: text('notes').notNull(),
+	// Optional extra metadata
+	tags: text('tags'),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
