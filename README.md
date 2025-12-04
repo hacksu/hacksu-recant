@@ -1,38 +1,14 @@
-# sv
+# HacKSU Recant
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Programmers.
 
-## Creating a project
+To run this site locally, you will want Docker.
 
-If you're seeing this, you've probably already done this step. Congrats!
+You can run it without production configuration locally, but it is generally not recommended, as the deployed build environment is Docker.
 
-```sh
-# create a new project in the current directory
-npx sv create
 
-# create a new project in my-app
-npx sv create my-app
-```
+You will need a `.env` file. This file should contain all of the variables in the `.env.example` file at the root of the project correctly filled out.
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To make changes on the admin side, go to the `/admin` route, and login with discord. If you have acceptable roles, this will authenticate you.
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
