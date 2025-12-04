@@ -50,15 +50,10 @@ export const meetings = pgTable('meetings', {
 // Redirects table
 // Supports short links like /redir/abc -> https://google.com
 export const redirects = pgTable('redirects', {
-	// Short code used in the URL, e.g. "abc" for /redir/abc
 	slug: text('slug').primaryKey(),
-	// Absolute target URL to redirect to
 	targetUrl: text('target_url').notNull(),
-	// Optional human-readable description
 	description: text('description'),
-	// Whether this redirect is currently active
 	enabled: boolean('enabled').notNull().default(true),
-	// Optional count of how many times this redirect was used
 	clicks: integer('clicks').notNull().default(0),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()

@@ -16,6 +16,11 @@
 			title: 'Manage Meetings',
 			href: '/admin/meetings',
 			description: 'Add, edit, and remove meetings'
+		},
+		{
+			title: 'Manage Redirects',
+			href: '/admin/redirects',
+			description: 'Create and manage short redirect links'
 		}
 		// Add more actions here:
 	];
@@ -80,4 +85,3 @@
 		{/if}
 	</div>
 </div>
-
