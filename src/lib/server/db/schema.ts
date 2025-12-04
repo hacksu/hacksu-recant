@@ -72,7 +72,7 @@ export const notes = pgTable('notes', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
-// General information blocks for a /helpful-info page
+// General information blocks for /info page
 export const information = pgTable('information', {
 	id: text('id').primaryKey(),
 	title: text('title').notNull(),
