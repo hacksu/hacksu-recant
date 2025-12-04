@@ -38,3 +38,113 @@ export const GET: RequestHandler = async (event) => {
 		information: informationList
 	});
 };
+
+export const POST: RequestHandler = async (event) => {
+	await requireAdmin(event);
+
+	const body = await event.request.json();
+
+	// Destructure expected collections with safe defaults
+	const {
+		adminSessions: adminSessionsList = [],
+		location: locationList = [],
+		leadership: leadershipList = [],
+		meetings: meetingsList = [],
+		redirects: redirectsList = [],
+		notes: notesList = [],
+		information: informationList = []
+	} = body ?? {};
+
+	// Naive restore strategy:
+	//  - wipe existing rows
+	//  - insert exactly what is in the dump
+	// Use with caution; this is intended for full-environment restore.
+	// I may want to add extra safety checks in the future.
+
+	// Delete in an order that avoids FK issues (none currently defined, but be conservative)
+	await db.delete(adminSessions);
+	await db.delete(location);
+	await db.delete(leadership);
+	await db.delete(meetings);
+	await db.delete(redirects);
+	await db.delete(notes);
+	await db.delete(information);
+
+	// Helper to parse ISO timestamp fields into Date instances
+	const parseDate = (value: unknown): Date | null => {
+		if (typeof value === 'string') {
+			const d = new Date(value);
+			return isNaN(d.getTime()) ? null : d;
+		}
+		if (value instanceof Date) return value;
+		return null;
+	};
+
+	// Re-insert if there is data. Convert any timestamp fields back to Date objects.
+	if (Array.isArray(adminSessionsList) && adminSessionsList.length > 0) {
+		const rows = adminSessionsList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			expiresAt: parseDate(row.expiresAt)
+		}));
+		await db.insert(adminSessions).values(rows);
+	}
+	if (Array.isArray(locationList) && locationList.length > 0) {
+		const rows = locationList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(location).values(rows);
+	}
+	if (Array.isArray(leadershipList) && leadershipList.length > 0) {
+		// leadership has only scalar fields, no timestamps
+		await db.insert(leadership).values(leadershipList as any);
+	}
+	if (Array.isArray(meetingsList) && meetingsList.length > 0) {
+		const rows = meetingsList.map((row: any) => ({
+			...row,
+			date: parseDate(row.date)
+		}));
+		await db.insert(meetings).values(rows);
+	}
+	if (Array.isArray(redirectsList) && redirectsList.length > 0) {
+		const rows = redirectsList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(redirects).values(rows);
+	}
+	if (Array.isArray(notesList) && notesList.length > 0) {
+		const rows = notesList.map((row: any) => ({
+			...row,
+			date: parseDate(row.date),
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(notes).values(rows);
+	}
+	if (Array.isArray(informationList) && informationList.length > 0) {
+		const rows = informationList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(information).values(rows);
+	}
+
+	return json({
+		ok: true,
+		restoredAt: new Date().toISOString(),
+		counts: {
+			adminSessions: adminSessionsList.length ?? 0,
+			location: locationList.length ?? 0,
+			leadership: leadershipList.length ?? 0,
+			meetings: meetingsList.length ?? 0,
+			redirects: redirectsList.length ?? 0,
+			notes: notesList.length ?? 0,
+			information: informationList.length ?? 0
+		}
+	});
+};
