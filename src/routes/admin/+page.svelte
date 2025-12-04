@@ -21,8 +21,12 @@
 			title: 'Manage Redirects',
 			href: '/admin/redirects',
 			description: 'Create and manage short redirect links'
+		},
+		{
+			title: 'Admin Notes',
+			href: '/admin/notes',
+			description: 'Internal notes for admins only'
 		}
-		// Add more actions here:
 	];
 </script>
 
