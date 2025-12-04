@@ -19,6 +19,7 @@
     const routes: Route[] = [
         {href:'/', img:hacksuLogo, alt:"Hacksu", pos:"center"},
         {href:'/',text:"Home",pos:"left"},
+        {href:'/leadership',text:"Leadership",pos:"left"},
     ]
 
 
