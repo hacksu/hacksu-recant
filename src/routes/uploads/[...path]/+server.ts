@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
@@ -29,6 +29,7 @@ export const GET: RequestHandler = async ({ params }) => {
 
 		// Determine content type based on file extension
 		const ext = path.split('.').pop()?.toLowerCase();
+        // Some of my worst code ever, I'm sorry to whomever has to read this
 		const contentType =
 			ext === 'jpg' || ext === 'jpeg'
 				? 'image/jpeg'
