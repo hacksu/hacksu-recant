@@ -1,12 +1,7 @@
-networks:
-  app-internal:
-
 services:
   db:
     image: postgres:18-alpine
     restart: always
-    networks:
-      - app-network
     ports:
       - 5434:5432
     environment:
@@ -24,8 +19,6 @@ services:
   app:
     build: .
     restart: always
-    networks:
-      - app-network
     env_file:
       - .env
     ports:
