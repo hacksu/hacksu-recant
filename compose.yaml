@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - dokploy-network
+      - app-network
 
   app:
     build: .
@@ -34,12 +34,11 @@ services:
       db:
         condition: service_healthy
     networks:
-      - dokploy-network
+      - app-network
 
 volumes:
   pgdata:
   uploads:
 
 networks:
-  dokploy-network:
-    external: true
+  app-network:
