@@ -1,9 +1,10 @@
 import { Arctic } from "arctic";
+import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET } from "$env/static/private";
+import { PUBLIC_APP_URL } from "$env/static/public";
 
 export const discord = new Arctic(
 	"Discord",
-	process.env.DISCORD_CLIENT_ID!,
-	process.env.DISCORD_CLIENT_SECRET!,
-	process.env.DISCORD_REDIRECT_URI || "http://localhost:5173/auth/callback"
+	DISCORD_CLIENT_ID,
+	DISCORD_CLIENT_SECRET,
+	`${PUBLIC_APP_URL}/auth/callback`
 );
-
