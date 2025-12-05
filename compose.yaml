@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:18-alpine
-    restart: always
+    restart: on-failure:5
     ports:
       - 5434:5432
     environment:
@@ -18,7 +18,7 @@ services:
 
   app:
     build: .
-    restart: always
+    restart: on-failure:5
     env_file:
       - .env
     ports:
