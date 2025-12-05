@@ -29,3 +29,8 @@ compose.override.yml
 
 # Uploads
 static/uploads/
+
+
+scripts/assets/
+scripts/dump.json
+scripts/restore.log

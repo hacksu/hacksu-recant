@@ -28,6 +28,10 @@ def main() -> int:
     admin_cookie = sys.argv[1]
     base_url = sys.argv[2] if len(sys.argv) >= 3 else "http://localhost:3000"
 
+    # Add scheme if missing
+    if not base_url.startswith(("http://", "https://")):
+        base_url = f"https://{base_url}"
+
     # Normalize base URL (no trailing slash)
     base_url = base_url.rstrip("/")
 
