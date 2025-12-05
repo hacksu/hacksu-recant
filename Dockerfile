@@ -26,5 +26,5 @@ run mkdir -p static/uploads/leadership
 run mkdir -p static/uploads/meetings
 
 copy package.json .
-expose 3000
+expose 3002
 cmd [ "bun", "prod:start" ]
