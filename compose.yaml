@@ -24,9 +24,8 @@ services:
     ports:
       - 3002:3000
     environment:
-      DATABASE_URL: postgresql://hacksu:hacksu@db:5434/hacksu
+      DATABASE_URL: postgresql://hacksu:hacksu@db:5432/hacksu
       NODE_ENV: production
-      PUBLIC_APP_URL: http://localhost:3002
     volumes:
       - uploads:/app/static/uploads
     depends_on:
