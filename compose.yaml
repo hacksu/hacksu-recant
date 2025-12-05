@@ -1,6 +1,5 @@
 networks:
-  app-network:
-    driver: bridge
+  app-internal:
 
 services:
   db:
