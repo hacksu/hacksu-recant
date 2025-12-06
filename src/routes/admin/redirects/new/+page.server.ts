@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 
 function isValidSlug(slug: string): boolean {
 	// allow letters, numbers, dashes and underscores
-	return /^[a-zA-Z0-9_-]+$/.test(slug);
+	return /^[a-zA-Z0-9_-\.]+$/.test(slug);
 }
 
 function isValidUrl(url: string): boolean {

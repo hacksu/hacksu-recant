@@ -6,7 +6,7 @@ import { requireAdmin } from '$lib/server/admin';
 import { eq } from 'drizzle-orm';
 
 function isValidSlug(slug: string): boolean {
-	return /^[a-zA-Z0-9_-]+$/.test(slug);
+	return /^[a-zA-Z0-9_-\.]+$/.test(slug);
 }
 
 function isValidUrl(url: string): boolean {
