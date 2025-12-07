@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { renderMarkdown } from '$lib/utils/markdown';
+
 	type Meeting = {
 		id: string;
 		title: string;
@@ -40,33 +42,49 @@
 	});
 
 	const containerClass = $derived(
-		`meeting-container ${isFutureMeeting ? 'future-meeting' : ''} ${isPastMeeting ? 'past-meeting' : ''}`
+		`flex flex-col justify-center mx-auto mb-20 relative max-w-[500px] shadow-lg pb-4 overflow-hidden text-left min-h-0 flex-shrink rounded-2xl first:mt-12 ${
+			isFutureMeeting ? 'border-2 border-hacksu-green' : ''
+		} ${isPastMeeting ? '' : ''} ${
+			background
+				? ''
+				: 'bg-gradient-to-r from-hacksu-purple via-[#9b4cbb] via-[#a14cc2] to-hacksu-purple'
+		}`
+	);
+
+	const descriptionHtml = $derived(
+		meeting.descriptionMD ? renderMarkdown(meeting.descriptionMD) : null
 	);
 </script>
 
 <div class={containerClass} style={background ? { background } : {}}>
 	{#if isFutureMeeting || isPastMeeting}
-		<div class="meeting-status">
+		<div
+			class="absolute top-2.5 right-2.5 text-white px-3 py-1 rounded-full text-sm font-medium z-10 {isFutureMeeting
+				? 'bg-hacksu-green/40'
+				: 'bg-black/60'}"
+		>
 			{isFutureMeeting ? 'Upcoming' : 'Past Meeting'}
 		</div>
 	{/if}
 
 	{#if meeting.photo}
-		<div class="cover-photo" style="background-image: url('{meeting.photo}')"></div>
+		<div
+			class="w-full pb-[40%] bg-cover bg-center"
+			style="background-image: url('{meeting.photo}')"
+		></div>
 	{/if}
 
-	<div class="meeting">
+	<div class="flex flex-col min-h-0 flex-shrink w-full text-base [&>*]:px-6">
 		{#if meeting.link}
 			<a
 				href={meeting.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="meeting-title"
+				class="my-3 mb-2 flex items-center text-white no-underline"
 			>
 				{#if meeting.link.startsWith('https://github.com')}
 					<svg
-						class="external-link"
-						style="height: 30px; margin-right: 10px"
+						class="h-[30px] mr-2.5 flex-shrink-0"
 						viewBox="0 0 24 24"
 						fill="white"
 						xmlns="http://www.w3.org/2000/svg"
@@ -77,8 +95,7 @@
 					</svg>
 				{:else}
 					<svg
-						class="external-link"
-						style="height: 26px; margin-right: 10px"
+						class="h-[26px] mr-2.5 flex-shrink-0"
 						viewBox="0 0 24 24"
 						fill="white"
 						xmlns="http://www.w3.org/2000/svg"
@@ -93,28 +110,34 @@
 						/>
 					</svg>
 				{/if}
-				<h2>{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
+				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
 			</a>
 		{:else}
-			<span class="meeting-title">
-				<h2>{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
+			<span class="my-3 mb-2 flex items-center text-white">
+				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
 			</span>
 		{/if}
 
-		{#if meeting.descriptionMD}
-			<div class="meeting-text" style={solo ? 'overflow-y: scroll;' : ''}>{meeting.descriptionMD}</div>
+		{#if descriptionHtml}
+			<div
+				class="min-h-0 flex-shrink prose prose-invert prose-sm max-w-none text-white leading-relaxed {solo
+					? 'overflow-y-scroll'
+					: ''} prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-white prose-code:text-white prose-code:bg-black/30 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-black/30 prose-pre:text-white prose-pre:p-4 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-pre:my-4 prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-white/80 prose-ul:text-white prose-ol:text-white prose-li:text-white prose-blockquote:text-white/90 prose-blockquote:border-l-4 prose-blockquote:border-white/30 prose-blockquote:pl-4 prose-blockquote:my-4 prose-blockquote:italic prose-hr:border-white/30 prose-hr:my-4"
+			>
+				{@html descriptionHtml}
+			</div>
 		{/if}
 
 		{#if solo}
-			<div class="meeting-footer">
+			<div class="flex justify-between mt-1 text-white">
 				<span><strong>{formatDate(meeting.date)}</strong> at 7:00 PM</span>
 				<strong>MSB 228</strong>
 			</div>
 		{:else}
-			<div class="meeting-footer">
-				<p><strong>{formatDate(meeting.date)}</strong></p>
+			<div class="flex justify-between mt-1 text-white">
+				<p class="p-1 -mx-1 m-0.5"><strong>{formatDate(meeting.date)}</strong></p>
 				{#if meeting.presenter}
-					<p style="text-align: right">
+					<p class="text-right p-1 -mx-1 m-0.5">
 						Presented by <strong>{meeting.presenter}</strong>
 					</p>
 				{/if}
@@ -123,152 +146,3 @@
 	</div>
 </div>
 
-<style>
-	.meeting-container {
-		background: linear-gradient(90deg, #ab52cb 0%, #9b4cbb 24%, #a14cc2 32%, #ab52cb 100%);
-		opacity: 1;
-		border-radius: 15px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin: 0 auto 80px auto;
-		position: relative;
-		max-width: 500px;
-		box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.15);
-		padding-bottom: 16px;
-		overflow: hidden;
-		text-align: left;
-		min-height: 0;
-		flex-shrink: 1;
-	}
-
-	.meeting-container:first-of-type {
-		margin-top: 50px;
-	}
-
-	.meeting {
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-		flex-shrink: 1;
-		width: 100%;
-		font-size: 1rem;
-	}
-
-	.meeting > * {
-		padding: 0 24px;
-	}
-
-	.meeting :global(a:visited),
-	.meeting :global(a) {
-		color: white;
-		text-decoration: none;
-	}
-
-	.meeting h2 {
-		display: inline;
-		font-size: 1.5rem;
-		margin: 0;
-		color: white;
-	}
-
-	.cover-photo {
-		width: 100%;
-		padding-bottom: 40%;
-		background-size: cover;
-		background-position: center;
-	}
-
-	.meeting-title {
-		margin: 12px 0 8px;
-		display: flex;
-		align-items: center;
-		color: white;
-	}
-
-	.meeting-text {
-		scrollbar-width: thin;
-		color: white;
-		line-height: 1.6;
-	}
-
-	.meeting-text::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	.meeting-text {
-		min-height: 0;
-		flex-shrink: 1;
-	}
-
-	.meeting-text :global(h1),
-	.meeting-text :global(h2),
-	.meeting-text :global(h3) {
-		color: white;
-		margin-top: 1em;
-		margin-bottom: 0.5em;
-	}
-
-	.meeting-text :global(p) {
-		margin-bottom: 0.5em;
-	}
-
-	.meeting-text :global(a) {
-		color: white;
-		text-decoration: underline;
-	}
-
-	.meeting-text :global(strong) {
-		font-weight: 600;
-		color: white;
-	}
-
-	.meeting-footer {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 4px;
-		color: white;
-	}
-
-	.meeting-footer > p {
-		padding: 4px;
-		margin: 2px -4px;
-	}
-
-	.external-link {
-		margin-right: 10px;
-	}
-
-	.meeting-footer strong {
-		font-weight: 600;
-	}
-
-	.meeting-status {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		background-color: rgba(0, 0, 0, 0.6);
-		color: white;
-		padding: 4px 12px;
-		border-radius: 20px;
-		font-size: 0.85rem;
-		font-weight: 500;
-		z-index: 1;
-	}
-
-	.future-meeting {
-		border: 2px solid #2ecc71;
-	}
-
-	.future-meeting .meeting-status {
-		background-color: rgba(46, 204, 113, 0.4);
-	}
-
-	.past-meeting {
-		opacity: 1;
-	}
-
-	.past-meeting .meeting-status {
-		background-color: rgba(0, 0, 0, 0.4);
-	}
-</style>
