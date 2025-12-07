@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { renderMarkdown } from '$lib/utils/markdown';
+
 	type Information = {
 		id: string;
 		title: string;
@@ -8,27 +10,28 @@
 	};
 
 	let { information }: { information: Information } = $props();
+
+	const descriptionHtml = $derived(renderMarkdown(information.description));
 </script>
 
-<div class="information-container">
+<div class="flex flex-col md:flex-row-reverse justify-start mx-auto mb-10 max-w-4xl rounded-2xl shadow-lg overflow-hidden text-left min-h-0 flex-shrink opacity-[0.975] first:mt-12 bg-gradient-to-r from-[#9b4cbb] via-[#9d4db9] via-[#a14ec2] to-[#ab52cb]">
 	{#if information.photo}
-		<div class="information-photo">
-			<img class="information-image" src={information.photo} alt={information.title} />
+		<div class="w-full md:max-w-[40%] h-auto">
+			<img class="w-full h-full object-cover" src={information.photo} alt={information.title} />
 		</div>
 	{/if}
 
-	<div class="information">
+	<div class="flex flex-col min-h-0 flex-shrink w-full md:min-w-[60%] text-base">
 		<component
 			this={information.link ? 'a' : 'span'}
 			href={information.link ?? undefined}
 			target={information.link ? '_blank' : undefined}
 			rel={information.link ? 'noopener noreferrer' : undefined}
-			class="information-title"
+			class="my-3 mb-2 flex items-center text-white px-4 md:px-6"
 		>
 			{#if information.link}
 				<svg
-					class="external-link"
-					style="height: 26px; margin-right: 10px"
+					class="h-[26px] mr-2.5 flex-shrink-0"
 					viewBox="0 0 24 24"
 					fill="white"
 					xmlns="http://www.w3.org/2000/svg"
@@ -43,94 +46,11 @@
 					/>
 				</svg>
 			{/if}
-			<h2>{information.title}</h2>
+			<h2 class="inline text-xl md:text-2xl m-0 text-white">{information.title}</h2>
 		</component>
 
-		<p class="information-text">{information.description}</p>
+		<div class="min-h-0 flex-shrink px-4 md:px-6 pb-4 md:pb-0 prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-white prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-white/80 prose-ul:text-white prose-ol:text-white prose-li:text-white prose-blockquote:text-white prose-blockquote:border-white/30">
+			{@html descriptionHtml}
+		</div>
 	</div>
 </div>
-
-<style>
-	.information-container {
-		background: linear-gradient(
-			90deg,
-			#9b4cbb 0%,
-			#9d4db9 24%,
-			#a14ec2 32%,
-			#ab52cb 100%
-		);
-		opacity: 0.975;
-		border-radius: 15px;
-		display: flex;
-		flex-direction: row-reverse;
-		justify-content: flex-start;
-		margin: 0 auto 40px auto;
-		max-width: 1000px;
-		box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.15);
-		padding-bottom: 0;
-		overflow: hidden;
-		text-align: left;
-		min-height: 0;
-		flex-shrink: 1;
-	}
-
-	.information-container:first-of-type {
-		margin-top: 50px;
-	}
-
-	.information {
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-		flex-shrink: 1;
-		min-width: 60%;
-		font-size: 1rem;
-	}
-
-	.information > * {
-		padding: 0 24px;
-	}
-
-
-	.information h2 {
-		display: inline;
-		font-size: 1.5rem;
-		margin: 0;
-		color: white;
-	}
-
-	.information-photo {
-		max-width: 40%;
-		height: auto;
-	}
-
-	.information-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.information-title {
-		margin: 12px 0 8px;
-		display: flex;
-		align-items: center;
-		color: white;
-	}
-
-	.information-text {
-		scrollbar-width: thin;
-		min-height: 0;
-		flex-shrink: 1;
-		color: white;
-		line-height: 1.6;
-	}
-
-	.information-text::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	.external-link {
-		margin-right: 10px;
-	}
-
-</style>

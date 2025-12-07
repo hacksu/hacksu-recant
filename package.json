@@ -17,8 +17,8 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-        "prod:build": "svelte-kit sync && bunx --bun vite build",
-        "prod:start": "bunx drizzle-kit migrate && bun ./build/index.js"
+		"prod:build": "svelte-kit sync && bunx --bun vite build",
+		"prod:start": "bunx drizzle-kit migrate && bun ./build/index.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -31,6 +31,9 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.17",
+		"@types/dompurify": "^3.2.0",
+		"@types/jsdom": "^27.0.0",
+		"@types/marked": "^6.0.0",
 		"@types/node": "^22",
 		"drizzle-orm": "^0.44.7",
 		"eslint": "^9.39.1",
@@ -51,8 +54,11 @@
 		"@lucia-auth/adapter-drizzle": "^1.1.0",
 		"@node-rs/argon2": "^2.0.2",
 		"arctic": "^3.7.0",
+		"dompurify": "^3.3.0",
 		"drizzle-kit": "^0.31.7",
+		"jsdom": "^27.2.0",
 		"lucia": "^3.2.2",
+		"marked": "^17.0.1",
 		"postgres": "^3.4.7"
 	}
 }
