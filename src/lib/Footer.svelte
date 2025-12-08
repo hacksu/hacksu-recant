@@ -7,15 +7,19 @@
 	const socialLinks = [
 		{
 			name: 'Instagram',
-			href: 'https://www.instagram.com/hacksu/'
+			href: 'https://www.instagram.com/hacksu/',
+            icon: instagramIcon,
+
 		},
 		{
 			name: 'GitHub',
-			href: 'https://github.com/hacksu'
+			href: 'https://github.com/hacksu',
+            icon: githubIcon,
 		},
 		{
 			name: 'Discord',
-			href: 'https://discord.gg/rJDdvnt'
+			href: 'https://discord.gg/rJDdvnt',
+            icon: discordIcon,
 		}
 	];
 </script>
@@ -30,13 +34,7 @@
 				class="text-white hover:text-hacksu-green transition-colors duration-200"
 				aria-label={link.name}
 			>
-				{#if link.name === 'Instagram'}
-					<img src={instagramIcon} alt="Discord" class="w-8 h-8 icon-white" />
-				{:else if link.name === 'GitHub'}
-					<img src={githubIcon} alt="Discord" class="w-8 h-8 icon-white" />
-				{:else if link.name === 'Discord'}
-					<img src={discordIcon} alt="Discord" class="w-8 h-8 icon-white" />
-				{/if}
+					<img src={link.icon} alt={link.name} class="w-8 h-8 icon-white" />
 			</a>
 		{/each}
 	</div>
