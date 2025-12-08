@@ -33,111 +33,149 @@
 	}
 </script>
 
-<div class="contact-page">
+<div class="min-h-screen bg-gray-50">
 	<!-- Top Section with Wavy Background -->
-	<div class="wavy-section">
-		<div class="wavy-bg"></div>
-		<div class="cards-container">
+	<div class="relative py-20 px-5 md:px-5 md:py-20 overflow-hidden">
+		<div
+			class="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-br from-hacksu-blue to-hacksu-green z-0"
+			style="clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%)"
+		></div>
+		<div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mt-10">
 			<!-- Email Card -->
-			<div class="contact-card">
-				<div class="icon-circle">
-					<img src={mailIcon} alt="Email" class="icon" />
+			<div
+				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+			>
+				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
+					<img src={mailIcon} alt="Email" class="w-10 h-10" />
 				</div>
-				<h3 class="card-title">Email Us</h3>
-				<p class="card-description">Send us an email and we'll get back to you within 24 hours</p>
-				<a href="mailto:hacksu@cs.kent.edu" class="card-link">hacksu@cs.kent.edu</a>
+				<h3 class="text-2xl font-bold text-gray-900 mb-3">Email Us</h3>
+				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
+					Send us an email and we'll get back to you within 24 hours
+				</p>
+				<a
+					href="mailto:hacksu@cs.kent.edu"
+					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
+				>
+					hacksu@cs.kent.edu
+				</a>
 			</div>
 
 			<!-- Discord Card -->
-			<div class="contact-card">
-				<div class="icon-circle">
-					<img src={discordIcon} alt="Discord" class="icon" />
+			<div
+				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+			>
+				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
+					<img src={discordIcon} alt="Discord" class="w-10 h-10" />
 				</div>
-				<h3 class="card-title">Join Our Discord</h3>
-				<p class="card-description">Get instant help and connect with our community</p>
-				<a href="https://discord.gg/rJDdvnt" target="_blank" rel="noopener noreferrer" class="card-link"
-					>Join Discord Server</a
+				<h3 class="text-2xl font-bold text-gray-900 mb-3">Join Our Discord</h3>
+				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
+					Get instant help and connect with our community
+				</p>
+				<a
+					href="https://discord.gg/rJDdvnt"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
 				>
+					Join Discord Server
+				</a>
 			</div>
 
 			<!-- GitHub Card -->
-			<div class="contact-card">
-				<div class="icon-circle">
-					<img src={githubIcon} alt="Github" class="icon" />
+			<div
+				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+			>
+				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
+					<img src={githubIcon} alt="Github" class="w-10 h-10" />
 				</div>
-				<h3 class="card-title">Follow Us</h3>
-				<p class="card-description">Check out our projects and contributions</p>
-				<a href="https://github.com/hacksu" target="_blank" rel="noopener noreferrer" class="card-link"
-					>GitHub</a
+				<h3 class="text-2xl font-bold text-gray-900 mb-3">Follow Us</h3>
+				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
+					Check out our projects and contributions
+				</p>
+				<a
+					href="https://github.com/hacksu"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
 				>
+					GitHub
+				</a>
 			</div>
 		</div>
 	</div>
 
 	<!-- Contact Form Section -->
-	<div class="form-section">
-		<div class="form-container">
-			<h2 class="form-title">Send us a Message</h2>
-			<form onsubmit={handleSubmit} class="contact-form">
-				<div class="form-group">
-					<label for="name" class="form-label">Your Name</label>
+	<div class="py-16 md:py-20 px-5 max-w-4xl mx-auto">
+		<div class="bg-white rounded-2xl p-8 md:p-12 shadow-md">
+			<h2 class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-10">Send us a Message</h2>
+			<form onsubmit={handleSubmit} class="flex flex-col gap-6">
+				<div class="flex flex-col gap-2">
+					<label for="name" class="font-medium text-gray-900 text-sm">Your Name</label>
 					<input
 						type="text"
 						id="name"
 						name="name"
 						required
 						bind:value={name}
-						class="form-input"
+						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
 						placeholder="Enter your name"
 					/>
 				</div>
 
-				<div class="form-group">
-					<label for="email" class="form-label">Your Email</label>
+				<div class="flex flex-col gap-2">
+					<label for="email" class="font-medium text-gray-900 text-sm">Your Email</label>
 					<input
 						type="email"
 						id="email"
 						name="email"
 						required
 						bind:value={email}
-						class="form-input"
+						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
 						placeholder="Enter your email"
 					/>
 				</div>
 
-				<div class="form-group">
-					<label for="subject" class="form-label">Subject</label>
+				<div class="flex flex-col gap-2">
+					<label for="subject" class="font-medium text-gray-900 text-sm">Subject</label>
 					<input
 						type="text"
 						id="subject"
 						name="subject"
 						required
 						bind:value={subject}
-						class="form-input"
+						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
 						placeholder="Enter subject"
 					/>
 				</div>
 
-				<div class="form-group">
-					<label for="message" class="form-label">Message</label>
+				<div class="flex flex-col gap-2">
+					<label for="message" class="font-medium text-gray-900 text-sm">Message</label>
 					<textarea
 						id="message"
 						name="message"
 						required
 						bind:value={message}
-						class="form-textarea"
+						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none resize-y min-h-[120px]"
 						rows="6"
 						placeholder="Enter your message"
 					></textarea>
 				</div>
 
 				{#if submitStatus === 'success'}
-					<div class="form-message success">Message sent successfully!</div>
+					<div class="px-4 py-3 rounded-lg text-center font-medium bg-green-100 text-green-800 border border-green-200">
+						Message sent successfully!
+					</div>
 				{:else if submitStatus === 'error'}
-					<div class="form-message error">Failed to send message. Please try again.</div>
+					<div class="px-4 py-3 rounded-lg text-center font-medium bg-red-100 text-red-800 border border-red-200">
+						Failed to send message. Please try again.
+					</div>
 				{/if}
 
-				<button type="submit" disabled={isSubmitting} class="submit-button">
+				<button
+					type="submit"
+					disabled={isSubmitting}
+					class="bg-hacksu-blue hover:bg-[#3570e6] text-white px-8 py-3.5 border-none rounded-lg text-base font-semibold cursor-pointer transition-colors self-center mt-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
+				>
 					{isSubmitting ? 'Sending...' : 'Send Message'}
 				</button>
 			</form>
@@ -145,218 +183,3 @@
 	</div>
 </div>
 
-<style>
-	.contact-page {
-		min-height: 100vh;
-		background: #f5f7fa;
-	}
-
-	.wavy-section {
-		position: relative;
-		padding: 80px 20px 60px;
-		overflow: hidden;
-	}
-
-	.wavy-bg {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 200px;
-		background: linear-gradient(135deg, #4683ff 0%, #35c982 100%);
-		clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
-		z-index: 0;
-	}
-
-	.cards-container {
-		position: relative;
-		z-index: 1;
-		max-width: 1200px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 30px;
-		margin-top: 40px;
-	}
-
-	.contact-card {
-		background: white;
-		border-radius: 16px;
-		padding: 40px 30px;
-		text-align: center;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-
-	.contact-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-	}
-
-	.icon-circle {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		background: #4683ff;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 0 auto 20px;
-	}
-
-	.icon {
-		width: 40px;
-		height: 40px;
-	}
-
-	.icon-circle .icon {
-		color: white;
-	}
-
-	.card-title {
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #1a1a1a;
-		margin-bottom: 12px;
-	}
-
-	.card-description {
-		color: #666;
-		font-size: 0.95rem;
-		line-height: 1.6;
-		margin-bottom: 20px;
-	}
-
-	.card-link {
-		color: #4683ff;
-		text-decoration: none;
-		font-weight: 500;
-		transition: color 0.2s ease;
-	}
-
-	.card-link:hover {
-		color: #35c982;
-		text-decoration: underline;
-	}
-
-	.form-section {
-		padding: 60px 20px;
-		max-width: 800px;
-		margin: 0 auto;
-	}
-
-	.form-container {
-		background: white;
-		border-radius: 16px;
-		padding: 50px 40px;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
-
-	.form-title {
-		font-size: 2rem;
-		font-weight: bold;
-		color: #1a1a1a;
-		text-align: center;
-		margin-bottom: 40px;
-	}
-
-	.contact-form {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-
-	.form-label {
-		font-weight: 500;
-		color: #1a1a1a;
-		font-size: 0.95rem;
-	}
-
-	.form-input,
-	.form-textarea {
-		padding: 12px 16px;
-		border: 2px solid #e0e0e0;
-		border-radius: 8px;
-		font-size: 1rem;
-		font-family: inherit;
-		transition: border-color 0.2s ease;
-	}
-
-	.form-input:focus,
-	.form-textarea:focus {
-		outline: none;
-		border-color: #4683ff;
-	}
-
-	.form-textarea {
-		resize: vertical;
-		min-height: 120px;
-	}
-
-	.submit-button {
-		background: #4683ff;
-		color: white;
-		padding: 14px 32px;
-		border: none;
-		border-radius: 8px;
-		font-size: 1rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition: background 0.2s ease;
-		align-self: center;
-		margin-top: 10px;
-	}
-
-	.submit-button:hover:not(:disabled) {
-		background: #3570e6;
-	}
-
-	.submit-button:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-
-	.form-message {
-		padding: 12px 16px;
-		border-radius: 8px;
-		text-align: center;
-		font-weight: 500;
-	}
-
-	.form-message.success {
-		background: #d4edda;
-		color: #155724;
-		border: 1px solid #c3e6cb;
-	}
-
-	.form-message.error {
-		background: #f8d7da;
-		color: #721c24;
-		border: 1px solid #f5c6cb;
-	}
-
-	@media (max-width: 768px) {
-		.cards-container {
-			grid-template-columns: 1fr;
-			gap: 20px;
-		}
-
-		.wavy-section {
-			padding: 60px 15px 40px;
-		}
-
-		.form-container {
-			padding: 30px 20px;
-		}
-
-		.form-title {
-			font-size: 1.5rem;
-		}
-	}
-</style>
