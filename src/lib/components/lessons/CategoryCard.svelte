@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { getTechnologyIconUrl } from '../../lessons/iconify';
+	import { getTechnologyIconUrlAsync } from '../../lessons/iconify';
+	import { onMount } from 'svelte';
 
 	let { category, lessonCount }: { category: string; lessonCount: number } = $props();
 
 	const displayCategory = $derived(category.charAt(0).toUpperCase() + category.slice(1));
 
-	const iconUrl = $derived.by(() => {
-		return getTechnologyIconUrl(category);
+	let iconUrl = $state<string | null>(null);
+
+	onMount(async () => {
+		iconUrl = await getTechnologyIconUrlAsync(category);
 	});
 
 	const initials = $derived.by(() => {
