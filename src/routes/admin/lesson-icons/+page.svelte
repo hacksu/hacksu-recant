@@ -53,9 +53,10 @@
 
 			<div class="p-6 flex flex-col gap-4 flex-1">
 				<div class="flex flex-col gap-2">
-					<label class="text-gray-700 font-medium text-sm">Category Name</label>
+					<label class="text-gray-700 font-medium text-sm" for="new-category-name">Category Name</label>
 					<input
 						type="text"
+						id="new-category-name"
 						bind:value={newCategoryName}
 						class="px-3 py-2 border border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none placeholder:text-gray-400"
 						placeholder="e.g., react, python, docker"
@@ -63,9 +64,10 @@
 				</div>
 
 				<div class="flex flex-col gap-2">
-					<label class="text-gray-700 font-medium text-sm">Iconify ID</label>
+					<label class="text-gray-700 font-medium text-sm" for="new-iconify-id">Iconify ID</label>
 					<input
 						type="text"
+						id="new-iconify-id"
 						bind:value={newIconifyId}
 						class="px-3 py-2 border border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none placeholder:text-gray-400"
 						placeholder="e.g., logos:react, logos:python"
@@ -142,9 +144,10 @@
 
 				<div class="p-6 flex flex-col gap-4 flex-1">
 					<div class="flex flex-col gap-2">
-						<label class="text-gray-700 font-medium text-sm">Category Name</label>
+						<label class="text-gray-700 font-medium text-sm" for={`category-${icon.categoryName}`}>Category Name</label>
 						<input
 							type="text"
+							id={`category-${icon.categoryName}`}
 							value={icon.categoryName}
 							disabled
 							class="px-3 py-2 border border-gray-300 rounded-lg text-base bg-gray-50 cursor-not-allowed"
@@ -152,9 +155,10 @@
 					</div>
 
 					<div class="flex flex-col gap-2">
-						<label class="text-gray-700 font-medium text-sm">Iconify ID</label>
+						<label class="text-gray-700 font-medium text-sm" for={`iconify-${icon.categoryName}`}>Iconify ID</label>
 						<input
 							type="text"
+							id={`iconify-${icon.categoryName}`}
 							bind:value={editingIcons[icon.categoryName]}
 							class="px-3 py-2 border border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
 							placeholder="e.g., logos:react, logos:python"

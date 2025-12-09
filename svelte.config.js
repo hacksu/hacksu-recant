@@ -8,6 +8,11 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter(),
+		alias: {
+			'@': 'src',
+			'@lib': 'src/lib',
+			'@routes': 'src/routes'
+		},
 		csrf: {
 			trustedOrigins: ['*'] // Allow all origins - useful when running behind a proxy or in Docker (eventaually I need to make this correct with hacksu.com and dev.hacksu.com)
 		},

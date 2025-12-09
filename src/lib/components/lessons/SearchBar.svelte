@@ -1,7 +1,11 @@
 <script lang="ts">
 	let { value, onInput }: { value: string; onInput: (value: string) => void } = $props();
 
-	let searchValue = $state(value || '');
+let searchValue = $state('');
+
+$effect(() => {
+	searchValue = value || '';
+});
 
 	function handleInput(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -27,7 +31,7 @@
 		type="text"
 		class="w-full py-4 pl-12 pr-4 bg-white/10 border border-white/20 rounded-full text-white text-base outline-none transition-all duration-300 backdrop-blur-md placeholder:text-white/50 focus:bg-white/15 focus:border-white/40 focus:shadow-lg focus:shadow-black/20"
 		placeholder="Search lessons by title or tags..."
-		value={searchValue}
+		bind:value={searchValue}
 		oninput={handleInput}
 	/>
 </div>

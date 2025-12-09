@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import type { LessonRepo } from '../../api/lessons/repos/+server';
+	import type { LessonRepo } from '@routes/api/lessons/repos/+server';
 	import {
 		buildCategoryTree,
 		getItemsAtPath,
@@ -169,9 +169,9 @@
 					{:else}
 						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 							{#each filteredLessons as lesson}
-								<div onclick={() => navigateToLesson(lesson)}>
+								<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
 									<LessonCard {lesson} />
-								</div>
+								</button>
 							{/each}
 						</div>
 					{/if}
@@ -192,18 +192,22 @@
 										{@const subTreePath = [...currentPath, sectionName, category]}
 										{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
 										{@const count = subTree ? countLessonsInCategory(subTree) : 0}
-										<div onclick={() => navigateToCategoryInSection(category, sectionName)}>
+										<button
+											type="button"
+											class="w-full text-left"
+											onclick={() => navigateToCategoryInSection(category, sectionName)}
+										>
 											<CategoryCard category={category} lessonCount={count} />
-										</div>
+										</button>
 									{/each}
 								</div>
 							{/if}
 							{#if sectionItems.lessons.length > 0}
 								<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 									{#each sectionItems.lessons as lesson}
-										<div onclick={() => navigateToLesson(lesson)}>
+										<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
 											<LessonCard {lesson} />
-										</div>
+										</button>
 									{/each}
 								</div>
 							{/if}
@@ -216,9 +220,9 @@
 					{#if lessonsBySubcategory.directLessons.length > 0}
 						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 							{#each lessonsBySubcategory.directLessons as lesson}
-								<div onclick={() => navigateToLesson(lesson)}>
+								<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
 									<LessonCard {lesson} />
-								</div>
+								</button>
 							{/each}
 						</div>
 					{/if}
@@ -229,11 +233,11 @@
 								{group.name.charAt(0).toUpperCase() + group.name.slice(1)}
 							</h2>
 							<div class="h-px bg-white/30 mb-6"></div>
-							<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:grid-cols-1 gap-6 max-w-[1200px]">
+							<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-[1200px]">
 								{#each group.lessons as lesson}
-									<div onclick={() => navigateToLesson(lesson)}>
+									<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
 										<LessonCard {lesson} />
-									</div>
+									</button>
 								{/each}
 							</div>
 						</div>
@@ -245,18 +249,18 @@
 							{@const subTreePath = [...currentPath, category]}
 							{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
 							{@const count = subTree ? countLessonsInCategory(subTree) : 0}
-							<div onclick={() => navigateToCategory(category)}>
+							<button type="button" class="w-full text-left" onclick={() => navigateToCategory(category)}>
 								<CategoryCard {category} lessonCount={count} />
-							</div>
+							</button>
 						{/each}
 					</div>
 				{:else}
 					<!-- Show lessons directly if no categories -->
-					<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:grid-cols-1 gap-6 mt-8 max-w-[1200px]">
+					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 						{#each groupedItems.lessons as lesson}
-							<div onclick={() => navigateToLesson(lesson)}>
+							<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
 								<LessonCard {lesson} />
-							</div>
+							</button>
 						{/each}
 					</div>
 				{/if}

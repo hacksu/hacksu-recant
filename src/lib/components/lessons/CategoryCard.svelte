@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTechnologyIconUrlAsync } from '../../lessons/iconify';
+	import { getTechnologyIconUrlAsync } from '$lib/lessons/iconify';
 	import { onMount } from 'svelte';
 
 	let { category, lessonCount }: { category: string; lessonCount: number } = $props();
@@ -25,8 +25,8 @@
 	role="button"
 	tabindex="0"
 >
-	<div class="flex flex-col items-center w-full h-full p-7 gap-4 overflow-hidden box-border">
-		<div class="w-20 h-20 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
+	<div class="flex flex-col items-center w-full h-full p-9 gap-4 overflow-hidden box-border">
+		<div class="w-20 h-20 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden px-2">
 			{#if iconUrl}
 				<img src={iconUrl} alt={category} class="w-full h-full object-contain" />
 			{:else if initials}
