@@ -305,7 +305,7 @@
 
 	/* Print: only show the hotcard and position for printing */
 	@media print {
-		body * {
+		:global(body *) {
 			visibility: hidden;
 		}
 

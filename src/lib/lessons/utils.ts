@@ -1,4 +1,4 @@
-import type { LessonRepo } from '../../routes/api/lessons/repos/+server';
+import type { LessonRepo } from '@routes/api/lessons/repos/+server';
 
 export interface ParsedTopic {
 	name: string;

@@ -25,12 +25,13 @@
     }
     
     const routes: Route[] = [
-        {href:'/', img:hacksuLogo, alt:"Hacksu", pos:"center"},
-        {href:'/',text:"Home",pos:"left"},
-        {href:'/leadership',text:"Leadership",pos:"left"},
-        {href:'/meetings',text:"Meetings",pos:"left"},
-        {href:'/info',text:"Resources",pos:"right"},
-        {href:'/contact',text:"Contact",pos:"right"},
+        {href:'/',           img:hacksuLogo, alt:"Hacksu", pos:"center"},
+        {href:'/',           text:"Home",                  pos:"left"},
+        {href:'/leadership', text:"Leadership",            pos:"left"},
+        {href:'/lessons',    text:"Lessons",               pos:"right"},
+        {href:'/meetings',   text:"Meetings",              pos:"left"},
+        {href:'/info',       text:"Resources",             pos:"right"},
+        {href:'/contact',    text:"Contact",               pos:"right"},
     ]
 
     // Get all non-center routes for mobile menu

@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { LessonRepo } from '../../../routes/api/lessons/repos/+server';
-import { getTechnologyIconUrl } from '../../lessons/iconify';
+import type { LessonRepo } from '@routes/api/lessons/repos/+server';
+import { getTechnologyIconUrl } from '$lib/lessons/iconify';
 
 let { lesson }: { lesson: LessonRepo } = $props();
 

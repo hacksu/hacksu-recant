@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTechnologyIconUrlAsync } from '../../lessons/iconify';
+	import { getTechnologyIconUrlAsync } from '$lib/lessons/iconify';
 	import { onMount } from 'svelte';
 
 	let { category, lessonCount }: { category: string; lessonCount: number } = $props();
