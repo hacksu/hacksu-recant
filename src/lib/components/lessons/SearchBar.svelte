@@ -10,9 +10,9 @@
 	}
 </script>
 
-<div class="search-container">
+<div class="relative w-full max-w-[600px] mx-auto mb-8">
 	<svg
-		class="search-icon"
+		class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none"
 		viewBox="0 0 24 24"
 		fill="none"
 		stroke="currentColor"
@@ -25,54 +25,11 @@
 	</svg>
 	<input
 		type="text"
-		class="search-input"
+		class="w-full py-4 pl-12 pr-4 bg-white/10 border border-white/20 rounded-full text-white text-base outline-none transition-all duration-300 backdrop-blur-md placeholder:text-white/50 focus:bg-white/15 focus:border-white/40 focus:shadow-lg focus:shadow-black/20"
 		placeholder="Search lessons by title or tags..."
 		value={searchValue}
 		oninput={handleInput}
 	/>
 </div>
-
-<style>
-	.search-container {
-		position: relative;
-		width: 100%;
-		max-width: 600px;
-		margin: 0 auto 2rem;
-	}
-
-	.search-icon {
-		position: absolute;
-		left: 1rem;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 1.25rem;
-		height: 1.25rem;
-		color: rgba(255, 255, 255, 0.6);
-		pointer-events: none;
-	}
-
-	.search-input {
-		width: 100%;
-		padding: 1rem 1rem 1rem 3rem;
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 50px;
-		color: white;
-		font-size: 1rem;
-		outline: none;
-		transition: all 0.3s;
-		backdrop-filter: blur(10px);
-	}
-
-	.search-input::placeholder {
-		color: rgba(255, 255, 255, 0.5);
-	}
-
-	.search-input:focus {
-		background: rgba(255, 255, 255, 0.15);
-		border-color: rgba(255, 255, 255, 0.4);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	}
-</style>
 
 

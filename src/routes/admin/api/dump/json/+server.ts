@@ -126,10 +126,10 @@ export const POST: RequestHandler = async (event) => {
 			// Use createdAt as fallback if date is null (for legacy data)
 			const date = parseDate(row.date) || parseDate(row.createdAt) || new Date();
 			return {
-				...row,
+			...row,
 				date,
-				createdAt: parseDate(row.createdAt),
-				updatedAt: parseDate(row.updatedAt)
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
 			};
 		});
 		await db.insert(notes).values(rows);

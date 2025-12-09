@@ -13,61 +13,22 @@
 	}
 </script>
 
-<nav class="breadcrumbs">
-	<button class="breadcrumb-item" onclick={() => navigateToPath(-1)}>Lessons</button>
+<nav class="flex items-center flex-wrap gap-2 mb-8">
+	<button
+		class="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white text-sm cursor-pointer transition-all duration-200 capitalize hover:bg-white/20 hover:-translate-y-px"
+		onclick={() => navigateToPath(-1)}
+	>
+		Lessons
+	</button>
 	{#each path as segment, index}
-		<span class="breadcrumb-separator">/</span>
+		<span class="text-white/60 text-sm">/</span>
 		<button
-			class="breadcrumb-item"
-			class:current={index === path.length - 1}
+			class="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white text-sm cursor-pointer transition-all duration-200 capitalize hover:bg-white/20 hover:-translate-y-px {index === path.length - 1 ? 'bg-white/20 font-bold cursor-default hover:translate-y-0' : ''}"
 			onclick={() => navigateToPath(index)}
 		>
 			{segment.charAt(0).toUpperCase() + segment.slice(1)}
 		</button>
 	{/each}
 </nav>
-
-<style>
-	.breadcrumbs {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-bottom: 2rem;
-	}
-
-	.breadcrumb-item {
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.5rem 1rem;
-		color: white;
-		font-size: 0.875rem;
-		cursor: pointer;
-		transition: all 0.2s;
-		text-transform: capitalize;
-		border: none;
-	}
-
-	.breadcrumb-item:hover {
-		background: rgba(255, 255, 255, 0.2);
-		transform: translateY(-1px);
-	}
-
-	.breadcrumb-item.current {
-		background: rgba(255, 255, 255, 0.2);
-		font-weight: bold;
-		cursor: default;
-	}
-
-	.breadcrumb-item.current:hover {
-		transform: none;
-	}
-
-	.breadcrumb-separator {
-		color: rgba(255, 255, 255, 0.6);
-		font-size: 0.875rem;
-	}
-</style>
 
 

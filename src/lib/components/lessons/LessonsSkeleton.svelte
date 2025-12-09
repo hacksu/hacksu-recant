@@ -2,180 +2,35 @@
 	// Skeleton loader for the lessons page
 </script>
 
-<div class="lessons-page">
-	<div class="lessons-container">
-		<h1 class="page-title skeleton-title">HacKSU Lessons</h1>
-		<p class="subtitle skeleton-subtitle">Loading lessons...</p>
+<div class="bg-gradient-to-tl from-[#35c982] to-[#4683ff] min-h-screen p-8 md:p-4">
+	<div class="max-w-[1200px] mx-auto">
+		<h1 class="text-center text-white text-5xl md:text-3xl font-bold my-8 opacity-90">HacKSU Lessons</h1>
+		<p class="text-center text-white/70 text-xl mb-8">Loading lessons...</p>
 
 		<!-- Search bar skeleton -->
-		<div class="search-skeleton">
-			<div class="skeleton-search-bar"></div>
+		<div class="w-full max-w-[600px] mx-auto mb-8">
+			<div class="w-full h-14 bg-white/10 rounded-full animate-pulse"></div>
 		</div>
 
-
-		<div class="skeleton-grid">
-			{#each Array(5) as _}
-				<div class="skeleton-card">
-					<div class="skeleton-card-header">
-						<div class="skeleton-line skeleton-title-line"></div>
-						<div class="skeleton-badge"></div>
+		<div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:grid-cols-1 gap-6 mt-8">
+			{#each Array(5) as _, i}
+				<div
+					class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-6 backdrop-blur-md flex flex-col gap-4"
+				>
+					<div class="flex justify-between items-start gap-4">
+						<div class="h-6 w-3/5 bg-white/20 rounded animate-pulse" style="animation-delay: {i * 0.1}s;"></div>
+						<div class="h-7 w-[60px] bg-white/20 rounded-xl animate-pulse" style="animation-delay: {i * 0.1 + 0.1}s;"></div>
 					</div>
-					<div class="skeleton-line skeleton-description-line"></div>
-					<div class="skeleton-line skeleton-description-line-short"></div>
-					<div class="skeleton-card-footer">
-						<div class="skeleton-line skeleton-footer-line"></div>
-						<div class="skeleton-line skeleton-footer-line-short"></div>
+					<div class="h-4 w-full bg-white/15 rounded animate-pulse" style="animation-delay: {i * 0.1 + 0.2}s;"></div>
+					<div class="h-4 w-3/4 bg-white/15 rounded animate-pulse" style="animation-delay: {i * 0.1 + 0.3}s;"></div>
+					<div class="flex justify-between items-center pt-2 border-t border-white/10">
+						<div class="h-3.5 w-[100px] bg-white/15 rounded animate-pulse" style="animation-delay: {i * 0.1 + 0.4}s;"></div>
+						<div class="h-3.5 w-20 bg-white/15 rounded animate-pulse" style="animation-delay: {i * 0.1 + 0.5}s;"></div>
 					</div>
 				</div>
 			{/each}
 		</div>
 	</div>
 </div>
-
-<style>
-	.lessons-page {
-		background: linear-gradient(to top left, #35c982, #4683ff);
-		min-height: 100vh;
-		padding: 2rem;
-	}
-
-	.lessons-container {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
-
-	.skeleton-title {
-		text-align: center;
-		color: white;
-		font-size: 3rem;
-		font-weight: bold;
-		margin: 2rem 0 1rem;
-		opacity: 0.9;
-	}
-
-	.skeleton-subtitle {
-		text-align: center;
-		color: rgba(255, 255, 255, 0.7);
-		font-size: 1.25rem;
-		margin-bottom: 2rem;
-	}
-
-	.search-skeleton {
-		width: 100%;
-		max-width: 600px;
-		margin: 0 auto 2rem;
-	}
-
-	.skeleton-search-bar {
-		width: 100%;
-		height: 3.5rem;
-		background: rgba(255, 255, 255, 0.1);
-		border-radius: 50px;
-		animation: pulse 1.5s ease-in-out infinite;
-	}
-
-	.skeleton-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin-top: 2rem;
-	}
-
-	.skeleton-card {
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 15px;
-		padding: 1.5rem;
-		backdrop-filter: blur(10px);
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.skeleton-card-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		gap: 1rem;
-	}
-
-	.skeleton-title-line {
-		height: 1.5rem;
-		width: 60%;
-		background: rgba(255, 255, 255, 0.2);
-		border-radius: 4px;
-		animation: pulse 1.5s ease-in-out infinite;
-	}
-
-	.skeleton-badge {
-		height: 1.75rem;
-		width: 60px;
-		background: rgba(255, 255, 255, 0.2);
-		border-radius: 12px;
-		animation: pulse 1.5s ease-in-out infinite;
-		animation-delay: 0.1s;
-	}
-
-	.skeleton-line {
-		height: 1rem;
-		background: rgba(255, 255, 255, 0.15);
-		border-radius: 4px;
-		animation: pulse 1.5s ease-in-out infinite;
-	}
-
-	.skeleton-description-line {
-		width: 100%;
-		animation-delay: 0.2s;
-	}
-
-	.skeleton-description-line-short {
-		width: 75%;
-		animation-delay: 0.3s;
-	}
-
-	.skeleton-card-footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding-top: 0.5rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
-	.skeleton-footer-line {
-		width: 100px;
-		height: 0.875rem;
-		animation-delay: 0.4s;
-	}
-
-	.skeleton-footer-line-short {
-		width: 80px;
-		height: 0.875rem;
-		animation-delay: 0.5s;
-	}
-
-	@keyframes pulse {
-		0%,
-		100% {
-			opacity: 1;
-		}
-		50% {
-			opacity: 0.5;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.lessons-page {
-			padding: 1rem;
-		}
-
-		.skeleton-title {
-			font-size: 2rem;
-		}
-
-		.skeleton-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>
 
 

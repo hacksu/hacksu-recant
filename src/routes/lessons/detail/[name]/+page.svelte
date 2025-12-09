@@ -14,185 +14,51 @@ const repoUrl = $derived(`https://github.com/hacksu/${repoName}`);
 	}
 </script>
 
-<div class="lesson-detail-page">
-	<div class="lesson-detail-container">
-		<button class="back-button" onclick={goBack}>← Back to Lessons</button>
+<div class="bg-gradient-to-tl from-[#35c982] to-[#4683ff] min-h-screen p-8 md:p-4">
+	<div class="max-w-[900px] mx-auto">
+		<button
+			class="bg-white/10 border border-white/20 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 backdrop-blur-md mb-8 hover:bg-white/20 hover:-translate-x-1"
+			onclick={goBack}
+		>
+			← Back to Lessons
+		</button>
 
 		{#if error}
-			<div class="error-state">
-				<h1>Error Loading Lesson</h1>
-				<p>{error}</p>
-				<button class="retry-button" onclick={goBack}>Go Back</button>
+			<div class="flex flex-col items-center justify-center min-h-[60vh] text-white text-center">
+				<h1 class="text-3xl mb-4">Error Loading Lesson</h1>
+				<p class="text-lg mb-6">{error}</p>
+				<button
+					class="bg-white/20 border border-white/30 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 hover:bg-white/30"
+					onclick={goBack}
+				>
+					Go Back
+				</button>
 			</div>
 		{:else if !readme}
-			<div class="loading-state">
-				<div class="spinner"></div>
+			<div class="flex flex-col items-center justify-center min-h-[60vh] text-white text-center">
+				<div
+					class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mb-4"
+				></div>
 				<p>Loading lesson content...</p>
 			</div>
 		{:else}
-			<div class="lesson-content">
-				<div class="lesson-header">
-					<h1 class="lesson-title">{repoName}</h1>
-					<a class="github-link" href={repoUrl} target="_blank" rel="noopener noreferrer">
+			<div class="bg-white/95 rounded-2xl p-12 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+				<div class="flex items-center justify-between gap-4 flex-wrap mb-8">
+					<h1 class="text-4xl md:text-3xl font-bold m-0 text-[#142027] capitalize">{repoName}</h1>
+					<a
+						class="text-[#4683ff] font-bold no-underline border border-[rgba(70,131,255,0.2)] px-3.5 py-2 rounded-[10px] bg-[rgba(70,131,255,0.08)] transition-all duration-200 ease-in-out hover:bg-[rgba(70,131,255,0.14)] hover:border-[rgba(70,131,255,0.35)] hover:-translate-y-px"
+						href={repoUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						View on GitHub →
 					</a>
 				</div>
-				<pre class="readme-content">{readme}</pre>
+				<pre
+					class="text-[#333] leading-relaxed font-mono text-sm whitespace-pre-wrap break-words bg-[#f8f9fa] p-6 rounded-lg border border-[#e0e0e0] overflow-x-auto max-h-[70vh] overflow-y-auto"
+				>{readme}</pre>
 			</div>
 		{/if}
 	</div>
 </div>
-
-<style>
-	.lesson-detail-page {
-		background: linear-gradient(to top left, #35c982, #4683ff);
-		min-height: 100vh;
-		padding: 2rem;
-	}
-
-	.lesson-detail-container {
-		max-width: 900px;
-		margin: 0 auto;
-	}
-
-	.back-button {
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.75rem 1.5rem;
-		color: white;
-		font-size: 1rem;
-		cursor: pointer;
-		transition: all 0.2s;
-		backdrop-filter: blur(10px);
-		margin-bottom: 2rem;
-	}
-
-	.back-button:hover {
-		background: rgba(255, 255, 255, 0.2);
-		transform: translateX(-3px);
-	}
-
-	.lesson-content {
-		background: rgba(255, 255, 255, 0.95);
-		border-radius: 15px;
-		padding: 3rem;
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-	}
-
-	.lesson-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
-
-	.lesson-title {
-		font-size: 2.5rem;
-		font-weight: bold;
-		margin: 0 0 2rem 0;
-		color: #142027;
-		text-transform: capitalize;
-	}
-
-	.github-link {
-		color: #4683ff;
-		font-weight: 700;
-		text-decoration: none;
-		border: 1px solid rgba(70, 131, 255, 0.2);
-		padding: 0.5rem 0.85rem;
-		border-radius: 10px;
-		background: rgba(70, 131, 255, 0.08);
-		transition: all 0.2s ease;
-	}
-
-	.github-link:hover {
-		background: rgba(70, 131, 255, 0.14);
-		border-color: rgba(70, 131, 255, 0.35);
-		transform: translateY(-1px);
-	}
-
-	.readme-content {
-		color: #333;
-		line-height: 1.6;
-		font-family: 'Courier New', monospace;
-		font-size: 0.9rem;
-		white-space: pre-wrap;
-		word-wrap: break-word;
-		background: #f8f9fa;
-		padding: 1.5rem;
-		border-radius: 8px;
-		border: 1px solid #e0e0e0;
-		overflow-x: auto;
-		max-height: 70vh;
-		overflow-y: auto;
-	}
-
-	.loading-state,
-	.error-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 60vh;
-		color: white;
-		text-align: center;
-	}
-
-	.error-state h1 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-	}
-
-	.error-state p {
-		font-size: 1.125rem;
-		margin-bottom: 1.5rem;
-	}
-
-	.retry-button {
-		background: rgba(255, 255, 255, 0.2);
-		border: 1px solid rgba(255, 255, 255, 0.3);
-		border-radius: 8px;
-		padding: 0.75rem 1.5rem;
-		color: white;
-		font-size: 1rem;
-		cursor: pointer;
-		transition: all 0.2s;
-	}
-
-	.retry-button:hover {
-		background: rgba(255, 255, 255, 0.3);
-	}
-
-	.spinner {
-		width: 50px;
-		height: 50px;
-		border: 4px solid rgba(255, 255, 255, 0.3);
-		border-top-color: white;
-		border-radius: 50%;
-		animation: spin 1s linear infinite;
-		margin-bottom: 1rem;
-	}
-
-	@keyframes spin {
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@media (max-width: 768px) {
-		.lesson-detail-page {
-			padding: 1rem;
-		}
-
-		.lesson-content {
-			padding: 1.5rem;
-		}
-
-		.lesson-title {
-			font-size: 2rem;
-		}
-	}
-</style>
 

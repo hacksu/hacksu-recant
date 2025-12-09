@@ -21,7 +21,7 @@
 </script>
 
 <div
-	class="bg-white rounded-2xl flex flex-col items-center justify-start relative w-full max-w-full min-h-[220px] shadow-md overflow-hidden text-center transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-1.5 hover:shadow-lg active:-translate-y-0.5"
+	class="bg-white rounded-2xl flex flex-col items-center justify-start relative min-h-[220px] shadow-md overflow-hidden text-center transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-1.5 hover:shadow-lg active:-translate-y-0.5"
 	role="button"
 	tabindex="0"
 >

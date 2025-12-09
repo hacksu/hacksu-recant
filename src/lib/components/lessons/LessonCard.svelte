@@ -69,7 +69,7 @@ const formatDate = (dateString: string): string => {
 </script>
 
 <div
-	class="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl flex flex-col justify-start relative w-full max-w-full min-h-[280px] shadow-lg overflow-hidden text-left transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:bg-white/20 active:-translate-y-0.5"
+	class="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-2xl flex flex-col justify-start relative min-h-[280px] shadow-lg overflow-hidden text-left transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:bg-white/20 active:-translate-y-0.5"
 	role="button"
 	tabindex="0"
 >

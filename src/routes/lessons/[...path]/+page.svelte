@@ -123,27 +123,32 @@
 	}
 </script>
 
-<div class="lessons-page">
+<div class="bg-gradient-to-tl from-[#35c982] to-[#4683ff] min-h-screen p-8 md:p-4">
 	{#if isLoading}
 		<LessonsSkeleton />
 	{:else if error}
-		<div class="error-state">
-			<h1>Error Loading Lessons</h1>
-			<p>{error}</p>
-			<p class="error-hint">
+		<div class="flex flex-col items-center justify-center min-h-[60vh] text-white text-center">
+			<h1 class="text-3xl mb-4">Error Loading Lessons</h1>
+			<p class="text-lg mb-2">{error}</p>
+			<p class="text-sm opacity-80 mt-4">
 				Please check that the GITHUB_TOKEN environment variable is set correctly.
 			</p>
 		</div>
 	{:else}
-		<div class="lessons-container">
+		<div class="max-w-[1200px] mx-auto relative">
 			{#if currentPath.length > 0}
-				<button class="back-button" onclick={goBack}>← Back</button>
+				<button
+					class="absolute top-0 left-0 md:relative md:mb-4 bg-white/10 border border-white/20 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 backdrop-blur-md mb-4 hover:bg-white/20 hover:-translate-x-1"
+					onclick={goBack}
+				>
+					← Back
+				</button>
 			{/if}
 
-			<h1 class="page-title">HacKSU Lessons</h1>
+			<h1 class="text-center text-white text-5xl md:text-3xl font-bold my-8">HacKSU Lessons</h1>
 
 			{#if !showSearchResults}
-				<p class="subtitle">
+				<p class="text-center text-white/90 text-xl mb-8">
 					{#if currentPath.length === 0}
 						Explore our collection of lessons organized by topic
 					{:else}
@@ -155,14 +160,14 @@
 			<SearchBar value={searchQuery} onInput={handleSearchInput} />
 
 			{#if showSearchResults}
-				<div class="search-results">
-					<h2 class="results-title">
+				<div class="mt-8">
+					<h2 class="text-white text-2xl mb-4">
 						{filteredLessons.length} result{filteredLessons.length !== 1 ? 's' : ''} found
 					</h2>
 					{#if filteredLessons.length === 0}
-						<p class="no-results">No lessons found matching "{searchQuery}"</p>
+						<p class="text-white/80 text-lg text-center py-8">No lessons found matching "{searchQuery}"</p>
 					{:else}
-						<div class="lessons-grid">
+						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 							{#each filteredLessons as lesson}
 								<div onclick={() => navigateToLesson(lesson)}>
 									<LessonCard {lesson} />
@@ -177,10 +182,12 @@
 				{#if currentPath.length === 1 && Object.keys(groupedBySections).length > 0}
 					<!-- At level 1 (e.g., /lessons/framework): Show level-2 as section headings, level-3 as folders -->
 					{#each Object.entries(groupedBySections) as [sectionName, sectionItems]}
-						<div class="subcategory-section">
-							<h2 class="section-heading">{sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}</h2>
+						<div class="mt-12 first:mt-0">
+							<h2 class="text-white text-3xl font-bold mb-6 capitalize">
+								{sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}
+							</h2>
 							{#if sectionItems.categories.length > 0}
-								<div class="categories-grid">
+								<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
 									{#each sectionItems.categories as category}
 										{@const subTreePath = [...currentPath, sectionName, category]}
 										{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
@@ -192,7 +199,7 @@
 								</div>
 							{/if}
 							{#if sectionItems.lessons.length > 0}
-								<div class="lessons-grid">
+								<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 									{#each sectionItems.lessons as lesson}
 										<div onclick={() => navigateToLesson(lesson)}>
 											<LessonCard {lesson} />
@@ -203,13 +210,11 @@
 						</div>
 					{/each}
 				{:else if groupedItems.categories.length === 0 && groupedItems.lessons.length === 0 && lessonsBySubcategory.directLessons.length === 0 && lessonsBySubcategory.subcategoryGroups.length === 0}
-					<div class="empty-state">
-						<p>No lessons found in this category.</p>
-					</div>
+					<div class="text-center text-white/80 text-lg py-12">No lessons found in this category.</div>
 				{:else if lessonsBySubcategory.subcategoryGroups.length > 0 || lessonsBySubcategory.directLessons.length > 0}
 					<!-- Show section headings with grouped lessons -->
 					{#if lessonsBySubcategory.directLessons.length > 0}
-						<div class="lessons-grid">
+						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
 							{#each lessonsBySubcategory.directLessons as lesson}
 								<div onclick={() => navigateToLesson(lesson)}>
 									<LessonCard {lesson} />
@@ -219,10 +224,12 @@
 					{/if}
 
 					{#each lessonsBySubcategory.subcategoryGroups as group}
-						<div class="subcategory-section">
-							<h2 class="section-heading">{group.name.charAt(0).toUpperCase() + group.name.slice(1)}</h2>
-							<div class="section-divider"></div>
-							<div class="lessons-grid">
+						<div class="mt-12 first:mt-0">
+							<h2 class="text-white text-3xl font-bold mb-2 capitalize">
+								{group.name.charAt(0).toUpperCase() + group.name.slice(1)}
+							</h2>
+							<div class="h-px bg-white/30 mb-6"></div>
+							<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:grid-cols-1 gap-6 max-w-[1200px]">
 								{#each group.lessons as lesson}
 									<div onclick={() => navigateToLesson(lesson)}>
 										<LessonCard {lesson} />
@@ -233,7 +240,7 @@
 					{/each}
 				{:else if groupedItems.categories.length > 0}
 					<!-- Show category cards if no subcategory grouping needed -->
-					<div class="categories-grid">
+					<div class="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-1 gap-6 mt-8">
 						{#each groupedItems.categories as category}
 							{@const subTreePath = [...currentPath, category]}
 							{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
@@ -245,7 +252,7 @@
 					</div>
 				{:else}
 					<!-- Show lessons directly if no categories -->
-					<div class="lessons-grid">
+					<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] md:grid-cols-1 gap-6 mt-8 max-w-[1200px]">
 						{#each groupedItems.lessons as lesson}
 							<div onclick={() => navigateToLesson(lesson)}>
 								<LessonCard {lesson} />
@@ -257,157 +264,4 @@
 		</div>
 	{/if}
 </div>
-
-<style>
-	.lessons-page {
-		background: linear-gradient(to top left, #35c982, #4683ff);
-		min-height: 100vh;
-		padding: 2rem;
-	}
-
-	.lessons-container {
-		max-width: 1200px;
-		margin: 0 auto;
-		position: relative;
-	}
-
-	.back-button {
-		position: absolute;
-		top: 0;
-		left: 0;
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.75rem 1.5rem;
-		color: white;
-		font-size: 1rem;
-		cursor: pointer;
-		transition: all 0.2s;
-		backdrop-filter: blur(10px);
-		margin-bottom: 1rem;
-	}
-
-	.back-button:hover {
-		background: rgba(255, 255, 255, 0.2);
-		transform: translateX(-3px);
-	}
-
-	.page-title {
-		text-align: center;
-		color: white;
-		font-size: 3rem;
-		font-weight: bold;
-		margin: 2rem 0 1rem;
-	}
-
-	.subtitle {
-		text-align: center;
-		color: rgba(255, 255, 255, 0.9);
-		font-size: 1.25rem;
-		margin-bottom: 2rem;
-	}
-
-	.categories-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-		gap: 1.5rem;
-		margin-top: 2rem;
-	}
-
-	.lessons-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 1.5rem;
-		margin-top: 2rem;
-		max-width: 1200px;
-	}
-
-	.search-results {
-		margin-top: 2rem;
-	}
-
-	.results-title {
-		color: white;
-		font-size: 1.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.no-results {
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 1.125rem;
-		text-align: center;
-		padding: 2rem;
-	}
-
-	.empty-state {
-		text-align: center;
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 1.125rem;
-		padding: 3rem;
-	}
-
-	.subcategory-section {
-		margin-top: 3rem;
-	}
-
-	.section-heading {
-		color: white;
-		font-size: 2rem;
-		font-weight: bold;
-		margin: 0 0 0.5rem 0;
-		text-transform: capitalize;
-	}
-
-	.section-divider {
-		height: 1px;
-		background: rgba(255, 255, 255, 0.3);
-		margin-bottom: 1.5rem;
-	}
-
-	.error-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 60vh;
-		color: white;
-		text-align: center;
-	}
-
-	.error-state h1 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-	}
-
-	.error-state p {
-		font-size: 1.125rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.error-hint {
-		font-size: 0.875rem;
-		opacity: 0.8;
-		margin-top: 1rem;
-	}
-
-	@media (max-width: 768px) {
-		.lessons-page {
-			padding: 1rem;
-		}
-
-		.page-title {
-			font-size: 2rem;
-		}
-
-		.categories-grid,
-		.lessons-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.back-button {
-			position: relative;
-			margin-bottom: 1rem;
-		}
-	}
-</style>
 
