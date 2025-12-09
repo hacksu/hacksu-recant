@@ -2,8 +2,6 @@ services:
   db:
     image: postgres:18-alpine
     restart: on-failure:5
-    ports:
-      - 5434:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -23,8 +21,6 @@ services:
     restart: on-failure:5
     env_file:
       - .env
-    ports:
-      - 3002:3000
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/hacksu
       NODE_ENV: production
