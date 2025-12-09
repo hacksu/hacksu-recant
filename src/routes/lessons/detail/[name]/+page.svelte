@@ -1,13 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
+	import { renderMarkdown } from '$lib/utils/markdown';
 
 	let { data }: { data: PageData } = $props();
 
 	const readme = $derived(data.readme);
 	const repoName = $derived(data.repoName);
 	const error = $derived(data.error);
-const repoUrl = $derived(`https://github.com/hacksu/${repoName}`);
+	const repoUrl = $derived(`https://github.com/hacksu/${repoName}`);
+	const readmeHtml = $derived(readme ? renderMarkdown(readme) : '');
 
 	function goBack() {
 		goto('/lessons');
@@ -54,9 +56,11 @@ const repoUrl = $derived(`https://github.com/hacksu/${repoName}`);
 						View on GitHub →
 					</a>
 				</div>
-				<pre
-					class="text-[#333] leading-relaxed font-mono text-sm whitespace-pre-wrap break-words bg-[#f8f9fa] p-6 rounded-lg border border-[#e0e0e0] overflow-x-auto max-h-[70vh] overflow-y-auto"
-				>{readme}</pre>
+				<div
+					class="prose prose-slate max-w-none prose-headings:text-[#142027] prose-a:text-[#4683ff] prose-a:no-underline hover:prose-a:underline prose-code:text-[#142027] prose-code:bg-[#f8f9fa] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#f8f9fa] prose-pre:border prose-pre:border-[#e0e0e0] prose-pre:rounded-lg prose-img:rounded-lg prose-img:shadow-md"
+				>
+					{@html readmeHtml}
+				</div>
 			</div>
 		{/if}
 	</div>
