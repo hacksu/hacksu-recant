@@ -16,6 +16,39 @@ services:
     networks:
       - app-network
 
+  redis:
+    image: redis:7-alpine
+    restart: on-failure:5
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  lessons-service:
+    build:
+      context: ./lessons-service
+      dockerfile: Dockerfile
+    restart: on-failure:5
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_ORG: ${GITHUB_ORG:-hacksu}
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+
   app:
     build: .
     restart: on-failure:5
@@ -23,11 +56,14 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/hacksu
+      REDIS_URL: redis://redis:6379
       NODE_ENV: production
     volumes:
       - uploads:/app/static/uploads
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - app-network
@@ -35,6 +71,7 @@ services:
 volumes:
   pgdata:
   uploads:
+  redisdata:
 
 networks:
   app-network:

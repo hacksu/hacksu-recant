@@ -84,3 +84,11 @@ export const information = pgTable('information', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
+// Lesson icon mappings for customizing category icons
+export const lessonIcons = pgTable('lesson_icons', {
+	categoryName: text('category_name').primaryKey(),
+	iconifyId: text('iconify_id').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+

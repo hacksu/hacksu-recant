@@ -31,6 +31,11 @@
 			title: 'Helpful Info',
 			href: '/admin/information',
 			description: 'Manage blocks shown on the /info page'
+		},
+		{
+			title: 'Lesson Icons',
+			href: '/admin/lesson-icons',
+			description: 'Manage icon mappings for lesson categories'
 		}
 	];
 </script>
