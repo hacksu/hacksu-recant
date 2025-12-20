@@ -83,6 +83,12 @@
 								Route
 							</th>
 							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								IP Address
+							</th>
+							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								User Agent
+							</th>
+							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 								Changes
 							</th>
 						</tr>
@@ -120,6 +126,22 @@
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
 									<code class="text-xs">{log.routePath}</code>
+								</td>
+								<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+									{#if log.ipAddress}
+										<code class="text-xs">{log.ipAddress}</code>
+									{:else}
+										<span class="text-gray-400">—</span>
+									{/if}
+								</td>
+								<td class="px-6 py-4 text-sm text-gray-600">
+									{#if log.userAgent}
+										<code class="text-xs" title={log.userAgent}>
+											{log.userAgent.length > 60 ? log.userAgent.substring(0, 60) + '...' : log.userAgent}
+										</code>
+									{:else}
+										<span class="text-gray-400">—</span>
+									{/if}
 								</td>
 								<td class="px-6 py-4 text-sm">
 									{#if hasChanges(log)}
