@@ -87,6 +87,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		await db.insert(adminSessions).values({
 			id: sessionId,
 			discordUserId: discordUser.id,
+			discordUsername: discordUser.username,
 			isAdmin: true,
 			createdAt: now,
 			expiresAt
