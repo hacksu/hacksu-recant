@@ -35,7 +35,7 @@
 		<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
 			<p class="text-gray-600 dark:text-gray-400 mb-2">No redirects configured yet.</p>
 			<p class="text-sm text-gray-500 dark:text-gray-500">
-				Create your first redirect to map a path like <code>/redir/abc</code> to an external URL.
+				Create your first redirect to map a path like <code>/r/abc</code> to an external URL.
 			</p>
 		</div>
 	{:else}
@@ -65,7 +65,7 @@
 					{#each redirects as redirect}
 						<tr>
 							<td class="px-4 py-3 text-sm font-mono text-gray-900 dark:text-white">
-								/redir/{redirect.slug}
+								/r/{redirect.slug}
 							</td>
 							<td class="px-4 py-3 text-sm text-blue-600 dark:text-blue-400 break-all">
 								{redirect.targetUrl}
@@ -96,7 +96,7 @@
 										action="/admin/redirects/{redirect.slug}/delete"
 										use:enhance={() => {
 											return ({ update }) => {
-												if (confirm(`Delete redirect /redir/${redirect.slug}?`)) {
+												if (confirm(`Delete redirect /r/${redirect.slug}?`)) {
 													return update();
 												}
 												return () => {};
