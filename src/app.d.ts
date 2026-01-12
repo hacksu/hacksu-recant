@@ -5,6 +5,13 @@ declare global {
 	namespace App {
 		interface Locals {
 			isAdmin?: boolean;
+			auditBeforeState?: Record<string, any> | null;
+			auditFormData?: Record<string, any> | null;
+			auditMapping?: {
+				resourceType: string;
+				resourceId: string | null;
+				action: string;
+			} | null;
 		}
 	}
 }

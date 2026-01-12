@@ -50,3 +50,47 @@ export async function requireAdmin(event: RequestEvent) {
 
 }
 
+// Get admin user info from session (for audit logging)
+// Returns the Discord user ID if authenticated, null otherwise
+export async function getAdminUser(event: RequestEvent): Promise<string | null> {
+	const sessionId = event.cookies.get('admin_session');
+
+	if (!sessionId) {
+		return null;
+	}
+
+	const now = new Date();
+
+	const session = await db.query.adminSessions.findFirst({
+		where: (session, { eq, and, gt }) =>
+			and(eq(session.id, sessionId), eq(session.isAdmin, true), gt(session.expiresAt, now))
+	});
+
+	return session?.discordUserId || null;
+}
+
+// Get admin user info including username from session (for audit logging)
+export async function getAdminUserInfo(event: RequestEvent): Promise<{ userId: string; username: string | null } | null> {
+	const sessionId = event.cookies.get('admin_session');
+
+	if (!sessionId) {
+		return null;
+	}
+
+	const now = new Date();
+
+	const session = await db.query.adminSessions.findFirst({
+		where: (session, { eq, and, gt }) =>
+			and(eq(session.id, sessionId), eq(session.isAdmin, true), gt(session.expiresAt, now))
+	});
+
+	if (!session) {
+		return null;
+	}
+
+	return {
+		userId: session.discordUserId,
+		username: session.discordUsername || null
+	};
+}
+

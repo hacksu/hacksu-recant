@@ -5,6 +5,7 @@ import { lessonIcons } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 import { eq } from 'drizzle-orm';
 
+
 export const PUT: RequestHandler = async (event) => {
 	await requireAdmin(event);
 

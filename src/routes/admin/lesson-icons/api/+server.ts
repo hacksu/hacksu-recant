@@ -4,6 +4,7 @@ import { db } from '$lib/server/db';
 import { lessonIcons } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 
+
 export const POST: RequestHandler = async (event) => {
 	await requireAdmin(event);
 
