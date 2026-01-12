@@ -21,7 +21,7 @@
 		<div>
 			<label for="slug" class="block text-sm font-medium mb-2">Slug *</label>
 			<div class="flex items-center gap-2">
-				<span class="text-gray-500 dark:text-gray-400 text-sm">/redir/</span>
+				<span class="text-gray-500 dark:text-gray-400 text-sm">/r/</span>
 				<input
 					type="text"
 					id="slug"

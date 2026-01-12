@@ -18,7 +18,7 @@
 			{#each redirects as redirect}
 				<li class="bg-white dark:bg-gray-800 rounded-lg shadow px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
 					<div>
-						<p class="font-mono text-sm text-gray-900 dark:text-white">/redir/{redirect.slug}</p>
+						<p class="font-mono text-sm text-gray-900 dark:text-white">/r/{redirect.slug}</p>
 						<p class="text-xs text-gray-500 dark:text-gray-400 break-all">{redirect.targetUrl}</p>
 					</div>
 					<a

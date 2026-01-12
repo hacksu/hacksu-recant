@@ -47,7 +47,7 @@ export const meetings = pgTable('meetings', {
 });
 
 // Redirects table
-// Supports short links like /redir/abc -> https://google.com
+// Supports short links like /r/abc -> https://google.com
 export const redirects = pgTable('redirects', {
 	slug: text('slug').primaryKey(),
 	targetUrl: text('target_url').notNull(),
