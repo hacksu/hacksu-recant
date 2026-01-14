@@ -7,7 +7,8 @@ export const load: PageServerLoad = async () => {
 		orderBy: (leadership, { desc, asc }) => [
 			desc(leadership.isCurrent),
 			desc(leadership.gradYear),
-			asc(leadership.gradTerm)
+			asc(leadership.gradTerm),
+			asc(leadership.sortOrder)
 		]
 	});
 
