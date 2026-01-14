@@ -122,6 +122,19 @@ export const emailTemplates = pgTable('email_templates', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
+// Uploaded files — admin file manager
+export const uploadedFiles = pgTable('uploaded_files', {
+	id: text('id').primaryKey(),
+	filename: text('filename').notNull(), // {uuid}-{sanitized-originalname} on disk
+	originalName: text('original_name').notNull(),
+	mimeType: text('mime_type').notNull(),
+	sizeBytes: integer('size_bytes').notNull(),
+	uploadedBy: text('uploaded_by').notNull(), // Discord user ID
+	accessCount: integer('access_count').notNull().default(0),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	deletedAt: timestamp('deleted_at', { withTimezone: true }) // soft delete
+});
+
 // Email drafts — work-in-progress emails with full state
 export const emailDrafts = pgTable('email_drafts', {
 	id: text('id').primaryKey(),

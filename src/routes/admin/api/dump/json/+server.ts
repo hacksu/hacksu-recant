@@ -1,14 +1,14 @@
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { adminSessions, location, leadership, meetings, redirects, notes, information, lessonIcons, emailTemplates, emailDrafts } from '$lib/server/db/schema';
+import { adminSessions, location, leadership, meetings, redirects, notes, information, lessonIcons, emailTemplates, emailDrafts, uploadedFiles } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 
 export const GET: RequestHandler = async (event) => {
 	await requireAdmin(event);
 
 	// Fetch everything we care about for backup/export
-	const [adminSessionsList, locationList, leadershipList, meetingsList, redirectsList, notesList, informationList, lessonIconsList, emailTemplatesList, emailDraftsList] =
+	const [adminSessionsList, locationList, leadershipList, meetingsList, redirectsList, notesList, informationList, lessonIconsList, emailTemplatesList, emailDraftsList, uploadedFilesList] =
 		await Promise.all([
 			// admin sessions (you may want to omit in some contexts, but exporting for now)
 			db.select().from(adminSessions),
@@ -29,7 +29,9 @@ export const GET: RequestHandler = async (event) => {
 			// email templates
 			db.select().from(emailTemplates),
 			// email drafts
-			db.select().from(emailDrafts)
+			db.select().from(emailDrafts),
+			// uploaded files (metadata only; binaries are handled by /admin/api/dump/assets)
+			db.select().from(uploadedFiles)
 		]);
 
 	return json({
@@ -44,7 +46,8 @@ export const GET: RequestHandler = async (event) => {
 		information: informationList,
 		lessonIcons: lessonIconsList,
 		emailTemplates: emailTemplatesList,
-		emailDrafts: emailDraftsList
+		emailDrafts: emailDraftsList,
+		uploadedFiles: uploadedFilesList
 	});
 };
 
@@ -64,7 +67,8 @@ export const POST: RequestHandler = async (event) => {
 		information: informationList = [],
 		lessonIcons: lessonIconsList = [],
 		emailTemplates: emailTemplatesList = [],
-		emailDrafts: emailDraftsList = []
+		emailDrafts: emailDraftsList = [],
+		uploadedFiles: uploadedFilesList = []
 	} = body ?? {};
 
 	// Naive restore strategy:
@@ -84,6 +88,7 @@ export const POST: RequestHandler = async (event) => {
 	await db.delete(lessonIcons);
 	await db.delete(emailTemplates);
 	await db.delete(emailDrafts);
+	await db.delete(uploadedFiles);
 
 	// Helper to parse ISO timestamp fields into Date instances
 	const parseDate = (value: unknown): Date | null => {
@@ -176,6 +181,14 @@ export const POST: RequestHandler = async (event) => {
 		}));
 		await db.insert(emailDrafts).values(rows);
 	}
+	if (Array.isArray(uploadedFilesList) && uploadedFilesList.length > 0) {
+		const rows = uploadedFilesList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			deletedAt: parseDate(row.deletedAt)
+		}));
+		await db.insert(uploadedFiles).values(rows);
+	}
 
 	return json({
 		ok: true,
@@ -190,7 +203,8 @@ export const POST: RequestHandler = async (event) => {
 			information: informationList.length ?? 0,
 			lessonIcons: lessonIconsList.length ?? 0,
 			emailTemplates: emailTemplatesList.length ?? 0,
-			emailDrafts: emailDraftsList.length ?? 0
+			emailDrafts: emailDraftsList.length ?? 0,
+			uploadedFiles: uploadedFilesList.length ?? 0
 		}
 	});
 };

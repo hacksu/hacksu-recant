@@ -10,7 +10,8 @@ import {
 	notes,
 	redirects,
 	location as locationTable,
-	lessonIcons
+	lessonIcons,
+	uploadedFiles
 } from './db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -22,6 +23,7 @@ type ResourceType =
 	| 'redirects'
 	| 'location'
 	| 'lesson-icons'
+	| 'uploaded-files'
 	| 'email';
 
 type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
@@ -150,6 +152,12 @@ const routeMappings: RouteMapping[] = [
 		resourceType: 'lesson-icons',
 		getResourceId: (pathname, params) => params.categoryName || pathname.split('/')[3] || null,
 		getTable: () => lessonIcons
+	},
+	{
+		pattern: /^\/admin\/files$/,
+		resourceType: 'uploaded-files',
+		getResourceId: () => null,
+		getTable: () => uploadedFiles
 	}
 ];
 
@@ -230,6 +238,10 @@ async function fetchResourceData(
 				});
 			} else if (resourceType === 'notes') {
 				result = await db.query.notes.findFirst({
+					where: eq(table.id, resourceId)
+				});
+			} else if (resourceType === 'uploaded-files') {
+				result = await db.query.uploadedFiles.findFirst({
 					where: eq(table.id, resourceId)
 				});
 			}
