@@ -39,6 +39,7 @@ export const actions: Actions = {
 		const photoFile = formData.get('photo') as File | null;
 		const titlesStr = formData.get('titles')?.toString();
 		const link = formData.get('link')?.toString() || null;
+		const sortOrder = formData.get('sortOrder');
 		const isCurrent = formData.get('isCurrent') === 'on';
 
 		// Validation
