@@ -134,13 +134,6 @@
       "when": 1768426400631,
       "tag": "0018_slow_mindworm",
       "breakpoints": true
-    },
-    {
-      "idx": 19,
-      "version": "7",
-      "when": 1768426422741,
-      "tag": "0019_curved_millenium_guard",
-      "breakpoints": true
     }
   ]
 }

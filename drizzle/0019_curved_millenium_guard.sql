@@ -1,1 +1,0 @@
-ALTER TABLE "leadership" ALTER COLUMN "sort_order" SET NOT NULL;
