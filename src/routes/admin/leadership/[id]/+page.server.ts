@@ -43,8 +43,8 @@ export const actions: Actions = {
 		const isCurrent = formData.get('isCurrent') === 'on';
 
 		// Validation
-		if (!name || !gradYearStr || !gradTerm || !titlesStr) {
-			return fail(400, { error: 'Name, graduation year, term, and titles are required' });
+		if (!name || !gradYearStr || !gradTerm || !titlesStr || !sortOrderStr) {
+			return fail(400, { error: 'Name, graduation year, term, sort order, and titles are required' });
 		}
 
 		const gradYear = parseInt(gradYearStr, 10);
