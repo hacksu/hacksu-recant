@@ -39,7 +39,7 @@ export const actions: Actions = {
 		const photoFile = formData.get('photo') as File | null;
 		const titlesStr = formData.get('titles')?.toString();
 		const link = formData.get('link')?.toString() || null;
-		const sortOrder = formData.get('sortOrder');
+		const sortOrderStr = formData.get('sortOrder')?.toString() || "1";
 		const isCurrent = formData.get('isCurrent') === 'on';
 
 		// Validation
@@ -63,6 +63,11 @@ export const actions: Actions = {
 
 		if (titles.length === 0) {
 			return fail(400, { error: 'At least one title is required' });
+		}
+
+		const sortOrder = parseInt(sortOrderStr, 10);
+		if (isNaN(sortOrder)) {
+			return fail(400, { error: 'Invalid sort order' });
 		}
 
 		let photoPath: string | null = null;
@@ -110,6 +115,7 @@ export const actions: Actions = {
 				photo?: string | null;
 				titles: string[];
 				link: string | null;
+				sortOrder: number;
 				isCurrent: boolean;
 			} = {
 				name,
@@ -118,6 +124,7 @@ export const actions: Actions = {
 				github,
 				titles,
 				link,
+				sortOrder,
 				isCurrent
 			};
 
