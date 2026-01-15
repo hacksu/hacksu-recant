@@ -93,11 +93,12 @@
 
 		<!--Sort Order-->
 		<div>
-			<label for="sortOrder" class="block text-sm font-medium mb-2">Name *</label>
+			<label for="sortOrder" class="block text-sm font-medium mb-2">Leadership Order *</label>
 			<input
 				type="number"
 				id="sortOrder"
 				name="sortOrder"
+				value={leader.sortOrder}
 				required
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>

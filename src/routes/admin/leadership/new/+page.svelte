@@ -93,7 +93,7 @@
 		
 		<!--Sort Order-->
 		<div>
-			<label for="sortOrder" class="block text-sm font-medium mb-2">Name *</label>
+			<label for="sortOrder" class="block text-sm font-medium mb-2">Leadership Order *</label>
 			<input
 				type="number"
 				id="sortOrder"
