@@ -1,0 +1,1 @@
+ALTER TABLE "leadership" ALTER COLUMN "sort_order" SET DEFAULT 9999;
