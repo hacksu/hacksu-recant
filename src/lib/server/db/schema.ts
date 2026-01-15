@@ -33,7 +33,7 @@ export const leadership = pgTable('leadership', {
 	photo: text('photo'), 
 	titles: text('titles').array().notNull(),
 	link: text('link'),
-	sortOrder: integer('sort_order').default(1),
+	sortOrder: integer('sort_order').default(999),
 	isCurrent: boolean('is_current').notNull().default(false)
 });
 
