@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	if (!slug) {
 		// No slug provided, just go to the listing page
-		throw svelteRedirect(302, '/redir');
+		throw svelteRedirect(302, '/r');
 	}
 
 	// Look up enabled redirect by slug
@@ -21,7 +21,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		// No such redirect (or disabled) — send to listing page with hint
 		const search = new URLSearchParams(url.searchParams);
 		search.set('missing', slug);
-		throw svelteRedirect(302, `/redir?${search.toString()}`);
+		throw svelteRedirect(302, `/r?${search.toString()}`);
 	}
 
 	// Best-effort increment of click counter; don't block the redirect on failure
