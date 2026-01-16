@@ -6,9 +6,9 @@ export const load: PageServerLoad = async () => {
 	const allLeaders = await db.query.leadership.findMany({
 		orderBy: (leadership, { desc, asc}) => [
 			desc(leadership.isCurrent),
+			asc(leadership.sortOrder),
 			desc(leadership.gradYear),
-			asc(leadership.gradTerm),
-			asc(leadership.sortOrder)
+			asc(leadership.gradTerm)
 		]
 	});
 
