@@ -11,6 +11,22 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>HacKSU - Kent State's Coding Club</title>
+	<meta name="description" content="HacKSU teaches anyone, regardless of skill level or major, how to code. Join us every Tuesday!" />
+	
+	<!-- Open Graph -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="HacKSU" />
+	<meta property="og:title" content="HacKSU - Kent State's Coding Club" />
+	<meta property="og:description" content="HacKSU teaches anyone, regardless of skill level or major, how to code. Join us every Tuesday!" />
+	<meta property="og:image" content="https://hacksu.com/social-preview.png" />
+	<meta property="og:url" content="https://hacksu.com" />
+	
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="HacKSU - Kent State's Coding Club" />
+	<meta name="twitter:description" content="HacKSU teaches anyone, regardless of skill level or major, how to code. Join us every Tuesday!" />
+	<meta name="twitter:image" content="https://hacksu.com/social-preview.png" />
 </svelte:head>
 
 {#if !hideChrome}
