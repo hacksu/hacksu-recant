@@ -23,7 +23,11 @@
 
 		<a 
 			href="/r/discord" 
+<<<<<<< HEAD
 			class="block w-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-center py-4 px-6 rounded-xl font-bold text-lg transition-colors duration-200"
+=======
+			class="block w-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-center py-4 px-6 rounded-xl font-bold text-lg transition-colors duration-200 shadow-lg"
+>>>>>>> 4740aec8a2509df872223163221a2447925f86a8
 		>
 			Join the Server
 		</a>
