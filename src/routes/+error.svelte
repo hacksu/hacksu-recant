@@ -20,7 +20,7 @@ import githubIcon from '$lib/assets/images/logos/github.svg';
 					Tell us that our website is broken :D
 				</p>
 				<a
-					href="https://discord.gg/rJDdvnt"
+					href="/r/discord"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
