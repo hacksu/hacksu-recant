@@ -1,0 +1,12 @@
+[project]
+name = "schedule-service"
+version = "0.1.0"
+description = "Kent State CS course schedule scraper"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "requests>=2.32.5",
+    "beautifulsoup4>=4.12.3",
+]

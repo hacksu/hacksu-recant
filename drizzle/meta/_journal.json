@@ -141,6 +141,13 @@
       "when": 1768495837007,
       "tag": "0019_tough_frightful_four",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1772330279963,
+      "tag": "0020_dizzy_spiral",
+      "breakpoints": true
     }
   ]
 }
