@@ -1,14 +1,14 @@
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { adminSessions, location, leadership, meetings, redirects, notes, information, lessonIcons } from '$lib/server/db/schema';
+import { adminSessions, location, leadership, meetings, redirects, notes, information, lessonIcons, emailTemplates, emailDrafts } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 
 export const GET: RequestHandler = async (event) => {
 	await requireAdmin(event);
 
 	// Fetch everything we care about for backup/export
-	const [adminSessionsList, locationList, leadershipList, meetingsList, redirectsList, notesList, informationList, lessonIconsList] =
+	const [adminSessionsList, locationList, leadershipList, meetingsList, redirectsList, notesList, informationList, lessonIconsList, emailTemplatesList, emailDraftsList] =
 		await Promise.all([
 			// admin sessions (you may want to omit in some contexts, but exporting for now)
 			db.select().from(adminSessions),
@@ -25,7 +25,11 @@ export const GET: RequestHandler = async (event) => {
 			// helpful information blocks
 			db.select().from(information),
 			// lesson icon mappings
-			db.select().from(lessonIcons)
+			db.select().from(lessonIcons),
+			// email templates
+			db.select().from(emailTemplates),
+			// email drafts
+			db.select().from(emailDrafts)
 		]);
 
 	return json({
@@ -38,7 +42,9 @@ export const GET: RequestHandler = async (event) => {
 		redirects: redirectsList,
 		notes: notesList,
 		information: informationList,
-		lessonIcons: lessonIconsList
+		lessonIcons: lessonIconsList,
+		emailTemplates: emailTemplatesList,
+		emailDrafts: emailDraftsList
 	});
 };
 
@@ -56,7 +62,9 @@ export const POST: RequestHandler = async (event) => {
 		redirects: redirectsList = [],
 		notes: notesList = [],
 		information: informationList = [],
-		lessonIcons: lessonIconsList = []
+		lessonIcons: lessonIconsList = [],
+		emailTemplates: emailTemplatesList = [],
+		emailDrafts: emailDraftsList = []
 	} = body ?? {};
 
 	// Naive restore strategy:
@@ -74,6 +82,8 @@ export const POST: RequestHandler = async (event) => {
 	await db.delete(notes);
 	await db.delete(information);
 	await db.delete(lessonIcons);
+	await db.delete(emailTemplates);
+	await db.delete(emailDrafts);
 
 	// Helper to parse ISO timestamp fields into Date instances
 	const parseDate = (value: unknown): Date | null => {
@@ -150,6 +160,22 @@ export const POST: RequestHandler = async (event) => {
 		}));
 		await db.insert(lessonIcons).values(rows);
 	}
+	if (Array.isArray(emailTemplatesList) && emailTemplatesList.length > 0) {
+		const rows = emailTemplatesList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(emailTemplates).values(rows);
+	}
+	if (Array.isArray(emailDraftsList) && emailDraftsList.length > 0) {
+		const rows = emailDraftsList.map((row: any) => ({
+			...row,
+			createdAt: parseDate(row.createdAt),
+			updatedAt: parseDate(row.updatedAt)
+		}));
+		await db.insert(emailDrafts).values(rows);
+	}
 
 	return json({
 		ok: true,
@@ -162,7 +188,9 @@ export const POST: RequestHandler = async (event) => {
 			redirects: redirectsList.length ?? 0,
 			notes: notesList.length ?? 0,
 			information: informationList.length ?? 0,
-			lessonIcons: lessonIconsList.length ?? 0
+			lessonIcons: lessonIconsList.length ?? 0,
+			emailTemplates: emailTemplatesList.length ?? 0,
+			emailDrafts: emailDraftsList.length ?? 0
 		}
 	});
 };
