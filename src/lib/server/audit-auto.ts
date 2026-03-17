@@ -14,14 +14,15 @@ import {
 } from './db/schema';
 import { eq } from 'drizzle-orm';
 
-type ResourceType = 
-	| 'information' 
-	| 'leadership' 
-	| 'meetings' 
-	| 'notes' 
-	| 'redirects' 
-	| 'location' 
-	| 'lesson-icons';
+type ResourceType =
+	| 'information'
+	| 'leadership'
+	| 'meetings'
+	| 'notes'
+	| 'redirects'
+	| 'location'
+	| 'lesson-icons'
+	| 'email';
 
 type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
 

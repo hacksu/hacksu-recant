@@ -5,14 +5,15 @@ import { randomUUID } from 'crypto';
 import { getAdminUser } from './admin';
 
 export type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
-export type ResourceType = 
-	| 'information' 
-	| 'leadership' 
-	| 'meetings' 
-	| 'notes' 
-	| 'redirects' 
-	| 'location' 
-	| 'lesson-icons';
+export type ResourceType =
+	| 'information'
+	| 'leadership'
+	| 'meetings'
+	| 'notes'
+	| 'redirects'
+	| 'location'
+	| 'lesson-icons'
+	| 'email';
 
 interface AuditLogOptions {
 	action: AuditAction;

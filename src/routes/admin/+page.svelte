@@ -38,6 +38,11 @@
 			description: 'Manage icon mappings for lesson categories'
 		},
 		{
+			title: 'Email Console',
+			href: '/admin/email',
+			description: 'Compose and send emails to members'
+		},
+		{
 			title: 'Audit Log',
 			href: '/admin/audit-log',
 			description: 'View all admin actions and changes'

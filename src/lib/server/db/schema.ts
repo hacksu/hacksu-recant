@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, integer } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean, integer, jsonb } from 'drizzle-orm/pg-core';
 
 // Simple table to track admin sessions issued after Discord auth.
 // The cookie will contain the `id` value; all validation happens server-side.
@@ -108,5 +108,35 @@ export const adminAuditLog = pgTable('admin_audit_log', {
 	ipAddress: text('ip_address'),
 	userAgent: text('user_agent'),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+// Email templates — saved named templates for reuse
+export const emailTemplates = pgTable('email_templates', {
+	id: text('id').primaryKey(),
+	name: text('name').notNull(),
+	subject: text('subject').notNull(),
+	body: text('body').notNull(),
+	// [{ name: string, type: 'single' | 'list' }]
+	variableNames: jsonb('variable_names').notNull().default([]),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+// Email drafts — work-in-progress emails with full state
+export const emailDrafts = pgTable('email_drafts', {
+	id: text('id').primaryKey(),
+	name: text('name').notNull(),
+	subject: text('subject').notNull().default(''),
+	body: text('body').notNull().default(''),
+	toAddresses: text('to_addresses').array().notNull().default([]),
+	ccAddresses: text('cc_addresses').array().notNull().default([]),
+	bccAddresses: text('bcc_addresses').array().notNull().default([]),
+	fromName: text('from_name').notNull().default(''),
+	// { [varName: string]: string | string[] }
+	sharedVariables: jsonb('shared_variables').notNull().default({}),
+	// { [varName: string]: string[] } — positionally aligned to toAddresses
+	recipientVariables: jsonb('recipient_variables').notNull().default({}),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
