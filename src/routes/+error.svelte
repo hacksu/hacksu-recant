@@ -2,9 +2,11 @@
 <script lang="ts">
 import discordIcon from '$lib/assets/images/logos/discord.svg';
 import githubIcon from '$lib/assets/images/logos/github.svg';
+import hackedsuLogo from '$lib/assets/images/HackedSU.png'
 </script>
 
 <div class="h-screen bg-hacksu-grey">
+    <img src={hackedsuLogo} alt="Discord" class="justify-self-center flex h-50" />
     <h1 class="text-4xl text-center md:text-5xl font-bold text-gray-900 dark:text-white mb-4 pt-8">Oops!</h1>
     <p class="text-center text-white/90 text-xl mb-8">You ended up somewhere that does not exist! Our team of CS students are hopefully working to fix that! In the mean time maybe one of these will help?</p>
     <div class="grid grid-cols-2 grid-rows-1 gap-8 pr-4 pl-4">
