@@ -53,6 +53,6 @@ import hackedsuLogo from '$lib/assets/images/HackedSU.png'
 			</div>
     </div>
     <p class="text-center text-zinc-600 text-sm absolute inset-x-0 bottom-0">Or click 
-     <a class="text-center text-blue-300 text-sm" href="hacksu.com">here</a>
+     <a class="text-center text-blue-300 text-sm" href="/">here</a>
      to go back to our homepage</p>
 </div>
