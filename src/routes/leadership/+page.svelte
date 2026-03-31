@@ -22,6 +22,12 @@
 		const target = event.target as HTMLImageElement;
 		target.src = favicon;
 	}
+
+	function getLink(leader: typeof data.currentLeaders[0]): string | null {
+		if (leader.link) return leader.link;
+		if (leader.github) return `https://github.com/${leader.github}`;
+		return null;
+	}
 </script>
 
 <div class="min-h-screen bg-white dark:bg-gray-900">
@@ -45,12 +51,23 @@
 				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
 					{#each currentLeaders as leader}
 						<div class="flex flex-col items-center text-center">
-							<img
-								src={getPhotoUrl(leader)}
-								alt={leader.name}
-								class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
-								onerror={handleImageError}
-							/>
+							{#if getLink(leader)}
+								<a href={getLink(leader)} target="_blank" rel="noopener noreferrer">
+									<img
+										src={getPhotoUrl(leader)}
+										alt={leader.name}
+										class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity"
+										onerror={handleImageError}
+									/>
+								</a>
+							{:else}
+								<img
+									src={getPhotoUrl(leader)}
+									alt={leader.name}
+									class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
+									onerror={handleImageError}
+								/>
+							{/if}
 							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
 								{leader.name}
 							</h3>
@@ -76,12 +93,23 @@
 						<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
 							{#each leadersByTerm[term] as leader}
 								<div class="flex flex-col items-center text-center">
-									<img
-										src={getPhotoUrl(leader)}
-										alt={leader.name}
-										class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
-										onerror={handleImageError}
-									/>
+									{#if getLink(leader)}
+										<a href={getLink(leader)} target="_blank" rel="noopener noreferrer">
+											<img
+												src={getPhotoUrl(leader)}
+												alt={leader.name}
+												class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity"
+												onerror={handleImageError}
+											/>
+										</a>
+									{:else}
+										<img
+											src={getPhotoUrl(leader)}
+											alt={leader.name}
+											class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
+											onerror={handleImageError}
+										/>
+									{/if}
 									<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
 										{leader.name}
 									</h3>
