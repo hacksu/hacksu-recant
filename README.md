@@ -14,28 +14,9 @@ You can run it without production configuration locally, but it is generally not
 
 You will need a `.env` file. This file should contain all of the variables in the `.env.example` file at the root of the project correctly filled out.
 
-The below might not be maintained, use the `.env.example` for correct information
-```env
-DATABASE_URL=postgresql://hacksu:hacksu@db:5432/hacksu
+Use `.env.example` as a template, copy it to `.env` and fill in real values. Generate passwords for `POSTGRES_PASSWORD` and `REDIS_PASSWORD` with `openssl rand -hex 32`, and make sure `DATABASE_URL` uses the same password as `POSTGRES_PASSWORD`.
 
-SESSION_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-SENDGRID_TOKEN=SG.X.X
-
-DISCORD_ROLES=X Y Z
-DISCORD_CLIENT_ID=XXXXX
-DISCORD_GUILD_ID=XXXXX
-DISCORD_CLIENT_SECRET=XXXXX
-
-BODY_SIZE_LIMIT=20M
-
-GITHUB_TOKEN=github_pat_X_X
-
-PUBLIC_APP_URL=http://localhost:3000
-```
-
-The `REDIS_URL` is automatically configured in Docker Compose to connect to the Redis service. For local development outside Docker, you may need to set it manually.
-
-I am configuring a couple of the variables in the compose file because they are unimportant and don't require security: `REDIS_URL`, `GITHUB_ORG` which is modifiable, but defaults to `hacksu`, `DATABASE_URL` but I also configured that on the server in case we ever need to expose it, and `NODE_ENV`, which we are not really using.
+`REDIS_URL` and `NODE_ENV` are set automatically in `compose.yaml` and do not need to be in `.env`.
 
 To make changes on the admin side, go to the `/admin` route, and login with Discord. If you have acceptable roles, (organizer, core, leader) this will authenticate you.
 
@@ -53,7 +34,7 @@ For local testing you will also want a `compose.override.yaml`
 services:
   app:
     ports:
-      - 3000:3000
+      - "127.0.0.1:3000:3000"
 ```
 
 The ports are important. This will allow you to access the port internal to the container externally. Take care not to push this file to a deployment, as it will conflict and tie up an actual port from the HacKSU server.(It is in the `.gitignore`, so it would take some effort)

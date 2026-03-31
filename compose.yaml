@@ -2,10 +2,8 @@ services:
   db:
     image: postgres:18-alpine
     restart: on-failure:5
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: hacksu
+    env_file:
+      - .env
     volumes:
       - pgdata:/var/lib/postgresql
     healthcheck:
@@ -21,9 +19,9 @@ services:
     restart: on-failure:5
     volumes:
       - redisdata:/data
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,7 +36,7 @@ services:
     env_file:
       - .env
     environment:
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_ORG: ${GITHUB_ORG:-hacksu}
     depends_on:
@@ -53,8 +51,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/hacksu
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
       NODE_ENV: production
     volumes:
       - uploads:/app/static/uploads
