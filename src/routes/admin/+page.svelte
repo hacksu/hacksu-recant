@@ -23,9 +23,9 @@
 			description: 'Create and manage short redirect links'
 		},
 		{
-			title: 'Admin Notes',
+			title: 'Meeting Checklist',
 			href: '/admin/notes',
-			description: 'Internal notes for admins only'
+			description: 'Meeting checklist items'
 		},
 		{
 			title: 'Helpful Info',
@@ -79,7 +79,9 @@
 					class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 p-6 border border-gray-200 dark:border-gray-700 hover:border-hacksu-green/50"
 				>
 					<div class="flex-1 min-w-0">
-						<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-hacksu-green transition-colors">
+						<h3
+							class="text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-hacksu-green transition-colors"
+						>
 							{action.title}
 						</h3>
 						<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">

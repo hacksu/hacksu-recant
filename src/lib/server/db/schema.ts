@@ -14,11 +14,11 @@ export const adminSessions = pgTable('admin_sessions', {
 // Location information table
 export const location = pgTable('location', {
 	id: text('id').primaryKey().default('current'),
-	time: text('time').notNull(), 
+	time: text('time').notNull(),
 	buildingRoom: text('building_room').notNull(),
 	buildingSelector: text('building_selector').notNull(),
 	buildingUrl: text('building_url').notNull(),
-	body: text('body'), 
+	body: text('body'),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
@@ -28,9 +28,9 @@ export const leadership = pgTable('leadership', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	gradYear: integer('grad_year').notNull(),
-	gradTerm: text('grad_term').notNull(), 
-	github: text('github'), 
-	photo: text('photo'), 
+	gradTerm: text('grad_term').notNull(),
+	github: text('github'),
+	photo: text('photo'),
 	titles: text('titles').array().notNull(),
 	link: text('link'),
 	sortOrder: integer('sort_order').default(9999),
@@ -71,6 +71,15 @@ export const notes = pgTable('notes', {
 	tags: text('tags'),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+// Shared admin meeting checklist.
+export const checklistItems = pgTable('checklist_items', {
+	id: text('id').primaryKey(),
+	item: text('item').notNull(),
+	body: text('body'),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	checkedAt: timestamp('checked_at', { withTimezone: true })
 });
 
 // General information blocks for /info page
@@ -152,4 +161,3 @@ export const emailDrafts = pgTable('email_drafts', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
-
