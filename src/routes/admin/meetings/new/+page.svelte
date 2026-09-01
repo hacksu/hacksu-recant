@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import favicon from '$lib/assets/images/favicon.svg';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
 	let photoPreview: string | null = null;
 	let photoFile: File | null = null;
+	let defaultDateTime = $state('');
 
 	function getPhotoUrl(): string {
 		if (photoPreview) {
@@ -33,17 +35,23 @@
 		target.src = favicon;
 	}
 
-	// Get current date/time in local timezone for datetime-local input
-	function getCurrentDateTimeLocal(): string {
-		const now = new Date();
-		// Convert to local timezone and format for datetime-local input
-		const year = now.getFullYear();
-		const month = String(now.getMonth() + 1).padStart(2, '0');
-		const day = String(now.getDate()).padStart(2, '0');
-		const hours = String(now.getHours()).padStart(2, '0');
-		const minutes = String(now.getMinutes()).padStart(2, '0');
-		return `${year}-${month}-${day}T${hours}:${minutes}`;
+	function getNextTuesdayAtSevenLocal(): string {
+		const date = new Date();
+		const daysUntilTuesday = (2 - date.getDay() + 7) % 7;
+		const useFollowingTuesday = daysUntilTuesday === 0 && date.getHours() >= 19;
+
+		date.setDate(date.getDate() + (useFollowingTuesday ? 7 : daysUntilTuesday));
+		date.setHours(19, 0, 0, 0);
+
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}T19:00`;
 	}
+
+	onMount(() => {
+		defaultDateTime = getNextTuesdayAtSevenLocal();
+	});
 </script>
 
 <div class="container mx-auto px-4 py-8 max-w-2xl">
@@ -99,7 +107,7 @@
 				id="date"
 				name="date"
 				required
-				value={getCurrentDateTimeLocal()}
+				value={defaultDateTime}
 				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
 			/>
 		</div>
@@ -130,7 +138,9 @@
 
 		<!-- Description (Markdown) -->
 		<div>
-			<label for="descriptionMD" class="block text-sm font-medium mb-2">Description (Markdown)</label>
+			<label for="descriptionMD" class="block text-sm font-medium mb-2"
+				>Description (Markdown)</label
+			>
 			<textarea
 				id="descriptionMD"
 				name="descriptionMD"
