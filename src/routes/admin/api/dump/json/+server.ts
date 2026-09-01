@@ -1,47 +1,74 @@
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { adminSessions, location, leadership, meetings, redirects, notes, information, lessonIcons, emailTemplates, emailDrafts, uploadedFiles } from '$lib/server/db/schema';
+import {
+	adminSessions,
+	checklistItems,
+	location,
+	leadership,
+	meetings,
+	redirects,
+	notes,
+	information,
+	lessonIcons,
+	emailTemplates,
+	emailDrafts,
+	uploadedFiles
+} from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 
 export const GET: RequestHandler = async (event) => {
 	await requireAdmin(event);
 
 	// Fetch everything we care about for backup/export
-	const [adminSessionsList, locationList, leadershipList, meetingsList, redirectsList, notesList, informationList, lessonIconsList, emailTemplatesList, emailDraftsList, uploadedFilesList] =
-		await Promise.all([
-			// admin sessions (you may want to omit in some contexts, but exporting for now)
-			db.select().from(adminSessions),
-			// there is usually only one location row
-			db.select().from(location),
-			// leadership and terms
-			db.select().from(leadership),
-			// meetings
-			db.select().from(meetings),
-			// redirects
-			db.select().from(redirects),
-			// admin notes
-			db.select().from(notes),
-			// helpful information blocks
-			db.select().from(information),
-			// lesson icon mappings
-			db.select().from(lessonIcons),
-			// email templates
-			db.select().from(emailTemplates),
-			// email drafts
-			db.select().from(emailDrafts),
-			// uploaded files (metadata only; binaries are handled by /admin/api/dump/assets)
-			db.select().from(uploadedFiles)
-		]);
+	const [
+		adminSessionsList,
+		checklistItemsList,
+		locationList,
+		leadershipList,
+		meetingsList,
+		redirectsList,
+		notesList,
+		informationList,
+		lessonIconsList,
+		emailTemplatesList,
+		emailDraftsList,
+		uploadedFilesList
+	] = await Promise.all([
+		// admin sessions (you may want to omit in some contexts, but exporting for now)
+		db.select().from(adminSessions),
+		db.select().from(checklistItems),
+		// there is usually only one location row
+		db.select().from(location),
+		// leadership and terms
+		db.select().from(leadership),
+		// meetings
+		db.select().from(meetings),
+		// redirects
+		db.select().from(redirects),
+		// admin notes
+		db.select().from(notes),
+		// helpful information blocks
+		db.select().from(information),
+		// lesson icon mappings
+		db.select().from(lessonIcons),
+		// email templates
+		db.select().from(emailTemplates),
+		// email drafts
+		db.select().from(emailDrafts),
+		// uploaded files (metadata only; binaries are handled by /admin/api/dump/assets)
+		db.select().from(uploadedFiles)
+	]);
 
 	return json({
 		generatedAt: new Date().toISOString(),
-		schemaVersion: 1,
+		schemaVersion: 2,
 		adminSessions: adminSessionsList,
 		location: locationList,
 		leadership: leadershipList,
 		meetings: meetingsList,
 		redirects: redirectsList,
+		checklistItems: checklistItemsList,
 		notes: notesList,
 		information: informationList,
 		lessonIcons: lessonIconsList,
@@ -63,6 +90,7 @@ export const POST: RequestHandler = async (event) => {
 		leadership: leadershipList = [],
 		meetings: meetingsList = [],
 		redirects: redirectsList = [],
+		checklistItems: checklistItemsList = [],
 		notes: notesList = [],
 		information: informationList = [],
 		lessonIcons: lessonIconsList = [],
@@ -83,6 +111,7 @@ export const POST: RequestHandler = async (event) => {
 	await db.delete(leadership);
 	await db.delete(meetings);
 	await db.delete(redirects);
+	await db.delete(checklistItems);
 	await db.delete(notes);
 	await db.delete(information);
 	await db.delete(lessonIcons);
@@ -141,13 +170,29 @@ export const POST: RequestHandler = async (event) => {
 			// Use createdAt as fallback if date is null (for legacy data)
 			const date = parseDate(row.date) || parseDate(row.createdAt) || new Date();
 			return {
-			...row,
+				...row,
 				date,
-			createdAt: parseDate(row.createdAt),
-			updatedAt: parseDate(row.updatedAt)
+				createdAt: parseDate(row.createdAt),
+				updatedAt: parseDate(row.updatedAt)
 			};
 		});
 		await db.insert(notes).values(rows);
+	}
+	if (Array.isArray(checklistItemsList) && checklistItemsList.length > 0) {
+		const rows = checklistItemsList.map(
+			(row: {
+				id: string;
+				item: string;
+				body?: string | null;
+				createdAt: string | Date | null;
+				checkedAt?: string | Date | null;
+			}) => ({
+				...row,
+				createdAt: parseDate(row.createdAt) ?? new Date(),
+				checkedAt: parseDate(row.checkedAt)
+			})
+		);
+		await db.insert(checklistItems).values(rows);
 	}
 	if (Array.isArray(informationList) && informationList.length > 0) {
 		const rows = informationList.map((row: any) => ({
@@ -199,6 +244,7 @@ export const POST: RequestHandler = async (event) => {
 			leadership: leadershipList.length ?? 0,
 			meetings: meetingsList.length ?? 0,
 			redirects: redirectsList.length ?? 0,
+			checklistItems: checklistItemsList.length ?? 0,
 			notes: notesList.length ?? 0,
 			information: informationList.length ?? 0,
 			lessonIcons: lessonIconsList.length ?? 0,
