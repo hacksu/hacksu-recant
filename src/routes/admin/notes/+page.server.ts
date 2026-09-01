@@ -4,7 +4,7 @@ import { db } from '$lib/server/db';
 import { checklistItems } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 import { normalizeChecklistBody, normalizeChecklistItem } from '$lib/server/checklist';
-import { desc, eq } from 'drizzle-orm';
+import { asc, desc, eq, sql } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
 
 export const load: PageServerLoad = async (event) => {
@@ -12,7 +12,11 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		items: await db.query.checklistItems.findMany({
-			orderBy: [desc(checklistItems.createdAt)]
+			orderBy: [
+				asc(sql`${checklistItems.checkedAt} IS NOT NULL`),
+				desc(checklistItems.checkedAt),
+				desc(checklistItems.createdAt)
+			]
 		})
 	};
 };
