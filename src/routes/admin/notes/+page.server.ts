@@ -50,6 +50,19 @@ export const actions: Actions = {
 			.where(eq(checklistItems.id, id));
 	},
 
+	updateItem: async (event) => {
+		await requireAdmin(event);
+
+		const formData = await event.request.formData();
+		const id = formData.get('id')?.toString();
+		if (!id) return fail(400, { error: 'Item id is required' });
+
+		const item = normalizeChecklistItem(formData.get('item'));
+		if (!item) return fail(400, { error: 'Item is required' });
+
+		await db.update(checklistItems).set({ item }).where(eq(checklistItems.id, id));
+	},
+
 	updateBody: async (event) => {
 		await requireAdmin(event);
 

@@ -5,6 +5,7 @@
 	let { data }: { data: PageData } = $props();
 	let searchQuery = $state('');
 	let editingBodyId = $state<string | null>(null);
+	let editingTitleId = $state<string | null>(null);
 
 	const items = $derived(data.items || []);
 	const visibleItems = $derived.by(() => {
@@ -30,6 +31,26 @@
 		}
 	}
 
+	function saveTitleOnBlur(event: FocusEvent, id: string) {
+		if (editingTitleId !== id || !(event.currentTarget instanceof HTMLInputElement)) return;
+		if (event.currentTarget.value.trim()) {
+			event.currentTarget.form?.requestSubmit();
+		} else {
+			editingTitleId = null;
+		}
+	}
+
+	function handleTitleKeydown(event: KeyboardEvent, id: string) {
+		if (event.key === 'Escape') {
+			editingTitleId = null;
+		} else if (event.key === 'Enter' && event.currentTarget instanceof HTMLInputElement) {
+			event.preventDefault();
+			if (event.currentTarget.value.trim()) {
+				event.currentTarget.form?.requestSubmit();
+			}
+		}
+	}
+
 	function saveBodyOnBlur(event: FocusEvent, id: string) {
 		if (editingBodyId === id && event.currentTarget instanceof HTMLTextAreaElement) {
 			event.currentTarget.form?.requestSubmit();
@@ -52,6 +73,13 @@
 		return async ({ update }: { update: () => Promise<void> }) => {
 			await update();
 			editingBodyId = null;
+		};
+	}
+
+	function enhanceTitle() {
+		return async ({ update }: { update: () => Promise<void> }) => {
+			await update();
+			editingTitleId = null;
 		};
 	}
 </script>
@@ -102,16 +130,11 @@
 						class:opacity-70={Boolean(item.checkedAt)}
 						class="rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm transition-shadow hover:shadow-md"
 					>
-						<div class="flex gap-3">
-							<form
-								method="POST"
-								action="?/toggle"
-								use:enhance
-								class="flex min-w-0 flex-1 items-start gap-3"
-							>
+						<div class="flex items-start gap-3">
+							<form method="POST" action="?/toggle" use:enhance class="shrink-0">
 								<input type="hidden" name="id" value={item.id} />
 								<input
-									class="mt-1 h-4 w-4 shrink-0 accent-hacksu-green"
+									class="mt-1 h-4 w-4 accent-hacksu-green"
 									type="checkbox"
 									name="checked"
 									value="true"
@@ -119,16 +142,33 @@
 									aria-label={`${item.checkedAt ? 'Uncheck' : 'Check'} ${item.item}`}
 									onchange={submitToggle}
 								/>
-								<button
-									type="submit"
-									name="toggle"
-									value={item.checkedAt ? 'false' : 'true'}
-									class:line-through={Boolean(item.checkedAt)}
-									class="w-full cursor-pointer bg-transparent p-0 text-left text-sm font-semibold text-white"
-								>
-									{item.item}
-								</button>
 							</form>
+							<div class="min-w-0 flex-1">
+								{#if editingTitleId === item.id}
+									<form method="POST" action="?/updateItem" use:enhance={enhanceTitle}>
+										<input type="hidden" name="id" value={item.id} />
+										<input
+											name="item"
+											type="text"
+											required
+											value={item.item}
+											aria-label="Checklist item"
+											onblur={(event) => saveTitleOnBlur(event, item.id)}
+											onkeydown={(event) => handleTitleKeydown(event, item.id)}
+											class="w-full rounded-md border border-gray-600 bg-gray-900 px-2 py-1 text-sm font-semibold text-white focus:ring-2 focus:ring-hacksu-green focus:outline-none"
+										/>
+									</form>
+								{:else}
+									<button
+										type="button"
+										onclick={() => (editingTitleId = item.id)}
+										class:line-through={Boolean(item.checkedAt)}
+										class="w-full cursor-pointer bg-transparent p-0 text-left text-sm font-semibold text-white"
+									>
+										{item.item}
+									</button>
+								{/if}
+							</div>
 						</div>
 
 						<div class="ml-7 mt-1">
