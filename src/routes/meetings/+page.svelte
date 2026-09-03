@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import MeetingCard from '$lib/components/MeetingCard.svelte';
+	import { getZonedMonthYear } from '$lib/utils/timezone';
 
 	let { data }: { data: PageData } = $props();
 
@@ -78,7 +79,8 @@
 					continue;
 				}
 
-				const label = (date.getMonth() < 6 ? 'Spring' : 'Fall') + ' ' + date.getFullYear();
+				const { month, year } = getZonedMonthYear(date);
+				const label = (month < 6 ? 'Spring' : 'Fall') + ' ' + year;
 
 				if (!result.has(label)) {
 					result.set(label, [event]);

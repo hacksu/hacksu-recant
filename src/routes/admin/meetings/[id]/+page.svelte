@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import favicon from '$lib/assets/images/favicon.svg';
+	import { utcToZonedDateTimeLocal } from '$lib/utils/timezone';
 
 let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
@@ -44,15 +45,8 @@ const meeting = $derived(data.event);
 		target.src = favicon;
 	}
 
-	// Format date for datetime-local input
 	function formatDateForInput(date: Date): string {
-		const d = new Date(date);
-		const year = d.getFullYear();
-		const month = String(d.getMonth() + 1).padStart(2, '0');
-		const day = String(d.getDate()).padStart(2, '0');
-		const hours = String(d.getHours()).padStart(2, '0');
-		const minutes = String(d.getMinutes()).padStart(2, '0');
-		return `${year}-${month}-${day}T${hours}:${minutes}`;
+		return utcToZonedDateTimeLocal(new Date(date));
 	}
 </script>
 

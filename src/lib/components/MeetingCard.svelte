@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { renderMarkdown } from '$lib/utils/markdown';
+	import { MEETING_TIMEZONE } from '$lib/utils/timezone';
 	import githubIcon from '$lib/assets/images/logos/github.svg';
 
 	type Meeting = {
@@ -14,33 +15,38 @@
 
 	let { meeting, solo = false, background }: { meeting: Meeting; solo?: boolean; background?: string } = $props();
 
+	function toDate(date: Date | string): Date {
+		return typeof date === 'string' ? new Date(date) : date;
+	}
+
 	function formatDate(date: Date | string): string {
-		const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0];
-		// Parse as that day at 7pm
-		const dateObj = new Date(dateStr + 'T19:00:00');
+		const dateObj = toDate(date);
 		if (isNaN(dateObj.getTime())) {
 			return 'Invalid date';
 		}
 		return dateObj.toLocaleDateString('en-us', {
 			month: 'long',
 			day: 'numeric',
-			year: 'numeric'
+			year: 'numeric',
+			timeZone: MEETING_TIMEZONE
 		});
 	}
 
-	const meetingDate = $derived.by(() => {
-		const date = meeting.date;
-		const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0];
-		return new Date(dateStr + 'T19:00:00');
-	});
-	const isPastMeeting = $derived.by(() => {
-		const now = new Date();
-		return meetingDate < now;
-	});
-	const isFutureMeeting = $derived.by(() => {
-		const now = new Date();
-		return meetingDate > now;
-	});
+	function formatTime(date: Date | string): string {
+		const dateObj = toDate(date);
+		if (isNaN(dateObj.getTime())) {
+			return '';
+		}
+		return dateObj.toLocaleTimeString('en-us', {
+			hour: 'numeric',
+			minute: '2-digit',
+			timeZone: MEETING_TIMEZONE
+		});
+	}
+
+	const meetingDate = $derived.by(() => toDate(meeting.date));
+	const isPastMeeting = $derived.by(() => meetingDate < new Date());
+	const isFutureMeeting = $derived.by(() => meetingDate > new Date());
 
 	const containerClass = $derived(
 		`flex flex-col justify-center mx-auto mb-20 relative max-w-[500px] shadow-lg pb-4 overflow-hidden text-left min-h-0 flex-shrink rounded-2xl first:mt-12 ${
@@ -134,7 +140,7 @@
 
 		{#if solo}
 			<div class="flex justify-between mt-1 text-white">
-				<span><strong>{formatDate(meeting.date)}</strong> at 7:00 PM</span>
+				<span><strong>{formatDate(meeting.date)}</strong> at {formatTime(meeting.date)}</span>
 				<strong>MSB 228</strong>
 			</div>
 		{:else}
