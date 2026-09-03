@@ -58,7 +58,7 @@
 </script>
 
 <div class={containerClass} style={background ? { background } : {}}>
-	{#if isFutureMeeting || isPastMeeting}
+	{#if meeting.photo && (isFutureMeeting || isPastMeeting)}
 		<div
 			class="absolute top-2.5 right-2.5 text-white px-3 py-1 rounded-full text-sm font-medium z-10 {isFutureMeeting
 				? 'bg-hacksu-green/40'
@@ -76,39 +76,51 @@
 	{/if}
 
 	<div class="flex flex-col min-h-0 flex-shrink w-full text-base [&>*]:px-6">
-		{#if meeting.link}
-			<a
-				href={meeting.link}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="my-3 mb-2 flex items-center text-white no-underline"
-			>
-				{#if meeting.link.startsWith('https://github.com')}
-					<img src={githubIcon} alt="GitHub" class="w-8 h-8 icon-white" />
-				{:else}
-					<svg
-						class="h-[26px] mr-2.5 flex-shrink-0"
-						viewBox="0 0 24 24"
-						fill="white"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"
-							stroke="white"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							fill="none"
-						/>
-					</svg>
-				{/if}
-				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
-			</a>
-		{:else}
-			<span class="my-3 mb-2 flex items-center text-white">
-				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
-			</span>
-		{/if}
+		<div class="my-3 mb-2 flex items-start justify-between gap-2 text-white">
+			{#if meeting.link}
+				<a
+					href={meeting.link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="flex items-center min-w-0 text-white no-underline"
+				>
+					{#if meeting.link.startsWith('https://github.com')}
+						<img src={githubIcon} alt="GitHub" class="w-8 h-8 icon-white flex-shrink-0" />
+					{:else}
+						<svg
+							class="h-[26px] mr-2.5 flex-shrink-0"
+							viewBox="0 0 24 24"
+							fill="white"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"
+								stroke="white"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								fill="none"
+							/>
+						</svg>
+					{/if}
+					<h2 class="inline text-2xl m-0 text-white">{meeting.title}</h2>
+				</a>
+			{:else}
+				<span class="flex items-center min-w-0 text-white">
+					<h2 class="inline text-2xl m-0 text-white">{meeting.title}</h2>
+				</span>
+			{/if}
+
+			{#if !meeting.photo && (isFutureMeeting || isPastMeeting)}
+				<div
+					class="flex-shrink-0 text-white px-3 py-1 rounded-full text-sm font-medium {isFutureMeeting
+						? 'bg-hacksu-green/40'
+						: 'bg-black/60'}"
+				>
+					{isFutureMeeting ? 'Upcoming' : 'Past Meeting'}
+				</div>
+			{/if}
+		</div>
 
 		{#if descriptionHtml}
 			<div

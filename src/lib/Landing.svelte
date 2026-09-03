@@ -1,6 +1,19 @@
 <script lang="ts">
 	import hacksuLogo from '$lib/assets/images/hacksu_logo.svg';
+	import MeetingCard from '$lib/components/MeetingCard.svelte';
 	import { onMount, onDestroy } from 'svelte';
+
+	type Meeting = {
+		id: string;
+		title: string;
+		date: Date | string;
+		presenter: string | null;
+		link: string | null;
+		descriptionMD: string | null;
+		photo: string | null;
+	};
+
+	export let nextMeeting: Meeting | null = null;
 
 	// Social media links - you can add more here
 	const social = [
@@ -109,9 +122,9 @@
 	});
 </script>
 
-<div class="w-full h-screen overflow-hidden relative">
+<div class="w-full min-h-screen relative">
 	<!-- Background -->
-	<div class="absolute -z-20 top-0 left-0 h-screen w-screen bg-hacksu-grey"></div>
+	<div class="absolute -z-20 top-0 left-0 h-full w-full bg-hacksu-grey"></div>
 
 	<canvas
 		bind:this={canvas}
@@ -136,56 +149,81 @@
 
 	<!-- Main content -->
 	<div
-		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white pt-[10vh] flex flex-col h-screen justify-center items-center z-10"
+		class="relative text-white pt-[10vh] pb-[6vh] flex flex-col min-h-screen justify-center items-center z-10"
 	>
 		<img class="w-[40vw] max-w-[400px] md:w-[75vw]" src={hacksuLogo} alt="HacKSU" />
 		<h1 class="text-[4vh] my-[15px] text-center"><strong>{title}</strong></h1>
 		<p class="text-center text-[3vh] w-[90vw] my-2.5">{body}</p>
-		<p class="opacity-80 text-center text-[3vh] w-[90vw] my-2.5">Join our Discord for updates:</p>
+		{#if nextMeeting}
+			<div class="max-w-[95vw] w-full mx-auto mb-4 [&>div]:!mt-0 [&>div]:!mb-0">
+				<MeetingCard meeting={nextMeeting} solo={true} />
+			</div>
 
-		<!-- Discord invite card -->
-		<div class="mb-10 max-w-[95vw] mx-auto">
-			<div
-				class="bg-gray-800 rounded-lg p-4 flex items-center gap-4 border border-gray-700 max-w-md hover:border-hacksu-green/50 transition-colors"
-			>
-				<div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
-					<img src={hacksuLogo} alt="HacKSU" class="w-12 h-12" />
-				</div>
-				<div class="flex-1 min-w-0">
-					<h3 class="text-white font-semibold text-lg mb-1">HacKSU</h3>
-					<div class="flex items-center gap-4 text-sm text-gray-400">
-						<div class="flex items-center gap-2">
-							<div class="w-2 h-2 bg-hacksu-green rounded-full"></div>
-							<span>100+ Online</span>
-						</div>
-						<div class="flex items-center gap-2">
-							<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-							<span>800+ Members</span>
-						</div>
-					</div>
-				</div>
+			<div class="flex items-center gap-3 mb-4">
 				<a
 					href="https://discord.gg/r8vVvsE"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-6 py-2 rounded transition-colors flex-shrink-0"
+					class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
 				>
-					Join
+					Join our Discord
+				</a>
+				<a
+					href="https://www.redbubble.com/people/KentStateCS/shop"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
+				>
+					Check Out Our Merch!
 				</a>
 			</div>
-		</div>
+		{:else}
+			<p class="opacity-80 text-center text-[3vh] w-[90vw] my-2.5">Join our Discord for updates:</p>
 
-		<button
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-bold text-lg px-8 py-4 rounded-lg transition-colors cursor-pointer w-[60vw] max-w-[40vh] text-[3vh]"
-		>
-			<a
-				href="https://www.redbubble.com/people/KentStateCS/shop"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="no-underline text-white"
+			<!-- Discord invite card -->
+			<div class="mb-10 max-w-[95vw] mx-auto">
+				<div
+					class="bg-gray-800 rounded-lg p-4 flex items-center gap-4 border border-gray-700 max-w-md hover:border-hacksu-green/50 transition-colors"
+				>
+					<div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+						<img src={hacksuLogo} alt="HacKSU" class="w-12 h-12" />
+					</div>
+					<div class="flex-1 min-w-0">
+						<h3 class="text-white font-semibold text-lg mb-1">HacKSU</h3>
+						<div class="flex items-center gap-4 text-sm text-gray-400">
+							<div class="flex items-center gap-2">
+								<div class="w-2 h-2 bg-hacksu-green rounded-full"></div>
+								<span>100+ Online</span>
+							</div>
+							<div class="flex items-center gap-2">
+								<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+								<span>800+ Members</span>
+							</div>
+						</div>
+					</div>
+					<a
+						href="https://discord.gg/r8vVvsE"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-6 py-2 rounded transition-colors flex-shrink-0"
+					>
+						Join
+					</a>
+				</div>
+			</div>
+
+			<button
+				class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-bold text-lg px-8 py-4 rounded-lg transition-colors cursor-pointer w-[60vw] max-w-[40vh] text-[3vh]"
 			>
-				Check Out Our Merch!
-			</a>
-		</button>
+				<a
+					href="https://www.redbubble.com/people/KentStateCS/shop"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="no-underline text-white"
+				>
+					Check Out Our Merch!
+				</a>
+			</button>
+		{/if}
 	</div>
 </div>
