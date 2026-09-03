@@ -7,6 +7,7 @@ import { requireAdmin } from '$lib/server/admin';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
+import { zonedDateTimeLocalToUtc } from '$lib/utils/timezone';
 
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.id;
@@ -44,7 +45,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'Title and date are required' });
 		}
 
-		const date = new Date(dateStr);
+		const date = zonedDateTimeLocalToUtc(dateStr);
 		if (isNaN(date.getTime())) {
 			return fail(400, { error: 'Invalid date' });
 		}

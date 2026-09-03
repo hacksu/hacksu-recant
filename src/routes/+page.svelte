@@ -8,7 +8,7 @@
 	export let data: PageData;
 </script>
 
-<Landing />
+<Landing nextMeeting={data.nextMeeting} />
 <AudienceSection />
 <LocationSection location={data.location} />
 <Footer />

@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import favicon from '$lib/assets/images/favicon.svg';
+	import { MEETING_TIMEZONE } from '$lib/utils/timezone';
 
 	let { data }: { data: PageData } = $props();
 
@@ -25,7 +26,8 @@
 			month: 'short',
 			day: 'numeric',
 			hour: '2-digit',
-			minute: '2-digit'
+			minute: '2-digit',
+			timeZone: MEETING_TIMEZONE
 		});
 	}
 </script>

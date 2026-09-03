@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import favicon from '$lib/assets/images/favicon.svg';
+	import { MEETING_TIMEZONE } from '$lib/utils/timezone';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
@@ -35,22 +36,35 @@
 		target.src = favicon;
 	}
 
-	function getNextTuesdayAtSevenLocal(): string {
-		const date = new Date();
-		const daysUntilTuesday = (2 - date.getDay() + 7) % 7;
-		const useFollowingTuesday = daysUntilTuesday === 0 && date.getHours() >= 19;
+	function getNextTuesdayAtSevenEastern(): string {
+		const parts = new Intl.DateTimeFormat('en-US', {
+			timeZone: MEETING_TIMEZONE,
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+			hour: '2-digit',
+			hourCycle: 'h23'
+		}).formatToParts(new Date());
 
-		date.setDate(date.getDate() + (useFollowingTuesday ? 7 : daysUntilTuesday));
-		date.setHours(19, 0, 0, 0);
+		const map: Record<string, string> = {};
+		for (const part of parts) map[part.type] = part.value;
 
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
+		const easternToday = new Date(Date.UTC(Number(map.year), Number(map.month) - 1, Number(map.day)));
+		const currentHour = Number(map.hour);
+
+		const daysUntilTuesday = (2 - easternToday.getUTCDay() + 7) % 7;
+		const useFollowingTuesday = daysUntilTuesday === 0 && currentHour >= 19;
+
+		easternToday.setUTCDate(easternToday.getUTCDate() + (useFollowingTuesday ? 7 : daysUntilTuesday));
+
+		const year = easternToday.getUTCFullYear();
+		const month = String(easternToday.getUTCMonth() + 1).padStart(2, '0');
+		const day = String(easternToday.getUTCDate()).padStart(2, '0');
 		return `${year}-${month}-${day}T19:00`;
 	}
 
 	onMount(() => {
-		defaultDateTime = getNextTuesdayAtSevenLocal();
+		defaultDateTime = getNextTuesdayAtSevenEastern();
 	});
 </script>
 

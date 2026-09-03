@@ -2,8 +2,8 @@ import msbImage from '$lib/assets/images/msb.jpg';
 import bowmanImage from '$lib/assets/images/bowman.jpg';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { location as locationTable } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { location as locationTable, meetings } from '$lib/server/db/schema';
+import { eq, asc, gte } from 'drizzle-orm';
 
 // Map building selectors to their imported images
 const buildingImages: Record<string, string> = {
@@ -46,8 +46,14 @@ export const load: PageServerLoad = async () => {
 				body: 'HacKSU teaches anyone, regardless of skill level or major, how to code.'
 		  };
 
+	const nextMeeting = await db.query.meetings.findFirst({
+		where: gte(meetings.date, new Date()),
+		orderBy: [asc(meetings.date)]
+	});
+
 	return {
-		location
+		location,
+		nextMeeting: nextMeeting ?? null
 	};
 };
 

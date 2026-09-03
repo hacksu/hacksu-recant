@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { renderMarkdown } from '$lib/utils/markdown';
+	import { MEETING_TIMEZONE } from '$lib/utils/timezone';
 	import githubIcon from '$lib/assets/images/logos/github.svg';
 
 	type Meeting = {
@@ -14,33 +15,38 @@
 
 	let { meeting, solo = false, background }: { meeting: Meeting; solo?: boolean; background?: string } = $props();
 
+	function toDate(date: Date | string): Date {
+		return typeof date === 'string' ? new Date(date) : date;
+	}
+
 	function formatDate(date: Date | string): string {
-		const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0];
-		// Parse as that day at 7pm
-		const dateObj = new Date(dateStr + 'T19:00:00');
+		const dateObj = toDate(date);
 		if (isNaN(dateObj.getTime())) {
 			return 'Invalid date';
 		}
 		return dateObj.toLocaleDateString('en-us', {
 			month: 'long',
 			day: 'numeric',
-			year: 'numeric'
+			year: 'numeric',
+			timeZone: MEETING_TIMEZONE
 		});
 	}
 
-	const meetingDate = $derived.by(() => {
-		const date = meeting.date;
-		const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0];
-		return new Date(dateStr + 'T19:00:00');
-	});
-	const isPastMeeting = $derived.by(() => {
-		const now = new Date();
-		return meetingDate < now;
-	});
-	const isFutureMeeting = $derived.by(() => {
-		const now = new Date();
-		return meetingDate > now;
-	});
+	function formatTime(date: Date | string): string {
+		const dateObj = toDate(date);
+		if (isNaN(dateObj.getTime())) {
+			return '';
+		}
+		return dateObj.toLocaleTimeString('en-us', {
+			hour: 'numeric',
+			minute: '2-digit',
+			timeZone: MEETING_TIMEZONE
+		});
+	}
+
+	const meetingDate = $derived.by(() => toDate(meeting.date));
+	const isPastMeeting = $derived.by(() => meetingDate < new Date());
+	const isFutureMeeting = $derived.by(() => meetingDate > new Date());
 
 	const containerClass = $derived(
 		`flex flex-col justify-center mx-auto mb-20 relative max-w-[500px] shadow-lg pb-4 overflow-hidden text-left min-h-0 flex-shrink rounded-2xl first:mt-12 ${
@@ -58,7 +64,7 @@
 </script>
 
 <div class={containerClass} style={background ? { background } : {}}>
-	{#if isFutureMeeting || isPastMeeting}
+	{#if meeting.photo && (isFutureMeeting || isPastMeeting)}
 		<div
 			class="absolute top-2.5 right-2.5 text-white px-3 py-1 rounded-full text-sm font-medium z-10 {isFutureMeeting
 				? 'bg-hacksu-green/40'
@@ -76,39 +82,51 @@
 	{/if}
 
 	<div class="flex flex-col min-h-0 flex-shrink w-full text-base [&>*]:px-6">
-		{#if meeting.link}
-			<a
-				href={meeting.link}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="my-3 mb-2 flex items-center text-white no-underline"
-			>
-				{#if meeting.link.startsWith('https://github.com')}
-					<img src={githubIcon} alt="GitHub" class="w-8 h-8 icon-white" />
-				{:else}
-					<svg
-						class="h-[26px] mr-2.5 flex-shrink-0"
-						viewBox="0 0 24 24"
-						fill="white"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"
-							stroke="white"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							fill="none"
-						/>
-					</svg>
-				{/if}
-				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
-			</a>
-		{:else}
-			<span class="my-3 mb-2 flex items-center text-white">
-				<h2 class="inline text-2xl m-0 text-white">{solo ? 'Our next meeting: ' : ''}{meeting.title}</h2>
-			</span>
-		{/if}
+		<div class="my-3 mb-2 flex items-start justify-between gap-2 text-white">
+			{#if meeting.link}
+				<a
+					href={meeting.link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="flex items-center min-w-0 text-white no-underline"
+				>
+					{#if meeting.link.startsWith('https://github.com')}
+						<img src={githubIcon} alt="GitHub" class="w-8 h-8 icon-white flex-shrink-0" />
+					{:else}
+						<svg
+							class="h-[26px] mr-2.5 flex-shrink-0"
+							viewBox="0 0 24 24"
+							fill="white"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"
+								stroke="white"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								fill="none"
+							/>
+						</svg>
+					{/if}
+					<h2 class="inline text-2xl m-0 text-white">{meeting.title}</h2>
+				</a>
+			{:else}
+				<span class="flex items-center min-w-0 text-white">
+					<h2 class="inline text-2xl m-0 text-white">{meeting.title}</h2>
+				</span>
+			{/if}
+
+			{#if !meeting.photo && (isFutureMeeting || isPastMeeting)}
+				<div
+					class="flex-shrink-0 text-white px-3 py-1 rounded-full text-sm font-medium {isFutureMeeting
+						? 'bg-hacksu-green/40'
+						: 'bg-black/60'}"
+				>
+					{isFutureMeeting ? 'Upcoming' : 'Past Meeting'}
+				</div>
+			{/if}
+		</div>
 
 		{#if descriptionHtml}
 			<div
@@ -122,7 +140,7 @@
 
 		{#if solo}
 			<div class="flex justify-between mt-1 text-white">
-				<span><strong>{formatDate(meeting.date)}</strong> at 7:00 PM</span>
+				<span><strong>{formatDate(meeting.date)}</strong> at {formatTime(meeting.date)}</span>
 				<strong>MSB 228</strong>
 			</div>
 		{:else}
