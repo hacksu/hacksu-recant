@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:18-alpine
-    restart: on-failure:5
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
@@ -16,7 +16,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    restart: on-failure:5
+    restart: unless-stopped
     volumes:
       - redisdata:/data
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
@@ -32,7 +32,7 @@ services:
     build:
       context: ./lessons-service
       dockerfile: Dockerfile
-    restart: on-failure:5
+    restart: unless-stopped
     env_file:
       - .env
     environment:
@@ -47,7 +47,7 @@ services:
 
   app:
     build: .
-    restart: on-failure:5
+    restart: unless-stopped
     env_file:
       - .env
     environment:
