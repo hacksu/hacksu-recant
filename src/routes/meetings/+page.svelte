@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { onMount } from 'svelte';
 	import MeetingCard from '$lib/components/MeetingCard.svelte';
+	import { onMount } from 'svelte';
 	import { getZonedMonthYear } from '$lib/utils/timezone';
 
 	let { data }: { data: PageData } = $props();
@@ -9,47 +9,143 @@
 	// Ensure we track data.meetings reactively
 	const meetings = $derived(data.meetings || []);
 
-	const sineWavePeriod = 1500;
-	const sineWaveWidth = 200;
+	const sineWaveWidth = 180;
+
+	type ConnectorGroup = {
+		width: number;
+		height: number;
+		paths: string[];
+	};
 
 	let cardGroups: HTMLDivElement[][] = $state([]);
+	let groupContainers: HTMLDivElement[] = $state([]);
 	let translations: string[][] = $state([]);
+	let connectorGroups: ConnectorGroup[] = $state([]);
+	let connectorFrame: number | undefined;
 
 	function updateContainerPositions() {
 		if (typeof window === 'undefined') return;
 
 		if (window.innerWidth < 800) {
-			// don't apply a sine wave translation if the window is narrow and there isn't room
 			translations = [];
 			return;
 		}
 
-		const groupCount = groupedMeetingsArray.length;
 		translations = [];
 
-		for (let groupIndex = 0; groupIndex < groupCount; groupIndex++) {
+		for (let groupIndex = 0; groupIndex < groupedMeetingsArray.length; groupIndex++) {
 			const groupCards = cardGroups[groupIndex] || [];
 			if (groupCards.length === 0) continue;
 
 			translations.push([]);
 
-			// the y-coordinate that the sine wave starts at is the same as the top
-			// edge of the first event container in this group
-			const start = groupCards[0]?.getBoundingClientRect().top || 0;
-
-			for (const card of groupCards) {
+			for (const [cardIndex, card] of groupCards.entries()) {
 				if (!card) continue;
 
-				const contRect = card.getBoundingClientRect();
-				const pos = contRect.top + contRect.height / 2 - start;
-				const waveOffset = -Math.sin((pos / sineWavePeriod) * (Math.PI * 2)) * (sineWaveWidth / 2);
-
-				translations[groupIndex].push(`translateX(${waveOffset}px)`);
+				const offset = Math.sin((cardIndex * Math.PI) / 4) * (sineWaveWidth / 2);
+				translations[groupIndex].push(`translateX(${offset}px)`);
 			}
 		}
 	}
 
-	const backgroundSize = `${sineWaveWidth}px ${sineWavePeriod}px`;
+	function updateConnectorPaths() {
+		connectorGroups = cardGroups.map((cards, groupIndex) => {
+			const container = groupContainers[groupIndex];
+			if (!container) return { width: 0, height: 0, paths: [] };
+
+			const containerRect = container.getBoundingClientRect();
+			const segments: Array<{
+				fromX: number;
+				fromY: number;
+				toX: number;
+				toY: number;
+				verticalGap: number;
+			}> = [];
+
+			for (let index = 0; index < cards.length - 1; index++) {
+				const from = cards[index]?.getBoundingClientRect();
+				const to = cards[index + 1]?.getBoundingClientRect();
+				if (!from || !to) continue;
+
+				const fromX = from.left + from.width / 2 - containerRect.left;
+				const fromY = from.bottom - containerRect.top;
+				const toX = to.left + to.width / 2 - containerRect.left;
+				const toY = to.top - containerRect.top;
+
+				segments.push({ fromX, fromY, toX, toY, verticalGap: toY - fromY });
+			}
+
+			const maximumAbsBend = (initialBend: number) => {
+				let bend = initialBend;
+				let maximum = Math.abs(bend);
+
+				for (let index = 1; index < segments.length; index++) {
+					const previous = segments[index - 1];
+					const current = segments[index];
+					bend =
+						(((previous.toX - previous.fromX) / 2 - bend) * current.verticalGap) /
+							previous.verticalGap -
+						(current.toX - current.fromX) / 2;
+					maximum = Math.max(maximum, Math.abs(bend));
+				}
+
+				return maximum;
+			};
+
+			let lowerBend = -Math.max(128, containerRect.width);
+			let upperBend = Math.max(128, containerRect.width);
+			for (let iteration = 0; iteration < 32; iteration++) {
+				const firstThird = (2 * lowerBend + upperBend) / 3;
+				const secondThird = (lowerBend + 2 * upperBend) / 3;
+
+				if (maximumAbsBend(firstThird) < maximumAbsBend(secondThird)) {
+					upperBend = secondThird;
+				} else {
+					lowerBend = firstThird;
+				}
+			}
+
+			const paths: string[] = [];
+			let bend = (lowerBend + upperBend) / 2;
+			for (let index = 0; index < segments.length; index++) {
+				const { fromX, fromY, toX, toY, verticalGap } = segments[index];
+				const centerX = (fromX + toX) / 2;
+				const centerY = (fromY + toY) / 2;
+
+				paths.push(`M ${fromX} ${fromY} Q ${centerX + bend} ${centerY}, ${toX} ${toY}`);
+
+				const next = segments[index + 1];
+				if (next) {
+					bend =
+						(((toX - fromX) / 2 - bend) * next.verticalGap) / verticalGap -
+						(next.toX - next.fromX) / 2;
+				}
+			}
+
+			return {
+				width: Math.ceil(containerRect.width),
+				height: Math.ceil(containerRect.height),
+				paths
+			};
+		});
+	}
+
+	function scheduleConnectorPaths() {
+		if (typeof window === 'undefined') return;
+		if (connectorFrame !== undefined) {
+			window.cancelAnimationFrame(connectorFrame);
+		}
+
+		connectorFrame = window.requestAnimationFrame(() => {
+			connectorFrame = undefined;
+			updateConnectorPaths();
+		});
+	}
+
+	function updateMeetingLayout() {
+		updateContainerPositions();
+		scheduleConnectorPaths();
+	}
 
 	// Group meetings by semester - convert to array of [label, meetings] pairs for SSR compatibility
 	const groupedMeetingsArray = $derived.by(() => {
@@ -73,7 +169,7 @@
 			try {
 				// Handle date - it might be a string or Date object
 				const date = event.date instanceof Date ? event.date : new Date(event.date);
-				
+
 				// Check if date is valid
 				if (isNaN(date.getTime())) {
 					continue;
@@ -102,73 +198,83 @@
 		return entries;
 	});
 
-	// Keep Map version for client-side operations
-	const groupedMeetings = $derived(() => {
-		const map = new Map<string, typeof meetings>();
-		for (const [key, meetings] of groupedMeetingsArray) {
-			map.set(key, meetings);
-		}
-		return map;
-	});
-
-	// Initialize card groups when groupedMeetingsArray changes
 	$effect(() => {
 		const groupCount = groupedMeetingsArray.length;
 		if (cardGroups.length !== groupCount) {
-			cardGroups = Array(groupCount).fill(null).map(() => []);
-		}
-		// Ensure each group array exists
-		for (let idx = 0; idx < groupCount; idx++) {
-			if (!cardGroups[idx]) {
-				cardGroups[idx] = [];
-			}
+			cardGroups = Array.from({ length: groupCount }, () => []);
 		}
 	});
 
 	onMount(() => {
-		updateContainerPositions();
-		window.addEventListener('resize', updateContainerPositions);
+		const connectorObserver = new ResizeObserver(scheduleConnectorPaths);
+
+		window.requestAnimationFrame(() => {
+			for (const container of groupContainers) {
+				connectorObserver.observe(container);
+			}
+			updateMeetingLayout();
+		});
+
+		window.addEventListener('resize', updateMeetingLayout);
 		return () => {
-			window.removeEventListener('resize', updateContainerPositions);
+			connectorObserver.disconnect();
+			window.removeEventListener('resize', updateMeetingLayout);
+			if (connectorFrame !== undefined) {
+				window.cancelAnimationFrame(connectorFrame);
+			}
 		};
 	});
 
-	// Update positions when groupedMeetingsArray or cardGroups change
 	$effect(() => {
-		groupedMeetingsArray; // Track dependency
-		cardGroups; // Track dependency
+		groupedMeetingsArray;
+		cardGroups;
 		if (typeof window !== 'undefined') {
-			setTimeout(updateContainerPositions, 100);
+			setTimeout(updateMeetingLayout, 100);
 		}
 	});
 </script>
 
 <div class="event-page-container">
+	<header class="page-header">
+		<h1>Meetings</h1>
+	</header>
+
 	{#if groupedMeetingsArray.length === 0}
-	<div class="text-center py-20">
-		<h1 class="page-title">No Meetings Yet</h1>
-		<p class="text-white text-lg">Check back soon for upcoming meetings!</p>
-	</div>
-{:else}
-	{#each groupedMeetingsArray as [label, groupMeetings], i}
-		<div>
-			<h1 class="page-title">
-				{label} Meetings{#if i > 0} (Archive){/if}
-			</h1>
-			<div class="event-list-container" style="background-size: {backgroundSize};">
-				{#each groupMeetings as meeting, j}
-					{@const groupCards = cardGroups[i] || []}
-					<div
-						bind:this={groupCards[j]}
-						style={translations[i]?.[j] ? `transform: ${translations[i][j]};` : ''}
-					>
-						<MeetingCard {meeting} />
-					</div>
-				{/each}
-			</div>
+		<div class="text-center py-20">
+			<h2 class="page-title">No Meetings Yet</h2>
+			<p class="text-white/70 text-lg">Check back soon for upcoming meetings!</p>
 		</div>
-	{/each}
-{/if}
+	{:else}
+		{#each groupedMeetingsArray as [label, groupMeetings], i}
+			<section class="meeting-group">
+				<h2 class="page-title">
+					{label}{#if i > 0}
+						<span>(Archive)</span>{/if}
+				</h2>
+				<div class="event-list-container" bind:this={groupContainers[i]}>
+					<svg
+						class="event-connector"
+						viewBox={`0 0 ${connectorGroups[i]?.width ?? 0} ${connectorGroups[i]?.height ?? 0}`}
+						aria-hidden="true"
+					>
+						{#each connectorGroups[i]?.paths ?? [] as path}
+							<path d={path} />
+						{/each}
+					</svg>
+					{#each groupMeetings as meeting, j}
+						{@const groupCards = cardGroups[i] || []}
+						<div
+							class="relative z-10"
+							bind:this={groupCards[j]}
+							style={translations[i]?.[j] ? `transform: ${translations[i][j]};` : ''}
+						>
+							<MeetingCard {meeting} />
+						</div>
+					{/each}
+				</div>
+			</section>
+		{/each}
+	{/if}
 </div>
 
 <style>
@@ -177,30 +283,58 @@
 	}
 
 	.event-page-container {
-		background: linear-gradient(to top left, #35c982, #4683ff);
 		min-height: 100vh;
-		padding: 60px 100px 100px 100px;
-		overflow: auto;
+		padding: 4.5rem 1.5rem 6rem;
 	}
 
-	@media (max-width: 700px) {
-		.event-page-container {
-			padding: 100px 10px;
-		}
+	.page-header {
+		margin: 0 auto 3rem;
+		max-width: 40rem;
+		text-align: center;
+	}
+
+	.page-header h1 {
+		margin: 0;
+		color: white;
+		font-size: clamp(2rem, 4vw, 2.5rem);
+		font-weight: 800;
+	}
+
+	.meeting-group {
+		max-width: 40rem;
+		margin: 0 auto 3.5rem;
 	}
 
 	.page-title {
-		text-align: center;
+		margin: 0 0 1.25rem;
 		color: white;
-		font-size: 2.5rem;
-		font-weight: bold;
-		margin-bottom: 2rem;
-		padding: 10px;
+		font-size: 1.875rem;
+		font-weight: 800;
+	}
+
+	.page-title span {
+		color: rgb(255 255 255 / 0.6);
+		font-size: 1rem;
+		font-weight: 600;
 	}
 
 	.event-list-container {
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='1500' viewBox='0 0 200 1500'%3E%3Cpath d='M 100 0 Q 100 375 0 750 T 100 1500' stroke='rgba(255,255,255,0.15)' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-		background-repeat: repeat-y;
-		background-position: center top;
+		position: relative;
+	}
+
+	.event-connector {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		pointer-events: none;
+	}
+
+	.event-connector path {
+		fill: none;
+		stroke: rgb(255 255 255 / 0.32);
+		stroke-linecap: round;
+		stroke-width: 2.5;
 	}
 </style>

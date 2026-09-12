@@ -14,43 +14,48 @@
 	const descriptionHtml = $derived(renderMarkdown(information.description));
 </script>
 
-<div class="flex flex-col md:flex-row-reverse justify-start mx-auto mb-10 max-w-4xl rounded-2xl shadow-lg overflow-hidden text-left min-h-0 flex-shrink opacity-[0.975] first:mt-12 bg-gradient-to-r from-[#9b4cbb] via-[#9d4db9] via-[#a14ec2] to-[#ab52cb]">
+<article
+	class="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-hacksu-green text-left shadow-lg shadow-black/10 transition duration-200 hover:-translate-y-1 hover:border-white/20"
+>
 	{#if information.photo}
-		<div class="w-full md:max-w-[40%] h-auto">
-			<img class="w-full h-full object-cover" src={information.photo} alt={information.title} />
+		<div class="aspect-square w-full overflow-hidden border-b border-white/10 bg-black/20">
+			<img class="h-full w-full object-cover" src={information.photo} alt={information.title} />
 		</div>
 	{/if}
 
-	<div class="flex flex-col min-h-0 flex-shrink w-full md:min-w-[60%] text-base">
-		<component
-			this={information.link ? 'a' : 'span'}
-			href={information.link ?? undefined}
-			target={information.link ? '_blank' : undefined}
-			rel={information.link ? 'noopener noreferrer' : undefined}
-			class="my-3 mb-2 flex items-center text-white px-4 md:px-6"
-		>
-			{#if information.link}
+	<div class="flex flex-col p-6">
+		{#if information.link}
+			<a
+				href={information.link}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="group/title flex w-fit items-center gap-2 text-white no-underline"
+			>
+				<h2 class="m-0 text-xl font-semibold md:text-2xl">{information.title}</h2>
 				<svg
-					class="h-[26px] mr-2.5 flex-shrink-0"
+					class="h-5 w-5 flex-shrink-0 transition-transform group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5"
 					viewBox="0 0 24 24"
-					fill="white"
+					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden="true"
 				>
 					<path
-						d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"
-						stroke="white"
+						d="M7 17 17 7m-7 0h7v7"
+						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						fill="none"
 					/>
 				</svg>
-			{/if}
-			<h2 class="inline text-xl md:text-2xl m-0 text-white">{information.title}</h2>
-		</component>
+			</a>
+		{:else}
+			<h2 class="m-0 text-xl font-semibold text-white md:text-2xl">{information.title}</h2>
+		{/if}
 
-		<div class="min-h-0 flex-shrink px-4 md:px-6 pb-4 md:pb-0 prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-white prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-white/80 prose-ul:text-white prose-ol:text-white prose-li:text-white prose-blockquote:text-white prose-blockquote:border-white/30">
+		<div
+			class="mt-3 prose prose-invert prose-sm max-w-none text-white prose-headings:text-white prose-p:my-0 prose-p:text-white prose-strong:text-white prose-em:text-white prose-code:rounded prose-code:bg-black/30 prose-code:px-1 prose-code:py-0.5 prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-white/80 prose-ul:my-0 prose-ul:text-white prose-ol:my-0 prose-ol:text-white prose-li:text-white prose-blockquote:border-white/30 prose-blockquote:text-white/90"
+		>
 			{@html descriptionHtml}
 		</div>
 	</div>
-</div>
+</article>

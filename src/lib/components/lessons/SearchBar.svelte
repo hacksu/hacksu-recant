@@ -1,11 +1,11 @@
 <script lang="ts">
 	let { value, onInput }: { value: string; onInput: (value: string) => void } = $props();
 
-let searchValue = $state('');
+	let searchValue = $state('');
 
-$effect(() => {
-	searchValue = value || '';
-});
+	$effect(() => {
+		searchValue = value || '';
+	});
 
 	function handleInput(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -29,11 +29,9 @@ $effect(() => {
 	</svg>
 	<input
 		type="text"
-		class="w-full py-4 pl-12 pr-4 bg-white/10 border border-white/20 rounded-full text-white text-base outline-none transition-all duration-300 backdrop-blur-md placeholder:text-white/50 focus:bg-white/15 focus:border-white/40 focus:shadow-lg focus:shadow-black/20"
+		class="w-full rounded-full border border-white/10 bg-white/5 py-4 pr-4 pl-12 text-base text-white outline-none transition-all duration-300 placeholder:text-white/50 focus:border-hacksu-blue focus:bg-white/10"
 		placeholder="Search lessons by title or tags..."
 		bind:value={searchValue}
 		oninput={handleInput}
 	/>
 </div>
-
-

@@ -8,7 +8,7 @@
 	const leadersByTerm = $derived(data.leadersByTerm);
 	const sortedTerms = $derived(data.sortedTerms);
 
-	function getPhotoUrl(leader: typeof data.currentLeaders[0]): string {
+	function getPhotoUrl(leader: (typeof data.currentLeaders)[0]): string {
 		if (leader.photo) {
 			return leader.photo;
 		}
@@ -23,32 +23,26 @@
 		target.src = favicon;
 	}
 
-	function getLink(leader: typeof data.currentLeaders[0]): string | null {
+	function getLink(leader: (typeof data.currentLeaders)[0]): string | null {
 		if (leader.link) return leader.link;
 		if (leader.github) return `https://github.com/${leader.github}`;
 		return null;
 	}
 </script>
 
-<div class="min-h-screen bg-white dark:bg-gray-900">
-	<div class="container mx-auto px-4 py-12 max-w-7xl">
-		<!-- Header -->
-		<div class="text-center mb-12">
-			<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-				Leaders & Alumni
-			</h1>
-			<p class="text-xl text-gray-600 dark:text-gray-400">
-				Present & Past Leadership of HacKSU
-			</p>
-		</div>
+<div class="min-h-screen">
+	<div class="container mx-auto max-w-7xl px-4 py-16">
+		<header class="mb-14 text-center">
+			<h1 class="text-4xl font-bold text-white md:text-5xl">Leaders &amp; Alumni</h1>
+		</header>
 
 		<!-- Current Leadership -->
 		{#if currentLeaders.length > 0}
 			<div class="mb-16">
-				<h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
-					Current Leadership
-				</h2>
-				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
+				<h2 class="mb-8 text-2xl font-bold text-white md:text-3xl">Current Leadership</h2>
+				<div
+					class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8"
+				>
 					{#each currentLeaders as leader}
 						<div class="flex flex-col items-center text-center">
 							{#if getLink(leader)}
@@ -56,7 +50,7 @@
 									<img
 										src={getPhotoUrl(leader)}
 										alt={leader.name}
-										class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity"
+										class="mb-4 h-24 w-24 rounded-full border-2 border-white/10 object-cover transition-opacity hover:opacity-80"
 										onerror={handleImageError}
 									/>
 								</a>
@@ -64,16 +58,16 @@
 								<img
 									src={getPhotoUrl(leader)}
 									alt={leader.name}
-									class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
+									class="mb-4 h-24 w-24 rounded-full border-2 border-white/10 object-cover"
 									onerror={handleImageError}
 								/>
 							{/if}
-							<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+							<h3 class="mb-2 text-lg font-semibold text-white">
 								{leader.name}
 							</h3>
 							<div class="flex flex-col gap-1">
 								{#each leader.titles as title}
-									<span class="text-sm text-gray-600 dark:text-gray-400">{title}</span>
+									<span class="text-sm text-white/60">{title}</span>
 								{/each}
 							</div>
 						</div>
@@ -87,10 +81,12 @@
 			<div>
 				{#each sortedTerms as term}
 					<div class="mb-12">
-						<h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+						<h2 class="mb-6 text-2xl font-bold text-white md:text-3xl">
 							{term}
 						</h2>
-						<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
+						<div
+							class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8"
+						>
 							{#each leadersByTerm[term] as leader}
 								<div class="flex flex-col items-center text-center">
 									{#if getLink(leader)}
@@ -98,7 +94,7 @@
 											<img
 												src={getPhotoUrl(leader)}
 												alt={leader.name}
-												class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity"
+												class="mb-4 h-24 w-24 rounded-full border-2 border-white/10 object-cover transition-opacity hover:opacity-80"
 												onerror={handleImageError}
 											/>
 										</a>
@@ -106,16 +102,16 @@
 										<img
 											src={getPhotoUrl(leader)}
 											alt={leader.name}
-											class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-700"
+											class="mb-4 h-24 w-24 rounded-full border-2 border-white/10 object-cover"
 											onerror={handleImageError}
 										/>
 									{/if}
-									<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+									<h3 class="mb-2 text-lg font-semibold text-white">
 										{leader.name}
 									</h3>
 									<div class="flex flex-col gap-1">
 										{#each leader.titles as title}
-											<span class="text-sm text-gray-600 dark:text-gray-400">{title}</span>
+											<span class="text-sm text-white/60">{title}</span>
 										{/each}
 									</div>
 								</div>
@@ -129,7 +125,7 @@
 		<!-- Empty State -->
 		{#if currentLeaders.length === 0 && sortedTerms.length === 0}
 			<div class="text-center py-12">
-				<p class="text-gray-600 dark:text-gray-400">No leadership information available yet.</p>
+				<p class="text-white/60">No leadership information available yet.</p>
 			</div>
 		{/if}
 	</div>

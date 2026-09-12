@@ -5,6 +5,41 @@
 @theme {
 	--color-hacksu-blue: #4683ff;
 	--color-hacksu-green: #35c982;
-	--color-hacksu-purple: #ab52cb;
 	--color-hacksu-grey: #142027;
+}
+
+@layer base {
+	html {
+		background-color: var(--color-hacksu-grey);
+	}
+
+	body {
+		min-height: 100vh;
+		background-color: var(--color-hacksu-grey);
+		color: white;
+	}
+}
+
+input:not([type='hidden']):not([type='checkbox']):not([type='radio']),
+textarea,
+select {
+	border: 1px solid rgb(255 255 255 / 0.1) !important;
+	border-radius: 0.5rem !important;
+	background-color: rgb(0 0 0 / 0.2) !important;
+	color: white !important;
+	transition:
+		border-color 150ms,
+		background-color 150ms;
+}
+
+input:not([type='hidden']):not([type='checkbox']):not([type='radio'])::placeholder,
+textarea::placeholder {
+	color: rgb(255 255 255 / 0.4) !important;
+}
+
+input:not([type='hidden']):not([type='checkbox']):not([type='radio']):focus,
+textarea:focus,
+select:focus {
+	border-color: var(--color-hacksu-blue) !important;
+	outline: none;
 }

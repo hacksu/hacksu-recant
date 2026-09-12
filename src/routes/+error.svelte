@@ -1,58 +1,65 @@
-<!-- src/routes/+error.svelte -->
 <script lang="ts">
-import discordIcon from '$lib/assets/images/logos/discord.svg';
-import githubIcon from '$lib/assets/images/logos/github.svg';
-import hackedsuLogo from '$lib/assets/images/HackedSU.png'
+	import discordIcon from '$lib/assets/images/logos/discord.svg';
+	import githubIcon from '$lib/assets/images/logos/github.svg';
+	import hackedSuLogo from '$lib/assets/images/HackedSU.png';
 </script>
 
-<div class="h-screen bg-hacksu-grey">
-    <img src={hackedsuLogo} alt="Discord" class="justify-self-center flex h-50" />
-    <h1 class="text-4xl text-center md:text-5xl font-bold text-gray-900 dark:text-white mb-4 pt-8">Oops!</h1>
-    <p class="text-center text-white/90 text-xl mb-8">You ended up somewhere that does not exist! Our team of CS students are hopefully working to fix that! In the mean time maybe one of these will help?</p>
-    <div class="grid grid-cols-2 grid-rows-1 gap-8 pr-4 pl-4">
-          <!-- Discord Card -->
-          <div
-				class="bg-gray-700 rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-			>
-				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
-					<img src={discordIcon} alt="Discord" class="w-10 h-10" />
-				</div>
-				<h3 class="text-2xl font-bold text-hacksu-green mb-3">Join Our Discord</h3>
-				<p class="text-gray-300 text-sm md:text-base leading-relaxed mb-5">
-					Tell us that our website is broken :D
-				</p>
-				<a
-					href="/r/discord"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
-				>
-					Join Discord Server
-				</a>
-			</div>
+<div class="flex min-h-screen flex-col px-6 py-16">
+	<header class="mx-auto mb-12 max-w-2xl text-center">
+		<img src={hackedSuLogo} alt="HacKSU" class="mx-auto mb-6 h-28 w-auto object-contain" />
+		<h1 class="text-4xl font-bold text-white md:text-5xl">Oops!</h1>
+		<p class="mt-4 text-lg leading-relaxed text-white/70">
+			You ended up somewhere that does not exist. These links can help you get back on track.
+		</p>
+	</header>
 
-          <!-- GitHub Card -->
+	<div class="mx-auto grid w-full max-w-3xl grid-cols-1 gap-6 md:grid-cols-2">
+		<section
+			class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center transition-transform hover:-translate-y-1 hover:border-hacksu-green"
+		>
 			<div
-				class="bg-gray-700 rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+				class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-hacksu-green"
 			>
-				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
-					<img src={githubIcon} alt="Github" class="w-10 h-10" />
-				</div>
-				<h3 class="text-2xl font-bold text-hacksu-green mb-3">Join The Team</h3>
-				<p class="text-gray-300 text-sm md:text-base leading-relaxed mb-5">
-					Contribute to the site and fix what we broke
-				</p>
-				<a
-					href="https://github.com/hacksu/hacksu-recant"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
-				>
-					GitHub
-				</a>
+				<img src={discordIcon} alt="Discord" class="h-10 w-10 brightness-0" />
 			</div>
-    </div>
-    <p class="text-center text-zinc-600 text-sm absolute inset-x-0 bottom-0">Or click 
-     <a class="text-center text-blue-300 text-sm" href="/">here</a>
-     to go back to our homepage</p>
+			<h2 class="mb-3 text-2xl font-bold text-white">Join Our Discord</h2>
+			<p class="mb-5 text-sm leading-relaxed text-white/70 md:text-base">
+				Tell us that a link on the website is broken.
+			</p>
+			<a
+				href="/r/discord"
+				class="font-medium text-hacksu-blue no-underline transition-colors hover:text-hacksu-green hover:underline"
+			>
+				Join Discord Server
+			</a>
+		</section>
+
+		<section
+			class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center transition-transform hover:-translate-y-1 hover:border-hacksu-blue"
+		>
+			<div
+				class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-hacksu-blue"
+			>
+				<img src={githubIcon} alt="GitHub" class="h-10 w-10 brightness-0 invert" />
+			</div>
+			<h2 class="mb-3 text-2xl font-bold text-white">Join the Team</h2>
+			<p class="mb-5 text-sm leading-relaxed text-white/70 md:text-base">
+				Contribute to the site and help us fix what broke.
+			</p>
+			<a
+				href="https://github.com/hacksu/hacksu-recant"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-hacksu-blue no-underline transition-colors hover:text-hacksu-green hover:underline"
+			>
+				View on GitHub
+			</a>
+		</section>
+	</div>
+
+	<p class="mt-12 text-center text-sm text-white/60">
+		Or go <a class="font-medium text-hacksu-blue hover:text-hacksu-green" href="/"
+			>back to the homepage</a
+		>.
+	</p>
 </div>

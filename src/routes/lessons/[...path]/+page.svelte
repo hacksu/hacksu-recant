@@ -123,7 +123,7 @@
 	}
 </script>
 
-<div class="bg-gradient-to-tl from-[#35c982] to-[#4683ff] min-h-screen p-8 md:p-4">
+<div class="min-h-screen p-8 md:p-4">
 	{#if isLoading}
 		<LessonsSkeleton />
 	{:else if error}
@@ -138,14 +138,14 @@
 		<div class="max-w-[1200px] mx-auto relative">
 			{#if currentPath.length > 0}
 				<button
-					class="absolute top-0 left-0 md:relative md:mb-4 bg-white/10 border border-white/20 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 backdrop-blur-md mb-4 hover:bg-white/20 hover:-translate-x-1"
+					class="absolute top-0 left-0 mb-4 rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-base text-white transition-all duration-200 hover:-translate-x-1 hover:border-hacksu-green md:relative md:mb-4"
 					onclick={goBack}
 				>
 					← Back
 				</button>
 			{/if}
 
-			<h1 class="text-center text-white text-5xl md:text-3xl font-bold my-8">HacKSU Lessons</h1>
+			<h1 class="my-8 text-center text-5xl font-bold text-white md:text-3xl">HacKSU Lessons</h1>
 
 			{#if !showSearchResults}
 				<p class="text-center text-white/90 text-xl mb-8">
@@ -165,11 +165,19 @@
 						{filteredLessons.length} result{filteredLessons.length !== 1 ? 's' : ''} found
 					</h2>
 					{#if filteredLessons.length === 0}
-						<p class="text-white/80 text-lg text-center py-8">No lessons found matching "{searchQuery}"</p>
+						<p class="text-white/80 text-lg text-center py-8">
+							No lessons found matching "{searchQuery}"
+						</p>
 					{:else}
-						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
+						<div
+							class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]"
+						>
 							{#each filteredLessons as lesson}
-								<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
+								<button
+									type="button"
+									class="w-full text-left"
+									onclick={() => navigateToLesson(lesson)}
+								>
 									<LessonCard {lesson} />
 								</button>
 							{/each}
@@ -187,7 +195,9 @@
 								{sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}
 							</h2>
 							{#if sectionItems.categories.length > 0}
-								<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+								<div
+									class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
+								>
 									{#each sectionItems.categories as category}
 										{@const subTreePath = [...currentPath, sectionName, category]}
 										{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
@@ -197,15 +207,21 @@
 											class="w-full text-left"
 											onclick={() => navigateToCategoryInSection(category, sectionName)}
 										>
-											<CategoryCard category={category} lessonCount={count} />
+											<CategoryCard {category} lessonCount={count} />
 										</button>
 									{/each}
 								</div>
 							{/if}
 							{#if sectionItems.lessons.length > 0}
-								<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
+								<div
+									class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]"
+								>
 									{#each sectionItems.lessons as lesson}
-										<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
+										<button
+											type="button"
+											class="w-full text-left"
+											onclick={() => navigateToLesson(lesson)}
+										>
 											<LessonCard {lesson} />
 										</button>
 									{/each}
@@ -214,13 +230,21 @@
 						</div>
 					{/each}
 				{:else if groupedItems.categories.length === 0 && groupedItems.lessons.length === 0 && lessonsBySubcategory.directLessons.length === 0 && lessonsBySubcategory.subcategoryGroups.length === 0}
-					<div class="text-center text-white/80 text-lg py-12">No lessons found in this category.</div>
+					<div class="text-center text-white/80 text-lg py-12">
+						No lessons found in this category.
+					</div>
 				{:else if lessonsBySubcategory.subcategoryGroups.length > 0 || lessonsBySubcategory.directLessons.length > 0}
 					<!-- Show section headings with grouped lessons -->
 					{#if lessonsBySubcategory.directLessons.length > 0}
-						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
+						<div
+							class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]"
+						>
 							{#each lessonsBySubcategory.directLessons as lesson}
-								<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
+								<button
+									type="button"
+									class="w-full text-left"
+									onclick={() => navigateToLesson(lesson)}
+								>
 									<LessonCard {lesson} />
 								</button>
 							{/each}
@@ -233,9 +257,15 @@
 								{group.name.charAt(0).toUpperCase() + group.name.slice(1)}
 							</h2>
 							<div class="h-px bg-white/30 mb-6"></div>
-							<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-[1200px]">
+							<div
+								class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-[1200px]"
+							>
 								{#each group.lessons as lesson}
-									<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
+									<button
+										type="button"
+										class="w-full text-left"
+										onclick={() => navigateToLesson(lesson)}
+									>
 										<LessonCard {lesson} />
 									</button>
 								{/each}
@@ -244,21 +274,33 @@
 					{/each}
 				{:else if groupedItems.categories.length > 0}
 					<!-- Show category cards if no subcategory grouping needed -->
-					<div class="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-1 gap-6 mt-8">
+					<div
+						class="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-1 gap-6 mt-8"
+					>
 						{#each groupedItems.categories as category}
 							{@const subTreePath = [...currentPath, category]}
 							{@const subTree = getSubTreeAtPath(categoryTree, subTreePath)}
 							{@const count = subTree ? countLessonsInCategory(subTree) : 0}
-							<button type="button" class="w-full text-left" onclick={() => navigateToCategory(category)}>
+							<button
+								type="button"
+								class="w-full text-left"
+								onclick={() => navigateToCategory(category)}
+							>
 								<CategoryCard {category} lessonCount={count} />
 							</button>
 						{/each}
 					</div>
 				{:else}
 					<!-- Show lessons directly if no categories -->
-					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]">
+					<div
+						class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 max-w-[1200px]"
+					>
 						{#each groupedItems.lessons as lesson}
-							<button type="button" class="w-full text-left" onclick={() => navigateToLesson(lesson)}>
+							<button
+								type="button"
+								class="w-full text-left"
+								onclick={() => navigateToLesson(lesson)}
+							>
 								<LessonCard {lesson} />
 							</button>
 						{/each}
@@ -268,4 +310,3 @@
 		</div>
 	{/if}
 </div>
-
