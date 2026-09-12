@@ -21,7 +21,7 @@
 			title: 'GitHub',
 			link: 'https://github.com/hacksu',
 			img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDBDNS4zNzQgMCAwIDUuMzczIDAgMTJjMCA1LjMwMiAzLjQzOCA5LjggOC4yMDcgMTEuMzg3LjU5OS4xMTEuNzkzLS4yNjEuNzkzLS41Nzd2LTIuMjM0Yy0zLjMzOC43MjYtNC4wMzMtMS40MTYtNC4wMzMtMS40MTYtLjU0Ni0xLjM4Ny0xLjMzMy0xLjc1Ni0xLjMzMy0xLjc1Ni0xLjA4OS0uNzQ1LjA4My0uNzI5LjA4My0uNzI5IDEuMjA1LjA4NCAxLjgzOSAxLjIzNyAxLjgzOSAxLjIzNyAxLjA3IDEuODM0IDIuODA3IDEuMzA0IDMuNDkyLjk5Ny4xMDctLjc3NS40MTgtMS4zMDUuNzYyLTEuNjA0LTIuNjY1LS4zMDUtNS40NjctMS4zMzQtNS40NjctNS45MzEgMC0xLjMxMS40NjktMi4zODEgMS4yMzYtMy4yMjEtLjEyNC0uMzAzLS41MzUtMS41MjQuMTE3LTMuMTc2IDAgMCAxLjAwOC0uMzIyIDMuMzAxIDEuMjMuOTU3LS4yNjYgMS45ODMtLjM5OSAzLjAwMy0uNDA0IDEuMDIuMDA1IDIuMDQ3LjEzOCAzLjAwNi40MDQgMi4yOTEtMS41NTIgMy4yOTctMS4yMyAzLjI5Ny0xLjIzLjY1MyAxLjY1My4yNDIgMi44NzQuMTE4IDMuMTc2Ljc3Ljg0IDEuMjM1IDEuOTExIDEuMjM1IDMuMjIxIDAgNC42MDktMi44MDcgNS42MjQtNS40NzkgNS45MjEuNDMuMzcyLjgyMyAxLjEwMi44MjMgMi4yMjJ2My4yOTNjMCAuMzE5LjE5Mi42OTQuODAxLjU3NiA0Ljc2NS0xLjU4OSA4LjE5OS02LjA4NiA4LjE5OS0xMS4zODYgMC02LjYyNy01LjM3My0xMi0xMi0xMnoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo='
-		},
+		}
 		// Add more social links here if needed
 	];
 
@@ -58,7 +58,7 @@
 		if (!ctx || !canvas) return;
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.strokeStyle = 'rgba(53, 201, 130, 0.85)'; 
+		ctx.strokeStyle = 'rgba(53, 201, 130, 0.85)';
 		ctx.lineWidth = 1;
 
 		// Update and draw particles
@@ -123,16 +123,13 @@
 </script>
 
 <div class="w-full min-h-screen relative">
-	<!-- Background -->
-	<div class="absolute -z-20 top-0 left-0 h-full w-full bg-hacksu-grey"></div>
-
-	<canvas
-		bind:this={canvas}
-		class="absolute -z-10 top-0 left-0 w-full h-full pointer-meetings-none"
+	<canvas bind:this={canvas} class="pointer-events-none absolute top-0 left-0 z-0 h-full w-full"
 	></canvas>
 
 	<!-- Social buttons -->
-	<div class="absolute w-[10vh] right-[30px] bottom-[30px] bg-transparent opacity-25 z-10 hidden md:block">
+	<div
+		class="absolute w-[10vh] right-[30px] bottom-[30px] bg-transparent opacity-25 z-10 hidden md:block"
+	>
 		{#each social as item, index}
 			<a
 				href={item.link}
@@ -142,7 +139,11 @@
 				class="block relative"
 				style="top: -{index * 10}vh;"
 			>
-				<img src={item.img} alt={item.title} class="w-[10vh] mt-5 transition-opacity hover:opacity-70" />
+				<img
+					src={item.img}
+					alt={item.title}
+					class="w-[10vh] mt-5 transition-opacity hover:opacity-70"
+				/>
 			</a>
 		{/each}
 	</div>
@@ -152,7 +153,7 @@
 		class="relative text-white pt-[10vh] pb-[6vh] flex flex-col min-h-screen justify-center items-center z-10"
 	>
 		<img class="w-[40vw] max-w-[400px] md:w-[75vw]" src={hacksuLogo} alt="HacKSU" />
-		<h1 class="text-[4vh] my-[15px] text-center"><strong>{title}</strong></h1>
+		<h1 class="text-[4vh] mt-[15px] mb-3 text-center"><strong>{title}</strong></h1>
 		<p class="text-center text-[3vh] w-[90vw] my-2.5">{body}</p>
 		{#if nextMeeting}
 			<div class="max-w-[95vw] w-full mx-auto mb-4 [&>div]:!mt-0 [&>div]:!mb-0">
@@ -164,7 +165,7 @@
 					href="https://discord.gg/r8vVvsE"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
+					class="bg-hacksu-blue hover:bg-hacksu-blue/90 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
 				>
 					Join our Discord
 				</a>
@@ -172,7 +173,7 @@
 					href="https://www.redbubble.com/people/KentStateCS/shop"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
+					class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
 				>
 					Check Out Our Merch!
 				</a>
@@ -183,7 +184,7 @@
 			<!-- Discord invite card -->
 			<div class="mb-10 max-w-[95vw] mx-auto">
 				<div
-					class="bg-gray-800 rounded-lg p-4 flex items-center gap-4 border border-gray-700 max-w-md hover:border-hacksu-green/50 transition-colors"
+					class="rounded-2xl border border-white/10 bg-white/5 p-4 flex items-center gap-4 max-w-md hover:border-hacksu-green/50 transition-colors"
 				>
 					<div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
 						<img src={hacksuLogo} alt="HacKSU" class="w-12 h-12" />
@@ -205,25 +206,21 @@
 						href="https://discord.gg/r8vVvsE"
 						target="_blank"
 						rel="noopener noreferrer"
-						class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-6 py-2 rounded transition-colors flex-shrink-0"
+						class="bg-hacksu-blue hover:bg-hacksu-blue/90 text-white font-semibold px-6 py-2 rounded transition-colors flex-shrink-0"
 					>
 						Join
 					</a>
 				</div>
 			</div>
 
-			<button
-				class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-bold text-lg px-8 py-4 rounded-lg transition-colors cursor-pointer w-[60vw] max-w-[40vh] text-[3vh]"
+			<a
+				href="https://www.redbubble.com/people/KentStateCS/shop"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="w-[60vw] max-w-[40vh] rounded-lg bg-hacksu-green px-8 py-4 text-center text-[3vh] font-bold text-hacksu-grey no-underline transition-colors hover:bg-hacksu-green/90"
 			>
-				<a
-					href="https://www.redbubble.com/people/KentStateCS/shop"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="no-underline text-white"
-				>
-					Check Out Our Merch!
-				</a>
-			</button>
+				Check Out Our Merch!
+			</a>
 		{/if}
 	</div>
 </div>
