@@ -7,16 +7,24 @@
 	const informations = $derived(data.information || []);
 </script>
 
-<div class="w-full min-h-[50vh] bg-gradient-to-tl from-hacksu-green to-hacksu-blue p-6 md:p-24 overflow-auto">
-	<h1 class="mx-auto mb-10 text-center text-white text-4xl font-bold">Helpful Resources</h1>
+<div class="min-h-screen px-6 py-16 md:px-12 lg:px-24">
+	<header class="mx-auto mb-12 max-w-2xl text-center">
+		<h1 class="text-4xl font-bold text-white">Helpful Resources</h1>
+	</header>
 
 	{#if informations.length === 0}
-		<div class="max-w-2xl mx-auto text-center text-white bg-black/15 p-6 rounded-xl">
+		<div
+			class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/70"
+		>
 			<p>No helpful information has been added yet.</p>
 		</div>
 	{:else}
-		{#each informations as information}
-			<InformationCard {information} />
-		{/each}
+		<div class="mx-auto max-w-6xl columns-1 gap-6 md:columns-2">
+			{#each informations as information}
+				<div class="mb-6 break-inside-avoid">
+					<InformationCard {information} />
+				</div>
+			{/each}
+		</div>
 	{/if}
 </div>
