@@ -13,10 +13,14 @@
 	};
 </script>
 
-<div class="w-full py-20 px-4 bg-gradient-to-b from-hacksu-blue/20 to-hacksu-green/20">
+<div class="w-full py-20 px-4">
 	<div class="max-w-4xl mx-auto">
-		<div class="bg-gray-800/80 backdrop-blur-sm rounded-lg p-8 md:p-12 border border-gray-700/50">
-			<!-- Title -->
+		<div class="rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12">
+			<p
+				class="table mx-auto mb-4 rounded-full bg-hacksu-blue px-3.5 py-1.5 text-center text-xs font-extrabold uppercase tracking-wider text-white"
+			>
+				Where &amp; when
+			</p>
 			<h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-6">Meetings</h2>
 
 			<!-- Time -->
@@ -29,11 +33,11 @@
 						href={location.location.building.url}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="underline hover:text-hacksu-green transition-colors"
+						class="text-hacksu-green underline transition-colors hover:text-hacksu-green/80"
 					>
 						{location.location.building.name}
 					</a>
-					<span class="text-gray-300"> - {location.location.building.room}</span>
+					<span class="text-white/70"> - {location.location.building.room}</span>
 				</p>
 			</div>
 
@@ -49,7 +53,7 @@
 						href={location.location.building.url}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold px-6 py-3 rounded-lg transition-colors inline-block"
+						class="bg-hacksu-blue hover:bg-hacksu-blue/90 text-white font-semibold px-6 py-3 rounded-lg transition-colors inline-block"
 					>
 						Show me on a map
 					</a>
@@ -58,9 +62,8 @@
 
 			<!-- Body Text -->
 			{#if location.body}
-				<p class="text-gray-300 text-center text-lg mb-6">{location.body}</p>
+				<p class="text-white/70 text-center text-lg mb-6">{location.body}</p>
 			{/if}
-
 		</div>
 	</div>
 </div>
