@@ -33,153 +33,153 @@
 	}
 </script>
 
-<div class="min-h-screen bg-gray-50">
-	<!-- Top Section with Wavy Background -->
-	<div class="relative py-20 px-5 md:px-5 md:py-20 overflow-hidden">
+<div class="min-h-screen px-5 py-16">
+	<header class="mx-auto mb-12 max-w-2xl text-center">
+		<h1 class="text-4xl font-bold text-white md:text-5xl">Get In Touch</h1>
+	</header>
+
+	<div class="mx-auto mb-16 grid max-w-7xl grid-cols-1 gap-5 md:grid-cols-3 md:gap-8">
 		<div
-			class="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-br from-hacksu-blue to-hacksu-green z-0"
-			style="clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%)"
-		></div>
-		<div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 mt-10">
-			<!-- Email Card -->
+			class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:border-hacksu-blue/70"
+		>
 			<div
-				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+				class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-hacksu-blue"
 			>
-				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
-					<img src={mailIcon} alt="Email" class="w-10 h-10" />
-				</div>
-				<h3 class="text-2xl font-bold text-gray-900 mb-3">Email Us</h3>
-				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
-					Send us an email and we'll get back to you within 24 hours
-				</p>
-				<a
-					href="mailto:hacksu@cs.kent.edu"
-					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
-				>
-					hacksu@cs.kent.edu
-				</a>
+				<img src={mailIcon} alt="Email" class="h-10 w-10 brightness-0 invert" />
 			</div>
+			<h2 class="mb-3 text-2xl font-bold text-white">Email Us</h2>
+			<p class="mb-5 text-sm leading-relaxed text-white/70 md:text-base">
+				Send us an email and we&apos;ll get back to you within 24 hours.
+			</p>
+			<a
+				href="mailto:staff@khe.io"
+				class="font-medium text-hacksu-blue no-underline transition-colors hover:text-hacksu-green hover:underline"
+			>
+				staff@khe.io
+			</a>
+		</div>
 
-			<!-- Discord Card -->
+		<div
+			class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:border-hacksu-green/70"
+		>
 			<div
-				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+				class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-hacksu-green"
 			>
-				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
-					<img src={discordIcon} alt="Discord" class="w-10 h-10" />
-				</div>
-				<h3 class="text-2xl font-bold text-gray-900 mb-3">Join Our Discord</h3>
-				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
-					Get instant help and connect with our community
-				</p>
-				<a
-					href="/r/discord"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
-				>
-					Join Discord Server
-				</a>
+				<img src={discordIcon} alt="Discord" class="h-10 w-10 brightness-0" />
 			</div>
+			<h2 class="mb-3 text-2xl font-bold text-white">Join Our Discord</h2>
+			<p class="mb-5 text-sm leading-relaxed text-white/70 md:text-base">
+				Get instant help and connect with our community.
+			</p>
+			<a
+				href="/r/discord"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-hacksu-blue no-underline transition-colors hover:text-hacksu-green hover:underline"
+			>
+				Join Discord Server
+			</a>
+		</div>
 
-			<!-- GitHub Card -->
+		<div
+			class="rounded-2xl border border-white/10 bg-white/5 p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:border-hacksu-blue/70"
+		>
 			<div
-				class="bg-white rounded-2xl p-8 md:p-10 text-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+				class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-hacksu-blue"
 			>
-				<div class="w-20 h-20 rounded-full bg-hacksu-blue flex items-center justify-center mx-auto mb-5">
-					<img src={githubIcon} alt="Github" class="w-10 h-10" />
-				</div>
-				<h3 class="text-2xl font-bold text-gray-900 mb-3">Follow Us</h3>
-				<p class="text-gray-600 text-sm md:text-base leading-relaxed mb-5">
-					Check out our projects and contributions
-				</p>
-				<a
-					href="https://github.com/hacksu"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-hacksu-blue no-underline font-medium transition-colors hover:text-hacksu-green hover:underline"
-				>
-					GitHub
-				</a>
+				<img src={githubIcon} alt="GitHub" class="h-10 w-10 brightness-0 invert" />
 			</div>
+			<h2 class="mb-3 text-2xl font-bold text-white">Follow Us</h2>
+			<p class="mb-5 text-sm leading-relaxed text-white/70 md:text-base">
+				Check out our projects and contributions.
+			</p>
+			<a
+				href="https://github.com/hacksu"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-medium text-hacksu-blue no-underline transition-colors hover:text-hacksu-green hover:underline"
+			>
+				GitHub
+			</a>
 		</div>
 	</div>
 
-	<!-- Contact Form Section -->
-	<div class="py-16 md:py-20 px-5 max-w-4xl mx-auto">
-		<div class="bg-white rounded-2xl p-8 md:p-12 shadow-md">
-			<h2 class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-10">Send us a Message</h2>
-			<form onsubmit={handleSubmit} class="flex flex-col gap-6">
-				<div class="flex flex-col gap-2">
-					<label for="name" class="font-medium text-gray-900 text-sm">Your Name</label>
-					<input
-						type="text"
-						id="name"
-						name="name"
-						required
-						bind:value={name}
-						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
-						placeholder="Enter your name"
-					/>
-				</div>
+	<div class="mx-auto max-w-4xl rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12">
+		<h2 class="mb-10 text-center text-2xl font-bold text-white md:text-3xl">Send us a Message</h2>
+		<form onsubmit={handleSubmit} class="flex flex-col gap-6">
+			<div class="flex flex-col gap-2">
+				<label for="name" class="text-sm font-medium text-white/70">Your Name</label>
+				<input
+					type="text"
+					id="name"
+					name="name"
+					required
+					bind:value={name}
+					class="rounded-lg border border-white/10 bg-black/20 px-4 py-3 text-base text-white placeholder:text-white/40 transition-colors focus:border-hacksu-blue focus:outline-none"
+					placeholder="Enter your name"
+				/>
+			</div>
 
-				<div class="flex flex-col gap-2">
-					<label for="email" class="font-medium text-gray-900 text-sm">Your Email</label>
-					<input
-						type="email"
-						id="email"
-						name="email"
-						required
-						bind:value={email}
-						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
-						placeholder="Enter your email"
-					/>
-				</div>
+			<div class="flex flex-col gap-2">
+				<label for="email" class="text-sm font-medium text-white/70">Your Email</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					required
+					bind:value={email}
+					class="rounded-lg border border-white/10 bg-black/20 px-4 py-3 text-base text-white placeholder:text-white/40 transition-colors focus:border-hacksu-blue focus:outline-none"
+					placeholder="Enter your email"
+				/>
+			</div>
 
-				<div class="flex flex-col gap-2">
-					<label for="subject" class="font-medium text-gray-900 text-sm">Subject</label>
-					<input
-						type="text"
-						id="subject"
-						name="subject"
-						required
-						bind:value={subject}
-						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none"
-						placeholder="Enter subject"
-					/>
-				</div>
+			<div class="flex flex-col gap-2">
+				<label for="subject" class="text-sm font-medium text-white/70">Subject</label>
+				<input
+					type="text"
+					id="subject"
+					name="subject"
+					required
+					bind:value={subject}
+					class="rounded-lg border border-white/10 bg-black/20 px-4 py-3 text-base text-white placeholder:text-white/40 transition-colors focus:border-hacksu-blue focus:outline-none"
+					placeholder="Enter subject"
+				/>
+			</div>
 
-				<div class="flex flex-col gap-2">
-					<label for="message" class="font-medium text-gray-900 text-sm">Message</label>
-					<textarea
-						id="message"
-						name="message"
-						required
-						bind:value={message}
-						class="px-4 py-3 border-2 border-gray-300 rounded-lg text-base transition-colors focus:border-hacksu-blue focus:outline-none resize-y min-h-[120px]"
-						rows="6"
-						placeholder="Enter your message"
-					></textarea>
-				</div>
+			<div class="flex flex-col gap-2">
+				<label for="message" class="text-sm font-medium text-white/70">Message</label>
+				<textarea
+					id="message"
+					name="message"
+					required
+					bind:value={message}
+					class="min-h-[120px] resize-y rounded-lg border border-white/10 bg-black/20 px-4 py-3 text-base text-white placeholder:text-white/40 transition-colors focus:border-hacksu-blue focus:outline-none"
+					rows="6"
+					placeholder="Enter your message"
+				></textarea>
+			</div>
 
-				{#if submitStatus === 'success'}
-					<div class="px-4 py-3 rounded-lg text-center font-medium bg-green-100 text-green-800 border border-green-200">
-						Message sent successfully!
-					</div>
-				{:else if submitStatus === 'error'}
-					<div class="px-4 py-3 rounded-lg text-center font-medium bg-red-100 text-red-800 border border-red-200">
-						Failed to send message. Please try again.
-					</div>
-				{/if}
-
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					class="bg-hacksu-blue hover:bg-[#3570e6] text-white px-8 py-3.5 border-none rounded-lg text-base font-semibold cursor-pointer transition-colors self-center mt-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
+			{#if submitStatus === 'success'}
+				<div
+					class="rounded-lg border border-hacksu-green/30 bg-hacksu-green/15 px-4 py-3 text-center font-medium text-hacksu-green"
 				>
-					{isSubmitting ? 'Sending...' : 'Send Message'}
-				</button>
-			</form>
-		</div>
+					Message sent successfully!
+				</div>
+			{:else if submitStatus === 'error'}
+				<div
+					class="rounded-lg border border-red-400/30 bg-red-400/15 px-4 py-3 text-center font-medium text-red-200"
+				>
+					Failed to send message. Please try again.
+				</div>
+			{/if}
+
+			<button
+				type="submit"
+				disabled={isSubmitting}
+				class="mt-2.5 self-center rounded-lg bg-hacksu-blue px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-hacksu-blue/90 disabled:cursor-not-allowed disabled:opacity-60"
+			>
+				{isSubmitting ? 'Sending...' : 'Send Message'}
+			</button>
+		</form>
 	</div>
 </div>
-
