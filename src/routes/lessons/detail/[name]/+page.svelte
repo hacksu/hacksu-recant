@@ -16,10 +16,10 @@
 	}
 </script>
 
-<div class="bg-gradient-to-tl from-[#35c982] to-[#4683ff] min-h-screen p-8 md:p-4">
-	<div class="max-w-[900px] mx-auto">
+<div class="min-h-screen p-8 md:p-4">
+	<div class="mx-auto max-w-[900px]">
 		<button
-			class="bg-white/10 border border-white/20 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 backdrop-blur-md mb-8 hover:bg-white/20 hover:-translate-x-1"
+			class="mb-8 rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-base text-white transition-all duration-200 hover:-translate-x-1 hover:border-hacksu-green"
 			onclick={goBack}
 		>
 			← Back to Lessons
@@ -30,7 +30,7 @@
 				<h1 class="text-3xl mb-4">Error Loading Lesson</h1>
 				<p class="text-lg mb-6">{error}</p>
 				<button
-					class="bg-white/20 border border-white/30 rounded-lg px-6 py-3 text-white text-base cursor-pointer transition-all duration-200 hover:bg-white/30"
+					class="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-base text-white transition-all duration-200 hover:border-hacksu-green"
 					onclick={goBack}
 				>
 					Go Back
@@ -44,11 +44,13 @@
 				<p>Loading lesson content...</p>
 			</div>
 		{:else}
-			<div class="bg-white/95 rounded-2xl p-12 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
-				<div class="flex items-center justify-between gap-4 flex-wrap mb-8">
-					<h1 class="text-4xl md:text-3xl font-bold m-0 text-[#142027] capitalize">{repoName}</h1>
+			<div class="rounded-2xl border border-white/10 bg-white/5 p-12 md:p-6">
+				<div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+					<div>
+						<h1 class="mb-3 text-4xl font-bold capitalize text-white md:text-3xl">{repoName}</h1>
+					</div>
 					<a
-						class="text-[#4683ff] font-bold no-underline border border-[rgba(70,131,255,0.2)] px-3.5 py-2 rounded-[10px] bg-[rgba(70,131,255,0.08)] transition-all duration-200 ease-in-out hover:bg-[rgba(70,131,255,0.14)] hover:border-[rgba(70,131,255,0.35)] hover:-translate-y-px"
+						class="rounded-[10px] border border-hacksu-blue/30 bg-hacksu-blue/15 px-3.5 py-2 font-bold text-hacksu-blue no-underline transition-all duration-200 ease-in-out hover:-translate-y-px hover:border-hacksu-blue hover:bg-hacksu-blue/25"
 						href={repoUrl}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -57,7 +59,7 @@
 					</a>
 				</div>
 				<div
-					class="prose prose-slate max-w-none prose-headings:text-[#142027] prose-a:text-[#4683ff] prose-a:no-underline hover:prose-a:underline prose-code:text-[#142027] prose-code:bg-[#f8f9fa] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#f8f9fa] prose-pre:border prose-pre:border-[#e0e0e0] prose-pre:rounded-lg prose-img:rounded-lg prose-img:shadow-md"
+					class="prose prose-invert max-w-none prose-headings:text-white prose-a:text-hacksu-blue prose-a:no-underline hover:prose-a:underline prose-code:bg-black/30 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-white prose-code:text-sm prose-pre:rounded-lg prose-pre:border prose-pre:border-white/10 prose-pre:bg-black/30 prose-img:rounded-lg prose-img:shadow-md"
 				>
 					{@html readmeHtml}
 				</div>
@@ -65,4 +67,3 @@
 		{/if}
 	</div>
 </div>
-
