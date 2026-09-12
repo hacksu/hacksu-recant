@@ -8,33 +8,32 @@
 		{
 			name: 'Instagram',
 			href: 'https://www.instagram.com/hacksu/',
-            icon: instagramIcon,
-
+			icon: instagramIcon
 		},
 		{
 			name: 'GitHub',
 			href: 'https://github.com/hacksu',
-            icon: githubIcon,
+			icon: githubIcon
 		},
 		{
 			name: 'Discord',
 			href: 'https://discord.gg/rJDdvnt',
-            icon: discordIcon,
+			icon: discordIcon
 		}
 	];
 </script>
 
-<footer class="w-full bg-hacksu-grey py-8 px-4">
+<footer class="w-full border-t border-white/10 py-8 px-4">
 	<div class="max-w-7xl mx-auto flex items-center justify-center gap-6">
 		{#each socialLinks as link}
 			<a
 				href={link.href}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="text-white hover:text-hacksu-green transition-colors duration-200"
+				class="rounded-lg border border-white/10 p-2 text-white transition-colors duration-200 hover:border-hacksu-green"
 				aria-label={link.name}
 			>
-					<img src={link.icon} alt={link.name} class="w-8 h-8 icon-white" />
+				<img src={link.icon} alt={link.name} class="w-8 h-8 icon-white" />
 			</a>
 		{/each}
 	</div>
