@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import { renderMarkdown } from '$lib/utils/markdown';
 
 	let { data }: { data: PageData } = $props();
 	let searchQuery = $state('');
@@ -185,14 +186,24 @@
 									>
 								</form>
 							{:else}
-								<button
-									type="button"
+								<div
+									role="button"
+									tabindex="0"
 									onclick={() => (editingBodyId = item.id)}
-									class:italic={!item.body}
-									class="mt-1 w-full cursor-pointer bg-transparent p-0 text-left text-sm text-gray-300"
+									onkeydown={(event) => {
+										if (event.key === 'Enter' || event.key === ' ') {
+											event.preventDefault();
+											editingBodyId = item.id;
+										}
+									}}
+									class="prose prose-invert prose-sm mt-1 w-full max-w-none cursor-pointer text-sm text-gray-300 prose-headings:text-white prose-p:my-1 prose-p:text-gray-300 prose-strong:text-white prose-a:text-hacksu-green prose-a:underline prose-code:rounded prose-code:bg-black/30 prose-code:px-1 prose-code:text-gray-300 prose-ul:my-1 prose-ul:text-gray-300 prose-ol:my-1 prose-ol:text-gray-300"
 								>
-									{item.body || 'Add body'}
-								</button>
+									{#if item.body}
+										{@html renderMarkdown(item.body)}
+									{:else}
+										<p class="italic">Add body</p>
+									{/if}
+								</div>
 							{/if}
 							<p class="mt-2 flex flex-wrap gap-x-3 text-xs text-gray-400">
 								<span>Created {formatDate(item.createdAt)}</span>
