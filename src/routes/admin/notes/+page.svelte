@@ -189,7 +189,7 @@
 									type="button"
 									onclick={() => (editingBodyId = item.id)}
 									class:italic={!item.body}
-									class="mt-1 w-full cursor-pointer bg-transparent p-0 text-left text-sm text-gray-300"
+									class="mt-1 w-full cursor-pointer bg-transparent p-0 text-left text-sm whitespace-pre-wrap text-gray-300"
 								>
 									{item.body || 'Add body'}
 								</button>
