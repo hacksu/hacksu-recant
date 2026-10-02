@@ -24,9 +24,6 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-
-compose.override.yaml
-
 # Uploads
 static/uploads/
 
