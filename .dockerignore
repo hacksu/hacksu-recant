@@ -15,3 +15,7 @@ README.md
 build
 node_modules
 package
+lessons-service
+scripts
+drizzle/meta
+*.log
