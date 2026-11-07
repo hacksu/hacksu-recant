@@ -29,7 +29,7 @@
 				href={information.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="group/title flex w-fit items-center gap-2 text-white no-underline"
+				class="group/title flex w-fit items-center gap-2 text-black no-underline"
 			>
 				<h2 class="m-0 text-xl font-semibold md:text-2xl">{information.title}</h2>
 				<svg
@@ -49,11 +49,11 @@
 				</svg>
 			</a>
 		{:else}
-			<h2 class="m-0 text-xl font-semibold text-white md:text-2xl">{information.title}</h2>
+			<h2 class="m-0 text-xl font-semibold text-black md:text-2xl">{information.title}</h2>
 		{/if}
 
 		<div
-			class="mt-3 prose prose-invert prose-sm max-w-none text-white prose-headings:text-white prose-p:my-0 prose-p:text-white prose-strong:text-white prose-em:text-white prose-code:rounded prose-code:bg-black/30 prose-code:px-1 prose-code:py-0.5 prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-white/80 prose-ul:my-0 prose-ul:text-white prose-ol:my-0 prose-ol:text-white prose-li:text-white prose-blockquote:border-white/30 prose-blockquote:text-white/90"
+			class="mt-3 prose prose-invert prose-sm max-w-none text-black prose-headings:text-black prose-p:my-0 prose-p:text-black prose-strong:text-black prose-em:text-black prose-code:rounded prose-code:px-1 prose-code:py-0.5 prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-black/80 prose-ul:my-0 prose-ul:text-black prose-ol:my-0 prose-ol:text-black prose-li:text-black prose-blockquote:border-white/30 prose-blockquote:text-black/90"
 		>
 			{@html descriptionHtml}
 		</div>
