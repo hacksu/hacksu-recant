@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { join, resolve } from 'path';
+import { join, resolve, sep } from 'path';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
@@ -20,7 +20,7 @@ export const GET: RequestHandler = async ({ params }) => {
     const uploadsDir = resolve(process.cwd(), 'static', 'uploads');
     const filePath = resolve(uploadsDir, path);
 
-    if (!filePath.startsWith(uploadsDir + '/')) throw error(400, 'Escape attempt');
+    if (!filePath.startsWith(uploadsDir + sep)) throw error(400, 'Escape attempt');
 
 	try {
 		// Read file from static/uploads/<path>

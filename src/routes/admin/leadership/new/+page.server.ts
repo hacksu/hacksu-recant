@@ -3,13 +3,12 @@ import { leadership } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, RequestEvent } from '@sveltejs/kit';
 import { requireAdmin } from '$lib/server/admin';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import { listImages, photoFromForm } from '$lib/server/uploads';
 import { randomUUID } from 'crypto';
 
 export const load = async (event: RequestEvent) => {
 	await requireAdmin(event);
-	return {};
+	return { images: await listImages() };
 };
 
 export const actions: Actions = {
@@ -22,7 +21,6 @@ export const actions: Actions = {
 		const gradYearStr = formData.get('gradYear')?.toString();
 		const gradTerm = formData.get('gradTerm')?.toString();
 		const github = formData.get('github')?.toString() || null;
-		const photoFile = formData.get('photo') as File | null;
 		const titlesStr = formData.get('titles')?.toString();
 		const link = formData.get('link')?.toString() || null;
 		const sortOrderStr = formData.get('sortOrder')?.toString();
@@ -56,35 +54,9 @@ export const actions: Actions = {
 			return fail(400, { error: 'Invalid sort order' });
 		}
 
-		let photoPath: string | null = null;
-
-		// Handle photo upload
-		if (photoFile && photoFile.size > 0) {
-			try {
-				// Create uploads directory if it doesn't exist
-				const uploadsDir = join(process.cwd(), 'static', 'uploads', 'leadership');
-				await mkdir(uploadsDir, { recursive: true });
-
-				// Generate unique filename
-				const fileExt = photoFile.name.split('.').pop() || 'jpg';
-				const fileName = `${randomUUID()}.${fileExt}`;
-				const filePath = join(uploadsDir, fileName);
-
-				// Save file
-				const arrayBuffer = await photoFile.arrayBuffer();
-				const buffer = Buffer.from(arrayBuffer);
-				await writeFile(filePath, buffer);
-
-				// Store relative path for serving
-				photoPath = `/uploads/leadership/${fileName}`;
-			} catch (error) {
-				console.error('Error uploading photo:', error);
-				return fail(500, { error: 'Failed to upload photo' });
-			}
-		}
-
 		try {
 			const id = randomUUID();
+			const photo = await photoFromForm(event, formData, 'leadership');
 
 			await db.insert(leadership).values({
 				id,
@@ -92,7 +64,7 @@ export const actions: Actions = {
 				gradYear,
 				gradTerm,
 				github,
-				photo: photoPath,
+				photo,
 				titles,
 				link,
 				sortOrder,

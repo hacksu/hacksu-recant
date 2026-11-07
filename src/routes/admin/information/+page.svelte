@@ -12,7 +12,7 @@
 		<h1 class="text-3xl font-bold">Information Management</h1>
 		<a
 			href="/admin/information/new"
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+			class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 		>
 			Add New Info Block
 		</a>

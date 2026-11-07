@@ -1,45 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
-	import favicon from '$lib/assets/images/favicon.svg';
+	import ImagePicker from '$lib/components/ImagePicker.svelte';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
-	let photoPreview: string | null = null;
-	let photoFile: File | null = null;
 	let githubUsername = $state('');
-
-	function getPhotoUrl(): string {
-		if (photoPreview) {
-			return photoPreview;
-		}
-		if (githubUsername) {
-			return `https://github.com/${githubUsername}.png`;
-		}
-		return favicon;
-	}
-
-	function handlePhotoChange(event: Event) {
-		const target = event.target as HTMLInputElement;
-		const file = target.files?.[0];
-		if (file) {
-			photoFile = file;
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				photoPreview = e.target?.result as string;
-			};
-			reader.readAsDataURL(file);
-		}
-	}
 
 	function handleGithubChange(event: Event) {
 		const target = event.target as HTMLInputElement;
 		githubUsername = target.value;
-	}
-
-	function handleImageError(event: Event) {
-		const target = event.target as HTMLImageElement;
-		target.src = favicon;
 	}
 </script>
 
@@ -53,30 +23,14 @@
 	{/if}
 
 	<form method="POST" enctype="multipart/form-data" use:enhance class="space-y-6">
-		<!-- Photo Upload -->
 		<div>
-			<label for="photo" class="block text-sm font-medium mb-2">Photo</label>
-			<div class="flex items-center gap-4 mb-2">
-				<img
-					src={getPhotoUrl()}
-					alt="Preview"
-					class="w-24 h-24 rounded-full object-cover"
-					onerror={handleImageError}
-				/>
-				<div class="flex-1">
-					<input
-						type="file"
-						id="photo"
-						name="photo"
-						accept="image/*"
-						onchange={handlePhotoChange}
-						class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
-					/>
-					<p class="text-xs text-gray-500 mt-1">
-						If no photo is uploaded, GitHub profile picture will be used (if GitHub username is provided).
-					</p>
-				</div>
-			</div>
+			<ImagePicker
+				images={data.images}
+				fallback={githubUsername ? `https://github.com/${githubUsername}.png` : undefined}
+			/>
+			<p class="text-xs text-gray-500 mt-1">
+				If no photo is set, GitHub profile picture will be used (if GitHub username is provided).
+			</p>
 		</div>
 
 		<!-- Name -->
@@ -189,7 +143,7 @@
 		<div class="flex gap-4">
 			<button
 				type="submit"
-				class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+				class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 			>
 				Create Leader
 			</button>
