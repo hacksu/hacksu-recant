@@ -3,6 +3,7 @@ import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { uploadedFiles } from '$lib/server/db/schema';
 import { eq, and, isNull } from 'drizzle-orm';
+import { uploadUrl } from '$lib/uploads';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { filename } = params;
@@ -26,5 +27,5 @@ export const GET: RequestHandler = async ({ params }) => {
 	}
 
 	// Temporary redirect so browsers don't cache and bypass the counter
-	throw svelteRedirect(307, `/uploads/uploads/${filename}`);
+	throw svelteRedirect(307, uploadUrl(file));
 };

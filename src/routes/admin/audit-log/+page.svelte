@@ -170,7 +170,7 @@
 															{log.action === 'CREATE' ? 'Created:' : 'After:'}
 														</p>
 														<pre
-															class="text-xs bg-green-50 p-2 rounded overflow-auto max-h-40"
+															class="text-xs text-hacksu-grey bg-green-50 p-2 rounded overflow-auto max-h-40"
 														>{JSON.stringify(log.changesAfter, null, 2)}</pre>
 													</div>
 												{/if}

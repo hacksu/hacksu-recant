@@ -236,7 +236,7 @@
 			>
 				{tab.charAt(0).toUpperCase() + tab.slice(1)}
 				{#if tab === 'drafts' && data.drafts.length > 0}
-					<span class="ml-1 bg-hacksu-green text-black text-[10px] font-bold rounded-full px-1.5">{data.drafts.length}</span>
+					<span class="ml-1 bg-hacksu-green text-hacksu-grey text-[10px] font-bold rounded-full px-1.5">{data.drafts.length}</span>
 				{/if}
 			</button>
 		{/each}
@@ -299,7 +299,7 @@
 		{#if sendSuccess}
 			<span class="text-xs text-hacksu-green font-semibold">{sendSuccess}</span>
 		{/if}
-		<button class="bg-hacksu-green text-black font-bold text-sm px-4 py-1.5 rounded-md hover:bg-hacksu-green/80 transition-colors" onclick={() => { showSendModal = true; sendError = ''; }}>Send</button>
+		<button class="bg-hacksu-green text-hacksu-grey font-bold text-sm px-4 py-1.5 rounded-md hover:bg-hacksu-green/80 transition-colors" onclick={() => { showSendModal = true; sendError = ''; }}>Send</button>
 	</div>
 
 	<!-- Header fields -->
@@ -534,7 +534,7 @@
 					<input type="hidden" name="fromName" value={fromName} />
 					<input type="hidden" name="subject" value={subject} />
 					<input type="hidden" name="body" value={body} />
-					<button type="submit" disabled={sending} class="bg-hacksu-green text-black font-bold text-sm px-4 py-2 rounded-md hover:bg-hacksu-green/80 disabled:opacity-50 transition-colors">
+					<button type="submit" disabled={sending} class="bg-hacksu-green text-hacksu-grey font-bold text-sm px-4 py-2 rounded-md hover:bg-hacksu-green/80 disabled:opacity-50 transition-colors">
 						{sending ? 'Sending…' : 'Send Now'}
 					</button>
 				</form>
@@ -551,7 +551,7 @@
 			<p class="text-xs text-gray-400 mb-4">You have unsaved changes. Loading this will replace the current compose state.</p>
 			<div class="flex gap-2 justify-end">
 				<button class="border border-gray-600 rounded px-3 py-1.5 text-xs font-semibold text-gray-300 hover:text-white transition-colors" onclick={() => { showLoadConfirm = false; pendingLoad = null; }}>Cancel</button>
-				<button class="bg-hacksu-green text-black font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors" onclick={() => { if (pendingLoad) applyLoad(pendingLoad.type, pendingLoad.id); showLoadConfirm = false; pendingLoad = null; }}>Load Anyway</button>
+				<button class="bg-hacksu-green text-hacksu-grey font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors" onclick={() => { if (pendingLoad) applyLoad(pendingLoad.type, pendingLoad.id); showLoadConfirm = false; pendingLoad = null; }}>Load Anyway</button>
 			</div>
 		</div>
 	</div>
@@ -577,7 +577,7 @@
 					<input type="hidden" name="fromName" value={fromName} />
 					<input type="hidden" name="subject" value={subject} />
 					<input type="hidden" name="body" value={body} />
-					<button type="submit" class="bg-hacksu-green text-black font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors">Save</button>
+					<button type="submit" class="bg-hacksu-green text-hacksu-grey font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors">Save</button>
 				</form>
 			</div>
 		</div>
@@ -599,7 +599,7 @@
 				}}>
 					<input type="hidden" name="subject" value={subject} />
 					<input type="hidden" name="body" value={body} />
-					<button type="submit" class="bg-hacksu-green text-black font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors">Save</button>
+					<button type="submit" class="bg-hacksu-green text-hacksu-grey font-bold text-xs px-3 py-1.5 rounded hover:bg-hacksu-green/80 transition-colors">Save</button>
 				</form>
 			</div>
 		</div>

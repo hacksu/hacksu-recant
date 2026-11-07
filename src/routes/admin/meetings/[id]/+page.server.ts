@@ -4,9 +4,7 @@ import { eq } from 'drizzle-orm';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { requireAdmin } from '$lib/server/admin';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { randomUUID } from 'crypto';
+import { listImages, photoFromForm } from '$lib/server/uploads';
 import { zonedDateTimeLocalToUtc } from '$lib/utils/timezone';
 
 export const load: PageServerLoad = async (event) => {
@@ -22,7 +20,8 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return {
-		event: eventItem
+		event: eventItem,
+		images: await listImages()
 	};
 };
 
@@ -38,7 +37,6 @@ export const actions: Actions = {
 		const presenter = formData.get('presenter')?.toString() || null;
 		const link = formData.get('link')?.toString() || null;
 		const descriptionMD = formData.get('descriptionMD')?.toString() || null;
-		const photoFile = formData.get('photo') as File | null;
 
 		// Validation
 		if (!title || !dateStr) {
@@ -50,34 +48,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'Invalid date' });
 		}
 
-
-		let photoPath: string | null = null;
-
-		// Handle photo upload
-		if (photoFile && photoFile.size > 0) {
-			try {
-				// Create uploads directory if it doesn't exist
-				const uploadsDir = join(process.cwd(), 'static', 'uploads', 'meetings');
-				await mkdir(uploadsDir, { recursive: true });
-
-				// Generate unique filename
-				const fileExt = photoFile.name.split('.').pop() || 'jpg';
-				const fileName = `${randomUUID()}.${fileExt}`;
-				const filePath = join(uploadsDir, fileName);
-
-				// Save file
-				const arrayBuffer = await photoFile.arrayBuffer();
-				const buffer = Buffer.from(arrayBuffer);
-				await writeFile(filePath, buffer);
-
-				// Store relative path for serving
-				photoPath = `/uploads/meetings/${fileName}`;
-			} catch (error) {
-				console.error('Error uploading photo:', error);
-				return fail(500, { error: 'Failed to upload photo' });
-			}
-		}
-
 		try {
 			const existing = await db.query.meetings.findFirst({
 				where: eq(meetings.id, id)
@@ -87,27 +57,11 @@ export const actions: Actions = {
 				return fail(404, { error: 'Event not found' });
 			}
 
-			// Update record - only update photo if a new one was uploaded
-			const updateData: {
-				title: string;
-				date: Date;
-				presenter: string | null;
-				link: string | null;
-				descriptionMD: string | null;
-				photo?: string | null;
-			} = {
-				title,
-				date,
-				presenter,
-				link,
-				descriptionMD,
-			};
-
-			if (photoPath !== null) {
-				updateData.photo = photoPath;
-			}
-
-			await db.update(meetings).set(updateData).where(eq(meetings.id, id));
+			const photo = await photoFromForm(event, formData, 'meetings');
+			await db
+				.update(meetings)
+				.set({ title, date, presenter, link, descriptionMD, photo })
+				.where(eq(meetings.id, id));
 
 			throw redirect(303, '/admin/meetings');
 		} catch (error) {

@@ -29,7 +29,7 @@
 				href={information.link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="group/title flex w-fit items-center gap-2 text-black no-underline"
+				class="group/title flex w-fit items-center gap-2 text-hacksu-grey no-underline"
 			>
 				<h2 class="m-0 text-xl font-semibold md:text-2xl">{information.title}</h2>
 				<svg
@@ -49,11 +49,11 @@
 				</svg>
 			</a>
 		{:else}
-			<h2 class="m-0 text-xl font-semibold text-black md:text-2xl">{information.title}</h2>
+			<h2 class="m-0 text-xl font-semibold text-hacksu-grey md:text-2xl">{information.title}</h2>
 		{/if}
 
 		<div
-			class="mt-3 prose prose-invert prose-sm max-w-none text-black prose-headings:text-black prose-p:my-0 prose-p:text-black prose-strong:text-black prose-em:text-black prose-code:rounded prose-code:px-1 prose-code:py-0.5 prose-code:text-white prose-a:text-white prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-black/80 prose-ul:my-0 prose-ul:text-black prose-ol:my-0 prose-ol:text-black prose-li:text-black prose-blockquote:border-white/30 prose-blockquote:text-black/90"
+			class="mt-3 prose prose-invert prose-sm max-w-none text-hacksu-grey prose-headings:text-hacksu-grey prose-p:my-0 prose-p:text-hacksu-grey prose-strong:text-hacksu-grey prose-em:text-hacksu-grey prose-code:rounded prose-code:px-1 prose-code:py-0.5 prose-code:text-hacksu-grey prose-a:text-hacksu-grey prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-hacksu-grey/80 prose-ul:my-0 prose-ul:text-hacksu-grey prose-ol:my-0 prose-ol:text-hacksu-grey prose-li:text-hacksu-grey prose-blockquote:border-white/30 prose-blockquote:text-hacksu-grey/90"
 		>
 			{@html descriptionHtml}
 		</div>

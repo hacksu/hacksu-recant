@@ -37,7 +37,7 @@
 		<h1 class="text-3xl font-bold">Meetings Management</h1>
 		<a
 			href="/admin/meetings/new"
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+			class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 		>
 			Add New Meeting
 		</a>
@@ -48,7 +48,7 @@
 			<p class="text-gray-600 dark:text-gray-400 mb-4">No meetings yet.</p>
 			<a
 				href="/admin/meetings/new"
-				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 			>
 				Add First Meeting
 			</a>
