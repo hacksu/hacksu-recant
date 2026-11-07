@@ -28,7 +28,7 @@
 		<h1 class="text-3xl font-bold">Leadership Management</h1>
 		<a
 			href="/admin/leadership/new"
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+			class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 		>
 			Add New Leader
 		</a>
@@ -39,7 +39,7 @@
 			<p class="text-gray-600 dark:text-gray-400 mb-4">No leadership entries yet.</p>
 			<a
 				href="/admin/leadership/new"
-				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+				class="inline-block bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 			>
 				Add First Leader
 			</a>
@@ -66,7 +66,7 @@
 							</p>
 							{#if leader.isCurrent}
 								<span
-									class="inline-block mt-1 px-2 py-0.5 text-xs font-semibold bg-hacksu-green text-white rounded"
+									class="inline-block mt-1 px-2 py-0.5 text-xs font-semibold bg-hacksu-green text-hacksu-grey rounded"
 								>
 									Current
 								</span>

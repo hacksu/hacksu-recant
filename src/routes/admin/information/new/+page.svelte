@@ -88,7 +88,7 @@
 		<div class="flex gap-4">
 			<button
 				type="submit"
-				class="bg-hacksu-green hover:bg-hacksu-green/90 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+				class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
 			>
 				Create
 			</button>

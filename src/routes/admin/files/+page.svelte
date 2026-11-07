@@ -70,7 +70,7 @@
 			<button
 				type="submit"
 				disabled={uploading}
-				class="bg-hacksu-green hover:bg-hacksu-green/90 disabled:opacity-60 text-white font-semibold py-2 px-6 rounded-lg transition-colors whitespace-nowrap"
+				class="bg-hacksu-green hover:bg-hacksu-green/90 disabled:opacity-60 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors whitespace-nowrap"
 			>
 				{uploading ? 'Uploading…' : 'Upload'}
 			</button>

@@ -32,7 +32,7 @@
 	<button
 		type="button"
 		onclick={() => input.click()}
-		class="shrink-0 bg-hacksu-green hover:bg-hacksu-green/90 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors"
+		class="shrink-0 bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey text-sm font-semibold py-2 px-4 rounded-lg transition-colors"
 	>
 		{file ? 'Change file' : 'Choose file'}
 	</button>
