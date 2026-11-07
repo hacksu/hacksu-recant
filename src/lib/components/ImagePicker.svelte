@@ -2,6 +2,7 @@
 	import { untrack } from 'svelte';
 	import favicon from '$lib/assets/images/favicon.svg';
 	import { UPLOAD_CATEGORIES } from '$lib/uploads';
+	import FileInput from './FileInput.svelte';
 
 	let {
 		images,
@@ -17,7 +18,7 @@
 	let uploadPreview = $state<string | null>(null);
 	let open = $state(false);
 	let root: HTMLDivElement;
-	let fileInput: HTMLInputElement;
+	let upload: FileInput;
 
 	const groups = $derived(
 		Object.entries(UPLOAD_CATEGORIES)
@@ -29,7 +30,7 @@
 	function choose(url: string | null) {
 		selected = url;
 		uploadPreview = null;
-		fileInput.value = '';
+		upload.clear();
 		open = false;
 	}
 </script>
@@ -82,16 +83,11 @@
 				{/if}
 			</div>
 			<p class="text-xs text-gray-500">or upload a new one</p>
-			<input
-				bind:this={fileInput}
-				type="file"
+			<FileInput
+				bind:this={upload}
 				name="photo"
 				accept="image/*"
-				onchange={(e) => {
-					const file = e.currentTarget.files?.[0];
-					uploadPreview = file ? URL.createObjectURL(file) : null;
-				}}
-				class="w-full text-sm"
+				onchange={(file) => (uploadPreview = file ? URL.createObjectURL(file) : null)}
 			/>
 		</div>
 	</div>

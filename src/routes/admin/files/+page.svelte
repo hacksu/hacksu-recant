@@ -2,6 +2,7 @@
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
 	import { UPLOAD_CATEGORIES, uploadUrl } from '$lib/uploads';
+	import FileInput from '$lib/components/FileInput.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -58,12 +59,9 @@
 			}}
 			class="flex items-center gap-4"
 		>
-			<input
-				type="file"
-				name="file"
-				required
-				class="flex-1 text-sm text-gray-700 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-hacksu-green file:text-white hover:file:bg-hacksu-green/90 file:cursor-pointer"
-			/>
+			<div class="flex-1 min-w-0">
+				<FileInput name="file" required />
+			</div>
 			<select name="category" class="px-3 py-2">
 				{#each Object.entries(UPLOAD_CATEGORIES) as [value, label] (value)}
 					<option {value}>{label}</option>
