@@ -119,7 +119,7 @@ export const adminAuditLog = pgTable('admin_audit_log', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 });
 
-// Email templates — saved named templates for reuse
+// Email templates - saved named templates for reuse
 export const emailTemplates = pgTable('email_templates', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
@@ -131,10 +131,11 @@ export const emailTemplates = pgTable('email_templates', {
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 });
 
-// Uploaded files — admin file manager
+// Uploaded files
 export const uploadedFiles = pgTable('uploaded_files', {
 	id: text('id').primaryKey(),
-	filename: text('filename').notNull(), // {uuid}-{sanitized-originalname} on disk
+	filename: text('filename').notNull(), // on disk under static/uploads/{uploadDir(category)}
+	category: text('category').notNull().default('general'), // key of UPLOAD_CATEGORIES
 	originalName: text('original_name').notNull(),
 	mimeType: text('mime_type').notNull(),
 	sizeBytes: integer('size_bytes').notNull(),
@@ -144,7 +145,7 @@ export const uploadedFiles = pgTable('uploaded_files', {
 	deletedAt: timestamp('deleted_at', { withTimezone: true }) // soft delete
 });
 
-// Email drafts — work-in-progress emails with full state
+// Email drafts - work-in-progress emails with full state
 export const emailDrafts = pgTable('email_drafts', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
@@ -156,7 +157,7 @@ export const emailDrafts = pgTable('email_drafts', {
 	fromName: text('from_name').notNull().default(''),
 	// { [varName: string]: string | string[] }
 	sharedVariables: jsonb('shared_variables').notNull().default({}),
-	// { [varName: string]: string[] } — positionally aligned to toAddresses
+	// { [varName: string]: string[] } - positionally aligned to toAddresses
 	recipientVariables: jsonb('recipient_variables').notNull().default({}),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()

@@ -4,9 +4,7 @@ import { eq } from 'drizzle-orm';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { requireAdmin } from '$lib/server/admin';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { randomUUID } from 'crypto';
+import { listImages, photoFromForm } from '$lib/server/uploads';
 
 export const load: PageServerLoad = async (event) => {
 	await requireAdmin(event);
@@ -21,7 +19,8 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return {
-		leader
+		leader,
+		images: await listImages()
 	};
 };
 
@@ -36,7 +35,6 @@ export const actions: Actions = {
 		const gradYearStr = formData.get('gradYear')?.toString();
 		const gradTerm = formData.get('gradTerm')?.toString();
 		const github = formData.get('github')?.toString() || null;
-		const photoFile = formData.get('photo') as File | null;
 		const titlesStr = formData.get('titles')?.toString();
 		const link = formData.get('link')?.toString() || null;
 		const sortOrderStr = formData.get('sortOrder')?.toString();
@@ -70,33 +68,6 @@ export const actions: Actions = {
 			return fail(400, { error: 'Invalid sort order' });
 		}
 
-		let photoPath: string | null = null;
-
-		// Handle photo upload
-		if (photoFile && photoFile.size > 0) {
-			try {
-				// Create uploads directory if it doesn't exist
-				const uploadsDir = join(process.cwd(), 'static', 'uploads', 'leadership');
-				await mkdir(uploadsDir, { recursive: true });
-
-				// Generate unique filename
-				const fileExt = photoFile.name.split('.').pop() || 'jpg';
-				const fileName = `${randomUUID()}.${fileExt}`;
-				const filePath = join(uploadsDir, fileName);
-
-				// Save file
-				const arrayBuffer = await photoFile.arrayBuffer();
-				const buffer = Buffer.from(arrayBuffer);
-				await writeFile(filePath, buffer);
-
-				// Store relative path for serving
-				photoPath = `/uploads/leadership/${fileName}`;
-			} catch (error) {
-				console.error('Error uploading photo:', error);
-				return fail(500, { error: 'Failed to upload photo' });
-			}
-		}
-
 		try {
 			const existing = await db.query.leadership.findFirst({
 				where: eq(leadership.id, id)
@@ -106,33 +77,11 @@ export const actions: Actions = {
 				return fail(404, { error: 'Leader not found' });
 			}
 
-			// Update record - only update photo if a new one was uploaded
-			const updateData: {
-				name: string;
-				gradYear: number;
-				gradTerm: string;
-				github: string | null;
-				photo?: string | null;
-				titles: string[];
-				link: string | null;
-				sortOrder: number;
-				isCurrent: boolean;
-			} = {
-				name,
-				gradYear,
-				gradTerm,
-				github,
-				titles,
-				link,
-				sortOrder,
-				isCurrent
-			};
-
-			if (photoPath !== null) {
-				updateData.photo = photoPath;
-			}
-
-			await db.update(leadership).set(updateData).where(eq(leadership.id, id));
+			const photo = await photoFromForm(event, formData, 'leadership');
+			await db
+				.update(leadership)
+				.set({ name, gradYear, gradTerm, github, photo, titles, link, sortOrder, isCurrent })
+				.where(eq(leadership.id, id));
 
 			throw redirect(303, '/admin/leadership');
 		} catch (error) {

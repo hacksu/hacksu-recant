@@ -1,45 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
-	import favicon from '$lib/assets/images/favicon.svg';
+	import ImagePicker from '$lib/components/ImagePicker.svelte';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
 	const leader = $derived(data.leader);
-
-	let photoPreview: string | null = null;
-	let photoFile: File | null = null;
-
-	function getPhotoUrl(): string {
-		if (photoPreview) {
-			return photoPreview;
-		}
-		if (leader.photo) {
-			return leader.photo;
-		}
-		if (leader.github) {
-			return `https://github.com/${leader.github}.png`;
-		}
-		return favicon;
-	}
-
-	function handlePhotoChange(event: Event) {
-		const target = event.target as HTMLInputElement;
-		const file = target.files?.[0];
-		if (file) {
-			photoFile = file;
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				photoPreview = e.target?.result as string;
-			};
-			reader.readAsDataURL(file);
-		}
-	}
-
-	function handleImageError(event: Event) {
-		const target = event.target as HTMLImageElement;
-		target.src = favicon;
-	}
 </script>
 
 <div class="container mx-auto px-4 py-8 max-w-2xl">
@@ -52,30 +18,15 @@
 	{/if}
 
 	<form method="POST" enctype="multipart/form-data" use:enhance class="space-y-6">
-		<!-- Photo Upload -->
 		<div>
-			<label for="photo" class="block text-sm font-medium mb-2">Photo</label>
-			<div class="flex items-center gap-4 mb-2">
-				<img
-					src={getPhotoUrl()}
-					alt={leader.name}
-					class="w-24 h-24 rounded-full object-cover"
-					onerror={handleImageError}
-				/>
-				<div class="flex-1">
-					<input
-						type="file"
-						id="photo"
-						name="photo"
-						accept="image/*"
-						onchange={handlePhotoChange}
-						class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
-					/>
-					<p class="text-xs text-gray-500 mt-1">
-						If no photo is uploaded, GitHub profile picture will be used (if GitHub username is provided).
-					</p>
-				</div>
-			</div>
+			<ImagePicker
+				images={data.images}
+				value={leader.photo}
+				fallback={leader.github ? `https://github.com/${leader.github}.png` : undefined}
+			/>
+			<p class="text-xs text-gray-500 mt-1">
+				If no photo is set, GitHub profile picture will be used (if GitHub username is provided).
+			</p>
 		</div>
 
 		<!-- Name -->

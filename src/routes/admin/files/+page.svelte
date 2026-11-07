@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
+	import { UPLOAD_CATEGORIES, uploadUrl } from '$lib/uploads';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
@@ -63,6 +64,11 @@
 				required
 				class="flex-1 text-sm text-gray-700 dark:text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-hacksu-green file:text-white hover:file:bg-hacksu-green/90 file:cursor-pointer"
 			/>
+			<select name="category" class="px-3 py-2">
+				{#each Object.entries(UPLOAD_CATEGORIES) as [value, label] (value)}
+					<option {value}>{label}</option>
+				{/each}
+			</select>
 			<button
 				type="submit"
 				disabled={uploading}
@@ -85,6 +91,7 @@
 					<tr>
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preview</th>
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Accesses</th>
 						<th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded</th>
@@ -92,12 +99,12 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-					{#each files as file}
+					{#each files as file (file.id)}
 						<tr>
 							<td class="px-4 py-3">
 								{#if file.mimeType.startsWith('image/')}
 									<img
-										src="/uploads/uploads/{file.filename}"
+										src={uploadUrl(file)}
 										alt={file.originalName}
 										class="h-10 w-10 object-cover rounded"
 									/>
@@ -109,6 +116,9 @@
 							</td>
 							<td class="px-4 py-3 text-sm text-gray-900 dark:text-white max-w-xs truncate" title={file.originalName}>
 								{file.originalName}
+							</td>
+							<td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+								{UPLOAD_CATEGORIES[file.category as keyof typeof UPLOAD_CATEGORIES] ?? file.category}
 							</td>
 							<td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
 								{formatBytes(file.sizeBytes)}

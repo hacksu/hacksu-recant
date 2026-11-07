@@ -3,11 +3,12 @@ import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { information } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
+import { listImages, photoFromForm } from '$lib/server/uploads';
 import { randomUUID } from 'crypto';
 
 export const load: PageServerLoad = async (event) => {
 	await requireAdmin(event);
-	return {};
+	return { images: await listImages() };
 };
 
 export const actions: Actions = {
@@ -18,7 +19,6 @@ export const actions: Actions = {
 		const title = formData.get('title')?.toString().trim();
 		const link = formData.get('link')?.toString().trim() || null;
 		const description = formData.get('description')?.toString() || '';
-		const photo = formData.get('photo')?.toString().trim() || null;
 		const enabledStr = formData.get('enabled')?.toString();
 		const enabled = enabledStr === 'on' || enabledStr === 'true' || enabledStr === '1';
 		const sortIndexStr = formData.get('sortIndex')?.toString().trim();
@@ -34,6 +34,7 @@ export const actions: Actions = {
 
 		try {
 			const id = randomUUID();
+			const photo = await photoFromForm(event, formData, 'information');
 			await db.insert(information).values({
 				id,
 				title,

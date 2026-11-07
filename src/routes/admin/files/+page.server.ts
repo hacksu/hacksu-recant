@@ -1,16 +1,18 @@
-import { writeFile, mkdir, unlink } from 'fs/promises';
+import { unlink } from 'fs/promises';
 import { join } from 'path';
-import { randomUUID } from 'crypto';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { uploadedFiles } from '$lib/server/db/schema';
 import { requireAdmin, getAdminUser } from '$lib/server/admin';
 import { desc, eq, and, isNull } from 'drizzle-orm';
+import { registerLegacyUploads, saveUpload, uploadsRoot } from '$lib/server/uploads';
+import { isUploadCategory, uploadDir } from '$lib/uploads';
 
 export const load: PageServerLoad = async (event) => {
 	await requireAdmin(event);
 
+	await registerLegacyUploads();
 	const files = await db.query.uploadedFiles.findMany({
 		where: (f, { isNull }) => isNull(f.deletedAt),
 		orderBy: [desc(uploadedFiles.createdAt)]
@@ -28,39 +30,19 @@ export const actions: Actions = {
 
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File | null;
+		const category = formData.get('category');
 
 		if (!file || file.size === 0) {
 			return fail(400, { error: 'No file provided' });
 		}
-
-		const sanitized = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-		const id = randomUUID();
-		const filename = `${id}-${sanitized}`;
-
-		const uploadsDir = join(process.cwd(), 'static', 'uploads', 'uploads');
-		await mkdir(uploadsDir, { recursive: true });
-
-		const destPath = join(uploadsDir, filename);
-
-		if (!destPath.startsWith(uploadsDir)) {
-			return fail(400, { error: 'Invalid filename' });
+		if (!isUploadCategory(category)) {
+			return fail(400, { error: 'Invalid category' });
 		}
 
-		const buffer = Buffer.from(await file.arrayBuffer());
-		await writeFile(destPath, buffer);
-
 		try {
-			await db.insert(uploadedFiles).values({
-				id,
-				filename,
-				originalName: file.name,
-				mimeType: file.type || 'application/octet-stream',
-				sizeBytes: file.size,
-				uploadedBy
-			});
+			await saveUpload(file, category, uploadedBy);
 		} catch {
-			try { await unlink(destPath); } catch {}
-			return fail(500, { error: 'Failed to save file record' });
+			return fail(500, { error: 'Failed to save file' });
 		}
 
 		throw redirect(303, '/admin/files');
@@ -85,7 +67,7 @@ export const actions: Actions = {
 			.where(and(eq(uploadedFiles.id, id), isNull(uploadedFiles.deletedAt)));
 
 		try {
-			await unlink(join(process.cwd(), 'static', 'uploads', 'uploads', file.filename));
+			await unlink(join(uploadsRoot, uploadDir(file.category), file.filename));
 		} catch {}
 
 		throw redirect(303, '/admin/files');

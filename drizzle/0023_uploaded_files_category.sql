@@ -1,0 +1,1 @@
+ALTER TABLE "uploaded_files" ADD COLUMN "category" text DEFAULT 'general' NOT NULL;

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import ImagePicker from '$lib/components/ImagePicker.svelte';
 
 	let { data, form }: { data: PageData; form?: { error?: string } } = $props();
 
@@ -16,7 +17,7 @@
 		</div>
 	{/if}
 
-	<form method="POST" use:enhance class="space-y-6">
+	<form method="POST" enctype="multipart/form-data" use:enhance class="space-y-6">
 		<!-- Title -->
 		<div>
 			<label for="title" class="block text-sm font-medium mb-2">Title *</label>
@@ -44,17 +45,8 @@
 			<p class="text-xs text-gray-500 mt-1">Optional; if set, the title will link here.</p>
 		</div>
 
-		<!-- Photo URL -->
 		<div>
-			<label for="photo" class="block text-sm font-medium mb-2">Photo URL</label>
-			<input
-				type="text"
-				id="photo"
-				name="photo"
-				value={item.photo || ''}
-				placeholder="/uploads/... or https://..."
-				class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hacksu-green"
-			/>
+			<ImagePicker images={data.images} value={item.photo} />
 			<p class="text-xs text-gray-500 mt-1">Optional; image shown alongside the text.</p>
 		</div>
 
