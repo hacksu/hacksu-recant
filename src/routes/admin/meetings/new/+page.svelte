@@ -51,7 +51,8 @@
 	{/if}
 
 	<form method="POST" enctype="multipart/form-data" use:enhance class="space-y-6">
-		<ImagePicker images={data.images} />
+		<ImagePicker images={data.images} label="Banner photo (website)" />
+		<ImagePicker images={data.images} name="posterPhoto" label="Poster / TV / marketing photo" />
 
 		<!-- Title -->
 		<div>

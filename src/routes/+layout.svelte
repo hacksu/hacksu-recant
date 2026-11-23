@@ -5,8 +5,10 @@
 	import { page } from '$app/state';
 	let { children } = $props();
 
-	// Hide navbar and chrome for the printable hotcard route
-	const hideChrome = $derived(page.url.pathname.startsWith('/resources/hotcard'));
+	// Hide navbar and chrome for the printable hotcard route and the TV poster display
+	const hideChrome = $derived(
+		page.url.pathname.startsWith('/resources/hotcard') || page.url.pathname.startsWith('/latest-meeting')
+	);
 </script>
 
 <svelte:head>

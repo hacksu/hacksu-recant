@@ -11,7 +11,9 @@ import {
 	redirects,
 	location as locationTable,
 	lessonIcons,
-	uploadedFiles
+	uploadedFiles,
+	siteSettings,
+	DEFAULT_MEETING_POSTER_KEY
 } from './db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -24,6 +26,7 @@ type ResourceType =
 	| 'location'
 	| 'lesson-icons'
 	| 'uploaded-files'
+	| 'site-settings'
 	| 'email';
 
 type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
@@ -74,6 +77,12 @@ const routeMappings: RouteMapping[] = [
 		resourceType: 'leadership',
 		getResourceId: () => null,
 		getTable: () => leadership
+	},
+	{
+		pattern: /^\/admin\/meetings\/default-poster$/,
+		resourceType: 'site-settings',
+		getResourceId: () => DEFAULT_MEETING_POSTER_KEY,
+		getTable: () => siteSettings
 	},
 	{
 		pattern: /^\/admin\/meetings\/([^\/]+)\/delete$/,
@@ -216,6 +225,11 @@ async function fetchResourceData(
 				where: eq(table.id, resourceId)
 			});
 			return result ? { ...result, date: result.createdAt?.toISOString(), date2: result.updatedAt?.toISOString() } : null;
+		} else if (resourceType === 'site-settings') {
+			const result = await db.query.siteSettings.findFirst({
+				where: eq(table.key, resourceId)
+			});
+			return result ? { ...result, updatedAt: result.updatedAt?.toISOString() } : null;
 		} else if (resourceType === 'lesson-icons') {
 			const result = await db.query.lessonIcons.findFirst({
 				where: eq(table.categoryName, resourceId)

@@ -58,9 +58,10 @@ export const actions: Actions = {
 			}
 
 			const photo = await photoFromForm(event, formData, 'meetings');
+			const posterPhoto = await photoFromForm(event, formData, 'meetings', 'posterPhoto');
 			await db
 				.update(meetings)
-				.set({ title, date, presenter, link, descriptionMD, photo })
+				.set({ title, date, presenter, link, descriptionMD, photo, posterPhoto })
 				.where(eq(meetings.id, id));
 
 			throw redirect(303, '/admin/meetings');
