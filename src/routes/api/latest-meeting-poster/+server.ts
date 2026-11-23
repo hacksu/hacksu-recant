@@ -2,14 +2,14 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { meetings, siteSettings, DEFAULT_MEETING_POSTER_KEY } from '$lib/server/db/schema';
-import { and, asc, eq, gte, isNotNull } from 'drizzle-orm';
+import { asc, eq, gte } from 'drizzle-orm';
 
 // Returns the poster/TV/marketing image for the next upcoming meeting (meetings.poster_photo),
 // the same meeting the landing page shows. If it has no poster, falls back to the default
 // poster set at /admin/meetings/default-poster.
 export const GET: RequestHandler = async ({ url }) => {
 	const meeting = await db.query.meetings.findFirst({
-		where: and(gte(meetings.date, new Date()), isNotNull(meetings.posterPhoto)),
+		where: gte(meetings.date, new Date()),
 		orderBy: [asc(meetings.date)]
 	});
 
