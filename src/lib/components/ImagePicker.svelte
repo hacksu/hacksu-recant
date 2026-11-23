@@ -7,11 +7,15 @@
 	let {
 		images,
 		value = null,
-		fallback = favicon
+		fallback = favicon,
+		name = 'photo',
+		label = 'Photo'
 	}: {
 		images: { url: string; name: string; category: string }[];
 		value?: string | null;
 		fallback?: string;
+		name?: string;
+		label?: string;
 	} = $props();
 
 	let selected = $state(untrack(() => value));
@@ -38,7 +42,7 @@
 <svelte:window onclick={(e) => open && !root.contains(e.target as Node) && (open = false)} />
 
 <div bind:this={root}>
-	<span class="block text-sm font-medium mb-2">Photo</span>
+	<span class="block text-sm font-medium mb-2">{label}</span>
 	<div class="flex flex-wrap items-start gap-4">
 		<img
 			src={uploadPreview ?? selected ?? fallback}
@@ -47,7 +51,7 @@
 			onerror={(e) => ((e.currentTarget as HTMLImageElement).src = favicon)}
 		/>
 		<div class="flex-1 min-w-56 max-w-md space-y-2">
-			<input type="hidden" name="photoUrl" value={selected ?? ''} />
+			<input type="hidden" name="{name}Url" value={selected ?? ''} />
 			<div class="relative">
 				<button
 					type="button"
@@ -85,7 +89,7 @@
 			<p class="text-xs text-gray-500">or upload a new one</p>
 			<FileInput
 				bind:this={upload}
-				name="photo"
+				{name}
 				accept="image/*"
 				onchange={(file) => (uploadPreview = file ? URL.createObjectURL(file) : null)}
 			/>

@@ -13,7 +13,8 @@ import {
 	lessonIcons,
 	emailTemplates,
 	emailDrafts,
-	uploadedFiles
+	uploadedFiles,
+	siteSettings
 } from '$lib/server/db/schema';
 import { requireAdmin } from '$lib/server/admin';
 
@@ -33,7 +34,8 @@ export const GET: RequestHandler = async (event) => {
 		lessonIconsList,
 		emailTemplatesList,
 		emailDraftsList,
-		uploadedFilesList
+		uploadedFilesList,
+		siteSettingsList
 	] = await Promise.all([
 		// admin sessions (you may want to omit in some contexts, but exporting for now)
 		db.select().from(adminSessions),
@@ -57,7 +59,9 @@ export const GET: RequestHandler = async (event) => {
 		// email drafts
 		db.select().from(emailDrafts),
 		// uploaded files (metadata only; binaries are handled by /admin/api/dump/assets)
-		db.select().from(uploadedFiles)
+		db.select().from(uploadedFiles),
+		// key/value site settings (e.g. default meeting poster)
+		db.select().from(siteSettings)
 	]);
 
 	return json({
@@ -74,7 +78,8 @@ export const GET: RequestHandler = async (event) => {
 		lessonIcons: lessonIconsList,
 		emailTemplates: emailTemplatesList,
 		emailDrafts: emailDraftsList,
-		uploadedFiles: uploadedFilesList
+		uploadedFiles: uploadedFilesList,
+		siteSettings: siteSettingsList
 	});
 };
 
@@ -96,7 +101,8 @@ export const POST: RequestHandler = async (event) => {
 		lessonIcons: lessonIconsList = [],
 		emailTemplates: emailTemplatesList = [],
 		emailDrafts: emailDraftsList = [],
-		uploadedFiles: uploadedFilesList = []
+		uploadedFiles: uploadedFilesList = [],
+		siteSettings: siteSettingsList = []
 	} = body ?? {};
 
 	// Naive restore strategy:
@@ -118,6 +124,7 @@ export const POST: RequestHandler = async (event) => {
 	await db.delete(emailTemplates);
 	await db.delete(emailDrafts);
 	await db.delete(uploadedFiles);
+	await db.delete(siteSettings);
 
 	// Helper to parse ISO timestamp fields into Date instances
 	const parseDate = (value: unknown): Date | null => {
@@ -234,6 +241,13 @@ export const POST: RequestHandler = async (event) => {
 		}));
 		await db.insert(uploadedFiles).values(rows);
 	}
+	if (Array.isArray(siteSettingsList) && siteSettingsList.length > 0) {
+		const rows = siteSettingsList.map((row: any) => ({
+			...row,
+			updatedAt: parseDate(row.updatedAt) ?? new Date()
+		}));
+		await db.insert(siteSettings).values(rows);
+	}
 
 	return json({
 		ok: true,
@@ -250,7 +264,8 @@ export const POST: RequestHandler = async (event) => {
 			lessonIcons: lessonIconsList.length ?? 0,
 			emailTemplates: emailTemplatesList.length ?? 0,
 			emailDrafts: emailDraftsList.length ?? 0,
-			uploadedFiles: uploadedFilesList.length ?? 0
+			uploadedFiles: uploadedFilesList.length ?? 0,
+			siteSettings: siteSettingsList.length ?? 0
 		}
 	});
 };

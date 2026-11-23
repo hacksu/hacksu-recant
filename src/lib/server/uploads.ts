@@ -34,12 +34,12 @@ export async function saveUpload(file: File, category: UploadCategory, uploadedB
 	return uploadUrl({ category, filename });
 }
 
-export async function photoFromForm(event: RequestEvent, formData: FormData, category: UploadCategory): Promise<string | null> {
-	const file = formData.get('photo');
+export async function photoFromForm(event: RequestEvent, formData: FormData, category: UploadCategory, field = 'photo' ): Promise<string | null> {
+	const file = formData.get(field);
 	if (file instanceof File && file.size > 0) {
 		return saveUpload(file, category, (await getAdminUser(event)) ?? 'unknown');
 	}
-	return formData.get('photoUrl')?.toString() || null;
+	return formData.get(`${field}Url`)?.toString() || null;
 }
 
 let legacyRegistration: Promise<void> | undefined;

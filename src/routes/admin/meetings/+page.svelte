@@ -35,12 +35,20 @@
 <div class="container mx-auto px-4 py-8 max-w-7xl">
 	<div class="flex items-center justify-between mb-6">
 		<h1 class="text-3xl font-bold">Meetings Management</h1>
-		<a
-			href="/admin/meetings/new"
-			class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
-		>
-			Add New Meeting
-		</a>
+		<div class="flex gap-3">
+			<a
+				href="/admin/meetings/default-poster"
+				class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
+			>
+				Set Default Poster
+			</a>
+			<a
+				href="/admin/meetings/new"
+				class="bg-hacksu-green hover:bg-hacksu-green/90 text-hacksu-grey font-semibold py-2 px-6 rounded-lg transition-colors"
+			>
+				Add New Meeting
+			</a>
+		</div>
 	</div>
 
 	{#if meetingsList.length === 0}

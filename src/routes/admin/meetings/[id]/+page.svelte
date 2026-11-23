@@ -30,7 +30,8 @@ const meeting = $derived(data.event);
 	{/if}
 
 	<form method="POST" enctype="multipart/form-data" use:enhance class="space-y-6">
-		<ImagePicker images={data.images} value={data.event.photo} />
+		<ImagePicker images={data.images} value={data.event.photo} label="Banner photo (website)" />
+		<ImagePicker images={data.images} value={data.event.posterPhoto} name="posterPhoto" label="Poster / TV / marketing photo" />
 
 		<!-- Title -->
 		<div>
