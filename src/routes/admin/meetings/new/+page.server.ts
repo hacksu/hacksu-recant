@@ -38,6 +38,7 @@ export const actions: Actions = {
 		try {
 			const id = randomUUID();
 			const photo = await photoFromForm(event, formData, 'meetings');
+			const posterPhoto = await photoFromForm(event, formData, 'meetings', 'posterPhoto');
 
 			await db.insert(meetings).values({
 				id,
@@ -46,7 +47,8 @@ export const actions: Actions = {
 				presenter,
 				link,
 				descriptionMD,
-				photo
+				photo,
+				posterPhoto
 			});
 
 			throw redirect(303, '/admin/meetings');

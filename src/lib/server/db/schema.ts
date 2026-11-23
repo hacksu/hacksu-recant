@@ -45,8 +45,18 @@ export const meetings = pgTable('meetings', {
 	presenter: text('presenter'),
 	link: text('link'),
 	descriptionMD: text('description_md'),
-	photo: text('photo')
+	photo: text('photo'), // banner shown on the website (landing page / meeting cards)
+	posterPhoto: text('poster_photo') // poster for TV / marketing
 });
+
+// Simple key/value site settings (e.g. 'default_meeting_poster' -> image URL)
+export const siteSettings = pgTable('site_settings', {
+	key: text('key').primaryKey(),
+	value: text('value'),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+export const DEFAULT_MEETING_POSTER_KEY = 'default_meeting_poster';
 
 // Redirects table
 // Supports short links like /r/abc -> https://google.com
